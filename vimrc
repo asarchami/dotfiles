@@ -84,6 +84,7 @@ Plug 'klen/python-mode'
 Plug 'tmhedberg/SimpylFold'
 Plug 'scrooloose/syntastic'
 Plug 'andviro/flake8-vim'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 " CtrlP
