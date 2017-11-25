@@ -18,12 +18,14 @@ filetype indent on      " load filetype-specific indent files
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to
 set showmatch           " highlight matching [{()}]
+set splitbelow          " new pane below current
+set splitright          " new pane to the right
 
 " SEARCH
 set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
 " turn off search highlight
-nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <leader><space> :noh<CR>
 
 " FOLDING
 set foldenable          " enable folding
@@ -79,14 +81,21 @@ Plug 'lifepillar/vim-mucomplete'
 Plug 'mattn/emmet-vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'klen/python-mode'
+Plug 'tmhedberg/SimpylFold'
+Plug 'scrooloose/syntastic'
+Plug 'andviro/flake8-vim'
 
 call plug#end()
 " CtrlP
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+let g:ctrlp_map = '<c-f>'
+map <c-p> :CtrlP<cr>
+map <c-o> :CtrlPBuffer<cr>
+
+let g:ctrlp_max_height = 20
+let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+
 
 " NerdTree
 let NERDTreeChDirMode=2
@@ -121,6 +130,23 @@ let g:user_emmet_leader_key='<C-Z>'
 " Indent Guides
 " Enabled by default
 let g:indent_guides_enable_on_vim_startup = 1
+
+" SimplylFold
+let g:SimpylFold_docstring_preview=1
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Flake8
+let g:PyFlakeOnWrite = 1
+let g:PyFlakeAggressive = 0
 
 "  CUSTOM FUNCTIONS
 " toggle between number and relativenumber
