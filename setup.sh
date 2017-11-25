@@ -6,6 +6,6 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 curl -fLo ~/.vim/colors/molokai.vim --create-dirs \
         https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
 
-rm ~/.vim*
+rm -rf ~/.vim*
 cp vimrc ~/.vimrc
 vim +PlugInstall +qall
