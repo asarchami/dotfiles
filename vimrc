@@ -82,8 +82,8 @@ Plug 'mattn/emmet-vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'klen/python-mode'
 Plug 'tmhedberg/SimpylFold'
-Plug 'scrooloose/syntastic'
-" Plug 'andviro/flake8-vim'
+" Plug 'scrooloose/syntastic'
+Plug 'andviro/flake8-vim'
 Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
@@ -136,9 +136,9 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:SimpylFold_docstring_preview=1
 
 " Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -148,6 +148,7 @@ let g:syntastic_check_on_wq = 0
 " Flake8
 let g:PyFlakeOnWrite = 1
 let g:PyFlakeAggressive = 0
+let g:PyFlakeCheckers = 'pep8,mccabe,frosted'
 
 "  CUSTOM FUNCTIONS
 " toggle between number and relativenumber
