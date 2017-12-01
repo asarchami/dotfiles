@@ -25,7 +25,7 @@ set splitright          " new pane to the right
 set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
 " turn off search highlight
-nnoremap <leader><space> :noh<CR>
+:nnoremap <Esc> :nohlsearch<Bar>:echo<CR>
 
 " FOLDING
 set foldenable          " enable folding
@@ -82,7 +82,7 @@ Plug 'mattn/emmet-vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'klen/python-mode'
 Plug 'tmhedberg/SimpylFold'
-" Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 Plug 'andviro/flake8-vim'
 Plug 'jiangmiao/auto-pairs'
 
@@ -110,7 +110,7 @@ map <C-t> :NERDTreeToggle<CR>
 let g:NERDSpaceDelims = 1
 
 " MUComplete
-set completeopt+=menuone
+set completeopt=menuone
 set completeopt+=noinsert
 inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
 inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
@@ -136,9 +136,10 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:SimpylFold_docstring_preview=1
 
 " Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+let g:syntastic_ignore_files = ['\.py$']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -149,6 +150,17 @@ let g:syntastic_check_on_wq = 0
 let g:PyFlakeOnWrite = 1
 let g:PyFlakeAggressive = 0
 let g:PyFlakeCheckers = 'pep8,mccabe,frosted'
+
+" Python Mode
+let g:pymode_doc = 0
+let g:pymode_doc_bind = 'K'
+let g:pymode_lint = 0
+let g:pymode_lint_on_write = 0
+let g:pymode_lint_on_fly = 0
+let g:pymode_lint_message = 0
+let g:pymode_lint_checkers = 'pep8'
+let g:pymode_python = 'python3'
+let g:pymode_rope_complete_on_dot = 0
 
 "  CUSTOM FUNCTIONS
 " toggle between number and relativenumber
