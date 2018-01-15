@@ -48,6 +48,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
 Plug 'sheerun/vim-polyglot'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tkhren/vim-fake'
 let g:make = 'gmake'
 if exists('make')
         let g:make = 'make'
