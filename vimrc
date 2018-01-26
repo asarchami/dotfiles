@@ -31,29 +31,48 @@ call plug#begin(expand('~/.vim/plugged'))
 "*****************************************************************************
 "" Plug install packages
 "*****************************************************************************
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/grep.vim'
-Plug 'vim-scripts/CSApprox'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'Raimondi/delimitMate'
-Plug 'majutsushi/tagbar'
-Plug 'scrooloose/syntastic'
-Plug 'Yggdroot/indentLine'
-Plug 'avelino/vim-bootstrap-updater'
-Plug 'sheerun/vim-polyglot'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tkhren/vim-fake'
+" This file is based on vim-bootstrap
+Plug 'avelino/vim-bootstrap-updater' " vim-bootstrap
+
+" NERDTree
+Plug 'scrooloose/nerdtree' " The NERDTree is a file system explorer for the Vim editor
+Plug 'jistr/vim-nerdtree-tabs' " This plugin aims at making NERDTree feel like a true panel, independent of tabs
+
+Plug 'tpope/vim-commentary' " Comment stuff out
+" Git
+Plug 'tpope/vim-fugitive'  " The best Git wrapper
+Plug 'airblade/vim-gitgutter'  " Vim plugin which shows a git diff in the 'gutter' (sign column)
+
+Plug 'lifepillar/vim-mucomplete' " MUComplete code autocomplete
+" Airline
+Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline-themes'  " airline theme
+
+Plug 'vim-scripts/grep.vim' " Plugin to integrate various Grep search tools with Vim
+
+Plug 'vim-scripts/CSApprox' " This plugin makes GVim-only colorschemes Just Work in terminal Vim
+
+Plug 'bronson/vim-trailing-whitespace' " This plugin causes all trailing whitespace to be highlighted in red
+
+Plug 'Raimondi/delimitMate' " This plug-in provides automatic closing of quotes, parenthesis, brackets, etc
+
+Plug 'majutsushi/tagbar' " Vim plugin that provides an easy way to browse the tags of the current file
+
+Plug 'scrooloose/syntastic' " syntax checking plugin for Vim
+
+Plug 'Yggdroot/indentLine' " displays thin vertical lines at each indentation level for code indented with spaces
+
+Plug 'sheerun/vim-polyglot' " A collection of language packs for Vim
+
+Plug 'ctrlpvim/ctrlp.vim' " Full path fuzzy file, buffer, mru, tag, ... finder for Vim
+
+Plug 'tkhren/vim-fake' " vim plugin to provide a generator of random dummy/filler text
+
 let g:make = 'gmake'
 if exists('make')
         let g:make = 'make'
 endif
-Plug 'Shougo/vimproc.vim', {'do': g:make}
+Plug 'Shougo/vimproc.vim', {'do': g:make} " Asynchronous execution library for Vim
 
 "" Vim-Session
 Plug 'xolox/vim-misc'
@@ -71,11 +90,11 @@ endif
 Plug 'honza/vim-snippets'
 
 "" Color
-Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
 Plug 'joshdick/onedark.vim'
 
 "*****************************************************************************
-"" Custom bundles
+"" Labguage bundles
 "*****************************************************************************
 
 " go
@@ -210,7 +229,7 @@ else
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
 
-  
+
   if $COLORTERM == 'gnome-terminal'
     set term=gnome-256color
   else
@@ -218,7 +237,7 @@ else
       set term=xterm-256color
     endif
   endif
-  
+
 endif
 
 
@@ -256,7 +275,8 @@ if exists("*fugitive#statusline")
 endif
 
 " vim-airline
-let g:airline_theme = 'powerlineish'
+" let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'onedark'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
