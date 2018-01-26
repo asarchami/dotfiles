@@ -647,3 +647,17 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
+
+"" MUComplete
+if v:version >= 775
+    set completeopt+=menuone
+    set completeopt+=noselect
+    set shortmess+=c   " Shut off completion messages"
+    let g:mucomplete#enable_auto_at_startup = 1
+
+    set noshowmode shortmess+=c
+    set completeopt-=preview
+    set completeopt+=longest,menuone,noinsert,noselect
+    let g:jedi#popup_on_dot = 0  " It may be 1 as well
+    let g:mucomplete#enable_auto_at_startup = 1"
+endif
