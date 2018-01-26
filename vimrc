@@ -188,6 +188,7 @@ set number
 let no_buffers_menu=1
 if !exists('g:not_finish_vimplug')
   " colorscheme molokai
+  set background=dark
   colorscheme solarized
 endif
 
