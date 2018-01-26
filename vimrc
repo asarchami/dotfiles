@@ -297,6 +297,8 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
+"" CtrlP configuration
+let g:ctrlp_show_hidden=1
 
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
@@ -475,6 +477,9 @@ vnoremap K :m '<-2<CR>gv=gv
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
 
+
+"" emmet
+let g:user_emmet_leader_key='<C-e>' " map emmet to C-e
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
