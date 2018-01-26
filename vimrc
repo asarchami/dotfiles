@@ -72,7 +72,7 @@ Plug 'honza/vim-snippets'
 
 "" Color
 Plug 'tomasr/molokai'
-Plug 'altercation/vim-colors-solarized'
+Plug 'joshdick/onedark.vim'
 
 "*****************************************************************************
 "" Custom bundles
@@ -188,8 +188,7 @@ set number
 let no_buffers_menu=1
 if !exists('g:not_finish_vimplug')
   " colorscheme molokai
-  set background=dark
-  colorscheme solarized
+  colorscheme onedark
 endif
 
 set mousemodel=popup
