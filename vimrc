@@ -479,9 +479,10 @@ nnoremap <Leader>o :.Gbrowse<CR>
 
 
 "" emmet
-let g:user_emmet_leader_key='<C-e>' " map emmet to C-e
+" let g:user_emmet_leader_key='<C-e>' " map emmet to C-e
 " let g:user_emmet_expandabbr_key='<Tab>'
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+imap <C-e> <C-y>,
 "*****************************************************************************
 "" Custom configs
 "*****************************************************************************
