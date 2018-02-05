@@ -131,8 +131,10 @@ Plug 'derekwyatt/vim-scala'
 
 
 " Docker
-" Plug 'docker/docker'
 Plug 'ekalinin/dockerfile.vim'
+
+" Change surround
+Plug 'tpope/vim-surround'
 "*****************************************************************************
 "*****************************************************************************
 
