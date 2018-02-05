@@ -131,7 +131,7 @@ Plug 'derekwyatt/vim-scala'
 
 
 " Docker
-Plug 'docker/docker'
+" Plug 'docker/docker'
 Plug 'ekalinin/dockerfile.vim'
 "*****************************************************************************
 "*****************************************************************************
