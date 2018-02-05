@@ -68,6 +68,10 @@ Plug 'ctrlpvim/ctrlp.vim' " Full path fuzzy file, buffer, mru, tag, ... finder f
 
 Plug 'tkhren/vim-fake' " vim plugin to provide a generator of random dummy/filler text
 
+Plug 'tpope/vim-surround' " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
+
+Plug 'tpope/vim-repeat' " remaps . in a way that plugins can tap into it.
+
 let g:make = 'gmake'
 if exists('make')
         let g:make = 'make'
@@ -133,8 +137,6 @@ Plug 'derekwyatt/vim-scala'
 " Docker
 Plug 'ekalinin/dockerfile.vim'
 
-" Change surround
-Plug 'tpope/vim-surround'
 "*****************************************************************************
 "*****************************************************************************
 
