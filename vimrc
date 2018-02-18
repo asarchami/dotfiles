@@ -452,6 +452,11 @@ if has('macunix')
   vmap <C-c> :w !pbcopy<CR><CR>
 endif
 
+" Toggle paste mode
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
 "" Buffer nav
 noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
