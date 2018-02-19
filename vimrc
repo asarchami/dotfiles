@@ -95,7 +95,9 @@ Plug 'honza/vim-snippets'
 
 "" Color
 " Plug 'tomasr/molokai'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
+Plug 'flazz/vim-colorschemes'
+
 
 "*****************************************************************************
 "" Labguage bundles
