@@ -249,6 +249,8 @@ if &term =~ '256color'
   set t_ut=
 endif
 
+set cursorline
+set cursorcolumn
 
 set splitright
 set splitbelow
