@@ -96,8 +96,7 @@ Plug 'honza/vim-snippets'
 "" Color
 " Plug 'tomasr/molokai'
 " Plug 'joshdick/onedark.vim'
-Plug 'flazz/vim-colorschemes'
-
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 "*****************************************************************************
 "" Labguage bundles
@@ -213,7 +212,7 @@ set number
 let no_buffers_menu=1
 if !exists('g:not_finish_vimplug')
   " colorscheme molokai
-  colorscheme onedark
+  colorscheme dracula
 endif
 
 set mousemodel=popup
