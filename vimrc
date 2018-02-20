@@ -255,6 +255,17 @@ set cursorcolumn
 
 set splitright
 set splitbelow
+
+nnoremap <silent> <S-UP>    :exe "res +5"<CR>
+nnoremap <silent> <S-DOWN>  :exe "res -5"<CR>
+nnoremap <silent> <C-UP>    :exe "res +1"<CR>
+nnoremap <silent> <C-DOWN>  :exe "res -1"<CR>
+
+nnoremap <silent> <S-RIGHT> :exe "vertical res +5"<CR>
+nnoremap <silent> <S-LEFT>  :exe "vertical res -5"<CR>
+nnoremap <silent> <C-RIGHT> :exe "vertical res +1"<CR>
+nnoremap <silent> <C-LEFT>  :exe "vertical res -1"<CR>
+
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
 set scrolloff=3
