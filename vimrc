@@ -68,7 +68,6 @@ Plug 'Yggdroot/indentLine' " displays thin vertical lines at each indentation le
 
 Plug 'sheerun/vim-polyglot' " A collection of language packs for Vim
 
-" Plug 'ctrlpvim/ctrlp.vim' " Full path fuzzy file, buffer, mru, tag, ... finder for Vim
 Plug 'yggdroot/leaderf', { 'do': './install.sh' }
 
 Plug 'tkhren/vim-fake' " vim plugin to provide a generator of random dummy/filler text
@@ -316,8 +315,8 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-"" CtrlP configuration
-" let g:ctrlp_show_hidden=1
+
+" Assign C-P for LeaderF
 let g:Lf_ShortcutF = '<C-P>'
 
 "" NERDTree configuration
@@ -683,7 +682,7 @@ if v:version >= 775
     set completeopt+=menuone
     set completeopt+=noselect
     set shortmess+=c   " Shut off completion messages"
-    let g:mucomplete#enable_auto_at_startup = 1
+    let g:mucomplete#enable_auto_at_startup = 0
 
     set noshowmode shortmess+=c
     set completeopt-=preview
