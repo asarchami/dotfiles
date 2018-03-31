@@ -3,4 +3,4 @@ Since I work with different vin environments and not all of them are up to date 
 This vim is based on [vim-bootstrap](http://www.vim-bootstrap.com/). I just added some minor customization.
 ## Install
 Copy paste this command:
-> `rm -rf ~/.vim* && curl -o ~/.vimrc -k https://raw.githubusercontent.com/asarchami/vimrc/master/vimrc && vim +PlugInstall +qall`
+> `rm -rf ~/.vim* && curl -o ~/.vimrc -k https://raw.githubusercontent.com/asarchami/vimrc/v2/vimrc && vim +PlugInstall +qall`
