@@ -35,108 +35,59 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'avelino/vim-bootstrap-updater' " vim-bootstrap
 
 " NERDTree
-Plug 'scrooloose/nerdtree' " The NERDTree is a file system explorer for the Vim editor
-Plug 'jistr/vim-nerdtree-tabs' " This plugin aims at making NERDTree feel like a true panel, independent of tabs
-
-Plug 'tpope/vim-surround' " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
-
-Plug 'tpope/vim-repeat' " remaps . in a way that plugins can tap into it.
-
-Plug 'tpope/vim-commentary' " Comment stuff out
-" Git
-Plug 'tpope/vim-fugitive'  " The best Git wrapper
-Plug 'airblade/vim-gitgutter'  " Vim plugin which shows a git diff in the 'gutter' (sign column)
-
-Plug 'lifepillar/vim-mucomplete' " MUComplete code autocomplete
-" Airline
-Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim that's light as air
-Plug 'vim-airline/vim-airline-themes'  " airline theme
-
-Plug 'vim-scripts/grep.vim' " Plugin to integrate various Grep search tools with Vim
-
-Plug 'vim-scripts/CSApprox' " This plugin makes GVim-only colorschemes Just Work in terminal Vim
-
-Plug 'bronson/vim-trailing-whitespace' " This plugin causes all trailing whitespace to be highlighted in red
-
-Plug 'Raimondi/delimitMate' " This plug-in provides automatic closing of quotes, parenthesis, brackets, etc
-
-Plug 'majutsushi/tagbar' " Vim plugin that provides an easy way to browse the tags of the current file
-
-Plug 'scrooloose/syntastic' " syntax checking plugin for Vim
-
-Plug 'Yggdroot/indentLine' " displays thin vertical lines at each indentation level for code indented with spaces
-
-Plug 'sheerun/vim-polyglot' " A collection of language packs for Vim
-
-Plug 'yggdroot/leaderf', { 'do': './install.sh' }
-
-Plug 'tkhren/vim-fake' " vim plugin to provide a generator of random dummy/filler text
-
+Plug 'scrooloose/nerdtree'                  " The NERDTree is a file system explorer for the Vim editor
+Plug 'jistr/vim-nerdtree-tabs'              " This plugin aims at making NERDTree feel like a true panel, independent of tabs
+Plug 'tpope/vim-surround'                   " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
+Plug 'tpope/vim-repeat'                     " remaps . in a way that plugins can tap into it.
+Plug 'tpope/vim-commentary'                 " Comment stuff out
+Plug 'tpope/vim-fugitive'                   " The best Git wrapper
+Plug 'airblade/vim-gitgutter'               " Vim plugin which shows a git diff in the 'gutter' (sign column)
+Plug 'lifepillar/vim-mucomplete'            " MUComplete code autocomplete
+Plug 'vim-airline/vim-airline'              " Lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline-themes'       " airline theme
+Plug 'vim-scripts/grep.vim'                 " Plugin to integrate various Grep search tools with Vim
+Plug 'vim-scripts/CSApprox'                 " This plugin makes GVim-only colorschemes Just Work in terminal Vim
+Plug 'bronson/vim-trailing-whitespace'      " This plugin causes all trailing whitespace to be highlighted in red
+Plug 'Raimondi/delimitMate'                 " This plug-in provides automatic closing of quotes, parenthesis, brackets, etc
+Plug 'majutsushi/tagbar'                    " Vim plugin that provides an easy way to browse the tags of the current file
+Plug 'scrooloose/syntastic'                 " syntax checking plugin for Vim
+Plug 'Yggdroot/indentLine'                  " displays thin vertical lines at each indentation level for code indented with spaces
+Plug 'sheerun/vim-polyglot'                 " A collection of language packs for Vim
+Plug 'yggdroot/leaderf', { 'do': './install.sh' } " An alternative for CtrlP but much faster!
+Plug 'tkhren/vim-fake'                      " vim plugin to provide a generator of random dummy/filler text
 let g:make = 'gmake'
 if exists('make')
         let g:make = 'make'
 endif
-Plug 'Shougo/vimproc.vim', {'do': g:make} " Asynchronous execution library for Vim
-
-"" Vim-Session
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-
+Plug 'Shougo/vimproc.vim', {'do': g:make}   " Asynchronous execution library for Vim
+Plug 'xolox/vim-misc'                       " Vim scripts that are used by other plugins
+Plug 'xolox/vim-session'                    " Extended session management for Vim
 if v:version >= 703
-  Plug 'Shougo/vimshell.vim'
+  Plug 'Shougo/vimshell.vim'                " Support for shell
 endif
-
 if v:version >= 704
-  "" Snippets
-  Plug 'SirVer/ultisnips'
+  Plug 'SirVer/ultisnips'                   " Supprt for snippets
 endif
-
-Plug 'honza/vim-snippets'
-
-"" Color
-" Plug 'tomasr/molokai'
-" Plug 'joshdick/onedark.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-
+Plug 'honza/vim-snippets'                   " snippets
+" Plug 'tomasr/molokai'                     " molokai colorscheme
+" Plug 'joshdick/onedark.vim'               " onedark colorscheme
+Plug 'dracula/vim', { 'as': 'dracula' }     " deacula colorscheme
 "*****************************************************************************
 "" Labguage bundles
 "*****************************************************************************
-
-" go
-"" Go Lang Bundle
-Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
-
-
-" html
-"" HTML Bundle
-Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
-Plug 'tpope/vim-haml'
-Plug 'mattn/emmet-vim'
-
-
-" javascript
-"" Javascript Bundle
-Plug 'jelera/vim-javascript-syntax'
-
-
-" python
-"" Python Bundle
-Plug 'davidhalter/jedi-vim'
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-
-
-" scala
+Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}   " Go Lang Bundle
+Plug 'hail2u/vim-css3-syntax'               " css3 syntax
+Plug 'gorodinskiy/vim-coloresque'           " color preview for vim
+Plug 'tpope/vim-haml'                       " contains the runtime files for Haml, Sass, and SCSS
+Plug 'mattn/emmet-vim'                      " provides support for expanding abbreviations similar to emmet
+Plug 'jelera/vim-javascript-syntax'         " Enhanced javascript syntax
+Plug 'davidhalter/jedi-vim'                 " Python autocompletion with VIM
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}   " the Requirements File Format syntax support for Vim.
 if has('python')
-    " sbt-vim
-    Plug 'ktvoelker/sbt-vim'
+    Plug 'ktvoelker/sbt-vim'                " allows sbt to be used from within Vim
 endif
-" vim-scala
-Plug 'derekwyatt/vim-scala'
-
-
-" Docker
-Plug 'ekalinin/dockerfile.vim'
+Plug 'derekwyatt/vim-scala'                 " Scala support
+Plug 'ekalinin/dockerfile.vim'              " Vim syntax file for Docker's Dockerfile and snippets for snipMate
 
 "*****************************************************************************
 "*****************************************************************************
