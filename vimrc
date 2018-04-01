@@ -11,6 +11,10 @@ if !filereadable(vimplug_exists)
     echoerr "You have to install curl or first install vim-plug yourself!"
     execute "q!"
   endif
+  if !executable("git")
+    echoerr "You have to install git!"
+    execute "q!"
+  endif
   echo "Installing Vim-Plug..."
   echo ""
   silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs -k https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
