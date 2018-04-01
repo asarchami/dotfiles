@@ -83,6 +83,31 @@ else
     set shell=/bin/sh
 endif
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite    " Files vim will ignore
+set autoread                                            " Automatically reread the file if modified outside
+set showmode                                            " Show the current mode
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus                     " use system clipboard if available
+endif
+"*****************************************************************************
+"" Autocmd Rules
+"*****************************************************************************
+augroup vimrc-sync-fromstart                            " Syntax Highlight from start unless 200 lines
+  autocmd!
+  autocmd BufEnter * :syntax sync maxlines=200
+augroup END
+augroup vimrc-remember-cursor-position                  " Remember cursor position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+augroup vimrc-wrapping                                  " Text wrapping
+  autocmd!
+  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+augroup END
+augroup vimrc-make-cmake                                " make/cmake
+  autocmd!
+  autocmd FileType make setlocal noexpandtab
+  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
@@ -113,10 +138,6 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\   " Status lin
 " search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
-set showmode
-if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus                     " use system clipboard if available
-endif
 "*****************************************************************************
 "" Key binding
 "*****************************************************************************
@@ -158,6 +179,19 @@ noremap <C-h> <C-w>h
 "" Vmap for maintain Visual Mode after shifting > and <
 vmap < <gv
 vmap > >gv
+"" Split
+noremap <Leader>h :<C-u>split<CR>
+noremap <Leader>v :<C-u>vsplit<CR>
+"" Tabs
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
+nnoremap <silent> <S-t> :tabnew<CR>
+"" Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
+"" Opens an edit command with the path of the currently edited file filled in
+noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+"" Opens a tab edit command with the path of the currently edited file filled
+noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 "*****************************************************************************
 "" Functions
 "*****************************************************************************
@@ -185,12 +219,24 @@ let g:session_directory = "~/.vim/session"              " Set session save folde
 let g:session_autoload = "no"                           " Set session auto load to off
 let g:session_autosave = "no"                           " Set session auto save to off
 let g:session_command_aliases = 1                       " Enables session commands aliases
+nnoremap <leader>so :OpenSession<Space>
+nnoremap <leader>ss :SaveSession<Space>
+nnoremap <leader>sd :DeleteSession<CR>
+nnoremap <leader>sc :CloseSession<CR>
 " ----------------------------------------------------------------------------
 "  Fugitive
 " ----------------------------------------------------------------------------"
 if exists("*fugitive#statusline")
   set statusline+=%{fugitive#statusline()}
 endif
+noremap <Leader>ga :Gwrite<CR>
+noremap <Leader>gc :Gcommit<CR>
+noremap <Leader>gsh :Gpush<CR>
+noremap <Leader>gll :Gpull<CR>
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gd :Gvdiff<CR>
+noremap <Leader>gr :Gremove<CR>
 " ----------------------------------------------------------------------------
 "  vim-airline
 " ----------------------------------------------------------------------------"
