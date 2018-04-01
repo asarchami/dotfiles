@@ -31,9 +31,13 @@ Plug 'Yggdroot/indentLine'                              " displays thin vertical
 Plug 'xolox/vim-misc'                                   " Vim scripts that are used by other plugins
 Plug 'xolox/vim-session'                                " Extended session management for Vim
 
-" Plug 'tomasr/molokai'                                 " molokai colorscheme
-" Plug 'joshdick/onedark.vim'                           " onedark colorscheme
-Plug 'dracula/vim', { 'as': 'dracula' }                 " deacula colorscheme
+if !exists('g:not_finish_vimplug')
+    Plug 'dracula/vim', { 'as': 'dracula' }             " deacula colorscheme
+endif
+Plug 'tpope/vim-fugitive'                               " The best Git wrapper
+Plug 'tpope/vim-commentary'                             " Comment stuff out
+Plug 'tpope/vim-surround'                               " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
+Plug 'tpope/vim-repeat'                                 " remaps . in a way that plugins can tap into it.
 "" Include user's extra bundle
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles
@@ -100,6 +104,10 @@ set title                                               " Set window title on
 set titleold="Terminal"                                 " Default window title
 set titlestring=%F                                      " Set title window as file name
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\   " Status line format
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
 "*****************************************************************************
 "" Plugins configurations
 "*****************************************************************************"
@@ -117,6 +125,12 @@ let g:session_directory = "~/.vim/session"              " Set session save folde
 let g:session_autoload = "no"                           " Set session auto load to off
 let g:session_autosave = "no"                           " Set session auto save to off
 let g:session_command_aliases = 1                       " Enables session commands aliases
+" ----------------------------------------------------------------------------
+"  Fugitive
+" ----------------------------------------------------------------------------"
+if exists("*fugitive#statusline")
+  set statusline+=%{fugitive#statusline()}
+endif
 
 
 
