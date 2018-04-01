@@ -88,8 +88,7 @@ syntax on                                               " Set syntax highlightin
 set ruler                                               " Set Ruler visible
 set number                                              " Set Line numbers visible
 set mousemodel=extend                                   " Sets mouse model to xterm line
-set mousefocus=1                                        " Window with mouse on will get the focus
-set mousehide=1                                         " Hides mouse pointer when typing
+set mouse=a                                             " Enables the use of mouse
 set t_Co=256                                            " Number of colors
 set cursorline                                          " Highlight current line
 set cursorcolumn                                        " Highlight current column
