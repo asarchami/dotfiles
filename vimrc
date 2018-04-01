@@ -43,6 +43,10 @@ Plug 'scrooloose/nerdtree'                              " The NERDTree is a file
 Plug 'jistr/vim-nerdtree-tabs'                          " This plugin aims at making NERDTree feel like a true panel, independent of tabs
 Plug 'majutsushi/tagbar'                                " Vim plugin that provides an easy way to browse the tags of the current file
 Plug 'vim-scripts/grep.vim'                             " Plugin to integrate various Grep search tools with Vim
+Plug 'Shougo/vimproc.vim', {'do': g:make}               " Asynchronous execution library for Vim
+if v:version >= 703
+  Plug 'Shougo/vimshell.vim'                            " Support for shell
+endif
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
@@ -257,6 +261,20 @@ nnoremap <silent> <leader>f :Rgrep<CR>
 let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
+" ----------------------------------------------------------------------------
+"  vimshell
+" ----------------------------------------------------------------------------"
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt =  '$ '
+" terminal emulation
+if g:vim_bootstrap_editor == 'nvim'
+  nnoremap <silent> <leader>sh :terminal<CR>
+else
+  nnoremap <silent> <leader>sh :VimShellCreate<CR>
+endif
+
+
+
 
 
 
