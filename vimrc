@@ -41,6 +41,7 @@ Plug 'yggdroot/leaderf', { 'do': './install.sh' }       " An alternative for Ctr
 Plug 'Yggdroot/indentLine'                              " displays thin vertical lines at each indentation level for code indented with spaces
 Plug 'scrooloose/nerdtree'                              " The NERDTree is a file system explorer for the Vim editor
 Plug 'jistr/vim-nerdtree-tabs'                          " This plugin aims at making NERDTree feel like a true panel, independent of tabs
+Plug 'majutsushi/tagbar'                                " Vim plugin that provides an easy way to browse the tags of the current file
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
@@ -108,6 +109,9 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\   " Status lin
 nnoremap n nzzzv
 nnoremap N Nzzzv
 set showmode
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus                     " use system clipboard if available
+endif
 "*****************************************************************************
 "" Key binding
 "*****************************************************************************
@@ -240,7 +244,11 @@ let g:NERDTreeMouseMode=2                               " single click opens fol
 let g:NERDTreeQuitOnOpen=1                              " Closes tree after opening a file
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 " nnoremap <silent> <F2> :NERDTreeFind<CR>
-
+" ----------------------------------------------------------------------------
+"  Tagbar
+" ----------------------------------------------------------------------------"
+nmap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
 
 " TODO
 " SET keymap for vertical open in leaderf
