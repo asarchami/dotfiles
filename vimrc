@@ -196,7 +196,10 @@ endif
 "  LeaderF
 " ----------------------------------------------------------------------------"
 let g:Lf_ShortcutF = '<C-P>'                            " Assign C-P to LeaderF
-
+let g:Lf_ShortcutB = '<C-O>'                            " Assign C-O to search in buffer
+let g:Lf_StlColorscheme = 'onedark'                     " colorscheme
+let g:Lf_WindowHeight = 0.2                             " Take 20% of vertical space
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
 
 " TODO
