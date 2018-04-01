@@ -27,13 +27,15 @@ Plug 'Yggdroot/indentLine'                              " displays thin vertical
 Plug 'xolox/vim-misc'                                   " Vim scripts that are used by other plugins
 Plug 'xolox/vim-session'                                " Extended session management for Vim
 
+" Plug 'tomasr/molokai'                                 " molokai colorscheme
+" Plug 'joshdick/onedark.vim'                           " onedark colorscheme
+Plug 'dracula/vim', { 'as': 'dracula' }                 " deacula colorscheme
 "" Include user's extra bundle
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles
 endif
 
 call plug#end()
-
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
@@ -63,65 +65,35 @@ if exists('$SHELL')                                     " Get shell environment
 else
     set shell=/bin/sh
 endif
-
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
-syntax on
-set ruler
-set number
-
-let no_buffers_menu=1
+let no_buffers_menu=1                                   " disables buffers menu
+syntax on                                               " Set syntax highlighting on
+set ruler                                               " Set Ruler visible
+set number                                              " Set Line numbers visible
 if !exists('g:not_finish_vimplug')
-  " colorscheme molokai
-  colorscheme dracula
+  colorscheme dracula                                   " Set colorscheme to dracula
 endif
-
-set mousemodel=popup
-set t_Co=256
-set guioptions=egmrti
-set gfn=Monospace\ 10
-
-
+set mousemodel=extend                                   " Sets mouse model to xterm line
+set t_Co=256                                            " Number of colors
 "*****************************************************************************
 "" Plugins configurations
 "*****************************************************************************"
-
 " ----------------------------------------------------------------------------
 "  IndentLine
 " ----------------------------------------------------------------------------"
-
-if has("gui_running")
-  if has("gui_mac") || has("gui_macvim")
-    set guifont=Menlo:h12
-    set transparency=7
-  endif
-else
-  let g:CSApprox_loaded = 1
-
-  " IndentLine
-  let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
-  let g:indentLine_char = '┆'
-  let g:indentLine_faster = 1
-
-
-  if $COLORTERM == 'gnome-terminal'
-    set term=gnome-256color
-  else
-    if $TERM == 'xterm'
-      set term=xterm-256color
-    endif
-  endif
-
-endif
+let g:indentLine_enabled = 1
+let g:indentLine_concealcursor = 0
+let g:indentLine_char = '┆'
+let g:indentLine_faster = 1
 " ----------------------------------------------------------------------------
 "  vim-session
 " ----------------------------------------------------------------------------"
-let g:session_directory = "~/.vim/session"              " session management
-let g:session_autoload = "no"                           " session management
-let g:session_autosave = "no"                           " session management
-let g:session_command_aliases = 1                       " session management
+let g:session_directory = "~/.vim/session"              " Set session save folder
+let g:session_autoload = "no"                           " Set session auto load to off
+let g:session_autosave = "no"                           " Set session auto save to off
+let g:session_command_aliases = 1                       " Enables session commands aliases
 
 
 
