@@ -42,6 +42,7 @@ Plug 'Yggdroot/indentLine'                              " displays thin vertical
 Plug 'scrooloose/nerdtree'                              " The NERDTree is a file system explorer for the Vim editor
 Plug 'jistr/vim-nerdtree-tabs'                          " This plugin aims at making NERDTree feel like a true panel, independent of tabs
 Plug 'majutsushi/tagbar'                                " Vim plugin that provides an easy way to browse the tags of the current file
+Plug 'vim-scripts/grep.vim'                             " Plugin to integrate various Grep search tools with Vim
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
@@ -248,7 +249,17 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 "  Tagbar
 " ----------------------------------------------------------------------------"
 nmap <silent> <F4> :TagbarToggle<CR>
-" let g:tagbar_autofocus = 1
+let g:tagbar_autofocus = 1
+" ----------------------------------------------------------------------------
+"  Gerp.vim
+" ----------------------------------------------------------------------------"
+nnoremap <silent> <leader>f :Rgrep<CR>
+let Grep_Default_Options = '-IR'
+let Grep_Skip_Files = '*.log *.db'
+let Grep_Skip_Dirs = '.git node_modules'
+
+
+
 
 " TODO
 " SET keymap for vertical open in leaderf
