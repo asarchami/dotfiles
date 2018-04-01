@@ -31,9 +31,7 @@ Plug 'Yggdroot/indentLine'                              " displays thin vertical
 Plug 'xolox/vim-misc'                                   " Vim scripts that are used by other plugins
 Plug 'xolox/vim-session'                                " Extended session management for Vim
 
-if !exists('g:not_finish_vimplug')
-    Plug 'dracula/vim', { 'as': 'dracula' }             " deacula colorscheme
-endif
+Plug 'dracula/vim', { 'as': 'dracula' }                 " deacula colorscheme
 Plug 'tpope/vim-fugitive'                               " The best Git wrapper
 Plug 'tpope/vim-commentary'                             " Comment stuff out
 Plug 'tpope/vim-surround'                               " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
@@ -76,7 +74,9 @@ endif
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
-colorscheme dracula                                     " Set colorscheme to dracula
+if !exists('g:not_finish_vimplug')
+    colorscheme dracula                                 " Set colorscheme to dracula
+endif
 let no_buffers_menu=1                                   " disables buffers menu
 syntax on                                               " Set syntax highlighting on
 set ruler                                               " Set Ruler visible
