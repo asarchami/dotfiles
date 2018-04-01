@@ -38,6 +38,7 @@ Plug 'tpope/vim-surround'                               " Surround.vim is all ab
 Plug 'tpope/vim-repeat'                                 " remaps . in a way that plugins can tap into it.
 Plug 'vim-airline/vim-airline'                          " Lean & mean status/tabline for vim that's light as air
 Plug 'vim-airline/vim-airline-themes'                   " airline theme
+Plug 'yggdroot/leaderf', { 'do': './install.sh' }       " An alternative for CtrlP but much faster!
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
 endif
@@ -191,6 +192,10 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
+" ----------------------------------------------------------------------------
+"  LeaderF
+" ----------------------------------------------------------------------------"
+let g:Lf_ShortcutF = '<C-P>'                            " Assign C-P to LeaderF
 
 
 
