@@ -76,6 +76,7 @@ if exists('$SHELL')                                     " Get shell environment
 else
     set shell=/bin/sh
 endif
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite    " Files vim will ignore
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
@@ -200,13 +201,24 @@ endif
 " ----------------------------------------------------------------------------"
 let g:Lf_ShortcutF = '<C-P>'                            " Assign C-P to LeaderF
 let g:Lf_ShortcutB = '<C-O>'                            " Assign C-O to search in buffer
-let g:Lf_StlColorscheme = 'powerline'                    " colorscheme
+let g:Lf_StlColorscheme = 'powerline'                   " colorscheme
 let g:Lf_WindowHeight = 0.2                             " Take 20% of vertical space
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-
 " ----------------------------------------------------------------------------
 "  NerdTree
 " ----------------------------------------------------------------------------"
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 30                              " Size of NerdTree
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
+" nnoremap <silent> <F2> :NERDTreeFind<CR>
+let g:NERDTreeMouseMode=2                               " single click opens folder double opens files
+let g:NERDTreeQuitOnOpen=1                              " Closes tree after opening a file
+
 
 " TODO
 " SET keymap for vertical open in leaderf
