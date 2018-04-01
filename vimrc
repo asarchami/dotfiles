@@ -107,6 +107,7 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\   " Status lin
 " search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
+set showmode
 "*****************************************************************************
 "" Key binding
 "*****************************************************************************
@@ -128,10 +129,26 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
-" Toggle paste mode
+"" Toggle paste mode
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-set showmode
+"" Buffer nav
+noremap <leader>z :bp<CR>
+noremap <leader>q :bp<CR>
+noremap <leader>x :bn<CR>
+noremap <leader>w :bn<CR>
+"" Close buffer
+noremap <leader>c :bd<CR>
+"" Clean search (highlight)
+nnoremap <silent> <leader><space> :noh<cr>
+"" Switching windows
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
 "*****************************************************************************
 "" Plugins configurations
 "*****************************************************************************"
