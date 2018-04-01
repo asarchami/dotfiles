@@ -88,6 +88,7 @@ syntax on                                               " Set syntax highlightin
 set ruler                                               " Set Ruler visible
 set number                                              " Set Line numbers visible
 set mousemodel=extend                                   " Sets mouse model to xterm line
+set mouse=a                                             " Enables the use of mouse
 set t_Co=256                                            " Number of colors
 set cursorline                                          " Highlight current line
 set cursorcolumn                                        " Highlight current column
@@ -214,10 +215,10 @@ let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30                              " Size of NerdTree
-nnoremap <silent> <F3> :NERDTreeToggle<CR>
-" nnoremap <silent> <F2> :NERDTreeFind<CR>
 let g:NERDTreeMouseMode=2                               " single click opens folder double opens files
 let g:NERDTreeQuitOnOpen=1                              " Closes tree after opening a file
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
+" nnoremap <silent> <F2> :NERDTreeFind<CR>
 
 
 " TODO
