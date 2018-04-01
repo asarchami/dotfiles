@@ -24,6 +24,8 @@ endif
 call plug#begin(expand('~/.vim/plugged'))
 
 Plug 'Yggdroot/indentLine'                              " displays thin vertical lines at each indentation level for code indented with spaces
+Plug 'xolox/vim-misc'                                   " Vim scripts that are used by other plugins
+Plug 'xolox/vim-session'                                " Extended session management for Vim
 
 "" Include user's extra bundle
 if filereadable(expand("~/.vimrc.local.bundles"))
@@ -61,10 +63,6 @@ if exists('$SHELL')                                     " Get shell environment
 else
     set shell=/bin/sh
 endif
-let g:session_directory = "~/.vim/session"              " session management
-let g:session_autoload = "no"                           " session management
-let g:session_autosave = "no"                           " session management
-let g:session_command_aliases = 1                       " session management
 
 "*****************************************************************************
 "" Visual Settings
@@ -83,6 +81,15 @@ set mousemodel=popup
 set t_Co=256
 set guioptions=egmrti
 set gfn=Monospace\ 10
+
+
+"*****************************************************************************
+"" Plugins configurations
+"*****************************************************************************"
+
+" ----------------------------------------------------------------------------
+"  IndentLine
+" ----------------------------------------------------------------------------"
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
@@ -108,13 +115,13 @@ else
   endif
 
 endif
-
-"*****************************************************************************
-"" Plugins configurations
-"*****************************************************************************"
-
-
-
+" ----------------------------------------------------------------------------
+"  vim-session
+" ----------------------------------------------------------------------------"
+let g:session_directory = "~/.vim/session"              " session management
+let g:session_autoload = "no"                           " session management
+let g:session_autosave = "no"                           " session management
+let g:session_command_aliases = 1                       " session management
 
 
 
