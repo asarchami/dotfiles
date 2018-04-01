@@ -72,15 +72,34 @@ endif
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
+colorscheme dracula                                     " Set colorscheme to dracula
 let no_buffers_menu=1                                   " disables buffers menu
 syntax on                                               " Set syntax highlighting on
 set ruler                                               " Set Ruler visible
 set number                                              " Set Line numbers visible
-if !exists('g:not_finish_vimplug')
-  colorscheme dracula                                   " Set colorscheme to dracula
-endif
 set mousemodel=extend                                   " Sets mouse model to xterm line
 set t_Co=256                                            " Number of colors
+set cursorline                                          " Highlight current line
+set cursorcolumn                                        " Highlight current column
+set splitright                                          " Split to the right
+set splitbelow                                          " Split below
+nnoremap <silent> <S-UP>    :exe "res +5"<CR>
+nnoremap <silent> <S-DOWN>  :exe "res -5"<CR>
+nnoremap <silent> <C-UP>    :exe "res +1"<CR>
+nnoremap <silent> <C-DOWN>  :exe "res -1"<CR>
+nnoremap <silent> <S-RIGHT> :exe "vertical res +5"<CR>
+nnoremap <silent> <S-LEFT>  :exe "vertical res -5"<CR>
+nnoremap <silent> <C-RIGHT> :exe "vertical res +1"<CR>
+nnoremap <silent> <C-LEFT>  :exe "vertical res -1"<CR>
+set gcr=a:blinkon0                                      " Disable the blinking cursor.
+set scrolloff=3                                         " 3 lines to keep above and below the cursor.
+set laststatus=2                                        " Last window will always have a statusline
+set modeline                                            " Use modeline overrides
+set modelines=10
+set title                                               " Set window title on
+set titleold="Terminal"                                 " Default window title
+set titlestring=%F                                      " Set title window as file name
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\   " Status line format
 "*****************************************************************************
 "" Plugins configurations
 "*****************************************************************************"
