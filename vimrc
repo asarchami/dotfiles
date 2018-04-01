@@ -88,14 +88,6 @@ set cursorline                                          " Highlight current line
 set cursorcolumn                                        " Highlight current column
 set splitright                                          " Split to the right
 set splitbelow                                          " Split below
-nnoremap <silent> <S-UP>    :exe "res +5"<CR>
-nnoremap <silent> <S-DOWN>  :exe "res -5"<CR>
-nnoremap <silent> <C-UP>    :exe "res +1"<CR>
-nnoremap <silent> <C-DOWN>  :exe "res -1"<CR>
-nnoremap <silent> <S-RIGHT> :exe "vertical res +5"<CR>
-nnoremap <silent> <S-LEFT>  :exe "vertical res -5"<CR>
-nnoremap <silent> <C-RIGHT> :exe "vertical res +1"<CR>
-nnoremap <silent> <C-LEFT>  :exe "vertical res -1"<CR>
 set gcr=a:blinkon0                                      " Disable the blinking cursor.
 set scrolloff=3                                         " 3 lines to keep above and below the cursor.
 set laststatus=2                                        " Last window will always have a statusline
@@ -109,6 +101,27 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\   " Status lin
 " search will center on the line it's found in.
 nnoremap n nzzzv
 nnoremap N Nzzzv
+"*****************************************************************************
+"" Key binding
+"*****************************************************************************
+nnoremap <silent> <S-UP>    :exe "res +5"<CR>
+nnoremap <silent> <S-DOWN>  :exe "res -5"<CR>
+nnoremap <silent> <C-UP>    :exe "res +1"<CR>
+nnoremap <silent> <C-DOWN>  :exe "res -1"<CR>
+nnoremap <silent> <S-RIGHT> :exe "vertical res +5"<CR>
+nnoremap <silent> <S-LEFT>  :exe "vertical res -5"<CR>
+nnoremap <silent> <C-RIGHT> :exe "vertical res +1"<CR>
+nnoremap <silent> <C-LEFT>  :exe "vertical res -1"<CR>
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
 "*****************************************************************************
 "" Plugins configurations
 "*****************************************************************************"
