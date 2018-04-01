@@ -27,7 +27,6 @@ endif
 "*****************************************************************************
 call plug#begin(expand('~/.vim/plugged'))
 
-Plug 'Yggdroot/indentLine'                              " displays thin vertical lines at each indentation level for code indented with spaces
 Plug 'xolox/vim-misc'                                   " Vim scripts that are used by other plugins
 Plug 'xolox/vim-session'                                " Extended session management for Vim
 " Plug 'dracula/vim', { 'as': 'dracula' }                 " deacula colorscheme
@@ -39,8 +38,9 @@ Plug 'tpope/vim-repeat'                                 " remaps . in a way that
 Plug 'vim-airline/vim-airline'                          " Lean & mean status/tabline for vim that's light as air
 Plug 'vim-airline/vim-airline-themes'                   " airline theme
 Plug 'yggdroot/leaderf', { 'do': './install.sh' }       " An alternative for CtrlP but much faster!
-Plug 'shougo/denite.vim'
-Plug 'shougo/vimfiler.vim'
+Plug 'Yggdroot/indentLine'                              " displays thin vertical lines at each indentation level for code indented with spaces
+Plug 'scrooloose/nerdtree'                              " The NERDTree is a file system explorer for the Vim editor
+Plug 'jistr/vim-nerdtree-tabs'                          " This plugin aims at making NERDTree feel like a true panel, independent of tabs
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
@@ -205,10 +205,7 @@ let g:Lf_WindowHeight = 0.2                             " Take 20% of vertical s
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
 " ----------------------------------------------------------------------------
-"  denite
-" ----------------------------------------------------------------------------"
-" ----------------------------------------------------------------------------
-"  vimfiler
+"  NerdTree
 " ----------------------------------------------------------------------------"
 
 " TODO
