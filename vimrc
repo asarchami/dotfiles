@@ -39,6 +39,9 @@ Plug 'tpope/vim-repeat'                                 " remaps . in a way that
 Plug 'vim-airline/vim-airline'                          " Lean & mean status/tabline for vim that's light as air
 Plug 'vim-airline/vim-airline-themes'                   " airline theme
 Plug 'yggdroot/leaderf', { 'do': './install.sh' }       " An alternative for CtrlP but much faster!
+Plug 'shougo/denite.vim'
+Plug 'shougo/vimfiler.vim'
+
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
 endif
@@ -197,10 +200,16 @@ endif
 " ----------------------------------------------------------------------------"
 let g:Lf_ShortcutF = '<C-P>'                            " Assign C-P to LeaderF
 let g:Lf_ShortcutB = '<C-O>'                            " Assign C-O to search in buffer
-let g:Lf_StlColorscheme = 'onedark'                     " colorscheme
+let g:Lf_StlColorscheme = 'powerline'                    " colorscheme
 let g:Lf_WindowHeight = 0.2                             " Take 20% of vertical space
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
+" ----------------------------------------------------------------------------
+"  denite
+" ----------------------------------------------------------------------------"
+" ----------------------------------------------------------------------------
+"  vimfiler
+" ----------------------------------------------------------------------------"
 
 " TODO
 " SET keymap for vertical open in leaderf
