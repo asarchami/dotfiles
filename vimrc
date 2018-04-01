@@ -30,15 +30,16 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'Yggdroot/indentLine'                              " displays thin vertical lines at each indentation level for code indented with spaces
 Plug 'xolox/vim-misc'                                   " Vim scripts that are used by other plugins
 Plug 'xolox/vim-session'                                " Extended session management for Vim
-
-Plug 'dracula/vim', { 'as': 'dracula' }                 " deacula colorscheme
+" Plug 'dracula/vim', { 'as': 'dracula' }                 " deacula colorscheme
+Plug 'joshdick/onedark.vim'                             " onedark colorscheme
 Plug 'tpope/vim-fugitive'                               " The best Git wrapper
 Plug 'tpope/vim-commentary'                             " Comment stuff out
 Plug 'tpope/vim-surround'                               " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
 Plug 'tpope/vim-repeat'                                 " remaps . in a way that plugins can tap into it.
-"" Include user's extra bundle
+Plug 'vim-airline/vim-airline'                          " Lean & mean status/tabline for vim that's light as air
+Plug 'vim-airline/vim-airline-themes'                   " airline theme
 if filereadable(expand("~/.vimrc.local.bundles"))
-  source ~/.vimrc.local.bundles
+  source ~/.vimrc.local.bundles                         " Include user's extra bundle
 endif
 
 call plug#end()
@@ -75,7 +76,7 @@ endif
 "" Visual Settings
 "*****************************************************************************
 if !exists('g:not_finish_vimplug')
-    colorscheme dracula                                 " Set colorscheme to dracula
+    colorscheme onedark                                 " Set colorscheme to onedark
 endif
 let no_buffers_menu=1                                   " disables buffers menu
 syntax on                                               " Set syntax highlighting on
@@ -130,6 +131,52 @@ let g:session_command_aliases = 1                       " Enables session comman
 " ----------------------------------------------------------------------------"
 if exists("*fugitive#statusline")
   set statusline+=%{fugitive#statusline()}
+endif
+" ----------------------------------------------------------------------------
+"  vim-airline
+" ----------------------------------------------------------------------------"
+" let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'onedark'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline_powerline_fonts = 1
+" vim-airline
+let g:airline#extensions#virtualenv#enabled = 1
+" vim-airline
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
 endif
 
 
