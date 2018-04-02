@@ -403,10 +403,3 @@ augroup vimrc-python
       \ formatoptions+=croq softtabstop=4
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 augroup END
-
-
-
-
-
-" TODO
-" SET keymap for vertical open in leaderf
