@@ -48,6 +48,8 @@ Plug 'Shougo/vimproc.vim', {'do': 'make'}               " Asynchronous execution
 Plug 'Shougo/vimshell.vim'                              " Support for shell
 Plug 'sheerun/vim-polyglot'                             " A collection of language packs for Vim
 Plug 'maralla/completor.vim'                            " Completor is an asynchronous code completion framework for vim8
+Plug 'bronson/vim-trailing-whitespace'                  " This plugin causes all trailing whitespace to be highlighted in red
+Plug 'Raimondi/delimitMate'                             " This plug-in provides automatic closing of quotes, parenthesis, brackets, etc
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
