@@ -205,14 +205,12 @@ endif
 "*****************************************************************************
 "" Plugins configurations
 "*****************************************************************************"
-" ----------------------------------------------------------------------------
 "  IndentLine
 " ----------------------------------------------------------------------------"
 let g:indentLine_enabled = 1
 let g:indentLine_concealcursor = 0
 let g:indentLine_char = '┆'
 let g:indentLine_faster = 1
-" ----------------------------------------------------------------------------
 "  vim-session
 " ----------------------------------------------------------------------------"
 let g:session_directory = "~/.vim/session"              " Set session save folder
@@ -223,7 +221,6 @@ nnoremap <leader>so :OpenSession<Space>
 nnoremap <leader>ss :SaveSession<Space>
 nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
-" ----------------------------------------------------------------------------
 "  Fugitive
 " ----------------------------------------------------------------------------"
 if exists("*fugitive#statusline")
@@ -237,7 +234,6 @@ noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gd :Gvdiff<CR>
 noremap <Leader>gr :Gremove<CR>
-" ----------------------------------------------------------------------------
 "  vim-airline
 " ----------------------------------------------------------------------------"
 " let g:airline_theme = 'powerlineish'
@@ -248,9 +244,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
 let g:airline_powerline_fonts = 1
-" vim-airline
 let g:airline#extensions#virtualenv#enabled = 1
-" vim-airline
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -283,7 +277,6 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
-" ----------------------------------------------------------------------------
 "  LeaderF
 " ----------------------------------------------------------------------------"
 let g:Lf_ShortcutF = '<C-P>'                            " Assign C-P to LeaderF
@@ -291,7 +284,6 @@ let g:Lf_ShortcutB = '<C-O>'                            " Assign C-O to search i
 let g:Lf_StlColorscheme = 'powerline'                   " colorscheme
 let g:Lf_WindowHeight = 0.2                             " Take 20% of vertical space
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
-" ----------------------------------------------------------------------------
 "  NerdTree
 " ----------------------------------------------------------------------------"
 let g:NERDTreeChDirMode=2
@@ -305,19 +297,16 @@ let g:NERDTreeMouseMode=2                               " single click opens fol
 let g:NERDTreeQuitOnOpen=1                              " Closes tree after opening a file
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 " nnoremap <silent> <F2> :NERDTreeFind<CR>
-" ----------------------------------------------------------------------------
 "  Tagbar
 " ----------------------------------------------------------------------------"
 nmap <silent> <F4> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
-" ----------------------------------------------------------------------------
 "  Gerp.vim
 " ----------------------------------------------------------------------------"
 nnoremap <silent> <leader>f :Rgrep<CR>
 let Grep_Default_Options = '-IR'
 let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
-" ----------------------------------------------------------------------------
 "  vimshell
 " ----------------------------------------------------------------------------"
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
