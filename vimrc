@@ -70,8 +70,8 @@ if v:version >= 704
 endif
 Plug 'honza/vim-snippets'                   " snippets
 " Plug 'tomasr/molokai'                     " molokai colorscheme
-" Plug 'joshdick/onedark.vim'               " onedark colorscheme
-Plug 'dracula/vim', { 'as': 'dracula' }     " deacula colorscheme
+Plug 'joshdick/onedark.vim'               " onedark colorscheme
+" Plug 'dracula/vim', { 'as': 'dracula' }     " deacula colorscheme
 "*****************************************************************************
 "" Labguage bundles
 "*****************************************************************************
@@ -163,7 +163,7 @@ set number
 let no_buffers_menu=1
 if !exists('g:not_finish_vimplug')
   " colorscheme molokai
-  colorscheme dracula
+  colorscheme onedark
 endif
 
 set mousemodel=popup
