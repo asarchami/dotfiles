@@ -44,9 +44,8 @@ Plug 'jistr/vim-nerdtree-tabs'                          " This plugin aims at ma
 Plug 'majutsushi/tagbar'                                " Vim plugin that provides an easy way to browse the tags of the current file
 Plug 'vim-scripts/grep.vim'                             " Plugin to integrate various Grep search tools with Vim
 Plug 'Shougo/vimproc.vim', {'do': 'make'}               " Asynchronous execution library for Vim
-if v:version >= 703
-  Plug 'Shougo/vimshell.vim'                            " Support for shell
-endif
+Plug 'Shougo/vimshell.vim'                              " Support for shell
+Plug 'sheerun/vim-polyglot'                             " A collection of language packs for Vim
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
