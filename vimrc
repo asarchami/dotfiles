@@ -59,12 +59,13 @@ if has('python')
     Plug 'ktvoelker/sbt-vim'                            " allows sbt to be used from within Vim
 endif
 Plug 'mattn/emmet-vim'                                  " provides support for expanding abbreviations similar to emmet
-Plug 'hail2u/vim-css3-syntax'               " css3 syntax
-Plug 'tpope/vim-haml'                       " contains the runtime files for Haml, Sass, and SCSS
-Plug 'jelera/vim-javascript-syntax'         " Enhanced javascript syntax
-Plug 'derekwyatt/vim-scala'                 " Scala support
-Plug 'ekalinin/dockerfile.vim'              " Vim syntax file for Docker's Dockerfile and snippets for snipMate
-
+Plug 'hail2u/vim-css3-syntax'                           " css3 syntax
+Plug 'tpope/vim-haml'                                   " contains the runtime files for Haml, Sass, and SCSS
+Plug 'jelera/vim-javascript-syntax'                     " Enhanced javascript syntax
+Plug 'derekwyatt/vim-scala'                             " Scala support
+Plug 'ekalinin/dockerfile.vim'                          " Vim syntax file for Docker's Dockerfile and snippets for snipMate
+Plug 'SirVer/ultisnips'                                 " Supprt for snippets
+Plug 'honza/vim-snippets'                               " snippets
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
 endif
@@ -365,6 +366,15 @@ let python_highlight_all = 1
 " let g:user_emmet_expandabbr_key='<Tab>'
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 imap <C-e> <C-y>,
+"  syntastic
+" ----------------------------------------------------------------------------"
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
+let g:syntastic_auto_loc_list=1
+let g:syntastic_aggregate_errors = 1
 "*****************************************************************************
 "" Language Specific Settings
 "*****************************************************************************
