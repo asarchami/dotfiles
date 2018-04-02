@@ -46,10 +46,24 @@ Plug 'majutsushi/tagbar'                                " Vim plugin that provid
 Plug 'vim-scripts/grep.vim'                             " Plugin to integrate various Grep search tools with Vim
 Plug 'Shougo/vimproc.vim', {'do': 'make'}               " Asynchronous execution library for Vim
 Plug 'Shougo/vimshell.vim'                              " Support for shell
-Plug 'sheerun/vim-polyglot'                             " A collection of language packs for Vim
 Plug 'maralla/completor.vim'                            " Completor is an asynchronous code completion framework for vim8
 Plug 'bronson/vim-trailing-whitespace'                  " This plugin causes all trailing whitespace to be highlighted in red
 Plug 'Raimondi/delimitMate'                             " This plug-in provides automatic closing of quotes, parenthesis, brackets, etc
+
+Plug 'scrooloose/syntastic'                             " syntax checking plugin for Vim
+Plug 'sheerun/vim-polyglot'                             " A collection of language packs for Vim
+Plug 'gorodinskiy/vim-coloresque'                       " color preview for vim
+Plug 'davidhalter/jedi-vim'                             " Python autocompletion with VIM
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}   " the Requirements File Format syntax support for Vim.
+if has('python')
+    Plug 'ktvoelker/sbt-vim'                            " allows sbt to be used from within Vim
+endif
+Plug 'mattn/emmet-vim'                                  " provides support for expanding abbreviations similar to emmet
+Plug 'hail2u/vim-css3-syntax'               " css3 syntax
+Plug 'tpope/vim-haml'                       " contains the runtime files for Haml, Sass, and SCSS
+Plug 'jelera/vim-javascript-syntax'         " Enhanced javascript syntax
+Plug 'derekwyatt/vim-scala'                 " Scala support
+Plug 'ekalinin/dockerfile.vim'              " Vim syntax file for Docker's Dockerfile and snippets for snipMate
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
@@ -59,6 +73,9 @@ call plug#end()
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
+if filereadable(expand("~/.vimrc.local"))               " Include user's local vim config
+  source ~/.vimrc.local
+endif
 filetype plugin indent on
 set encoding=utf-8                                      " encoding to utf-8
 set fileencoding=utf-8                                  " file encoding
@@ -321,8 +338,46 @@ nnoremap <silent> <leader>sh :VimShellCreate<CR>
 " let g:completor_python_binary = '/path/to/python/with/jedi/installed'
 let g:completor_auto_trigger = 0
 inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
-
-
+"  jedi-vim
+" ----------------------------------------------------------------------------"
+let g:jedi#popup_on_dot = 0
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#show_call_signatures = "0"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#smart_auto_mappings = 0
+"  syntastic
+" ----------------------------------------------------------------------------"
+let g:syntastic_python_checkers=['python', 'flake8']
+"  Polyglot
+" ----------------------------------------------------------------------------"
+let g:polyglot_disabled = ['python']                    " Default highlight is better than polyglot
+let python_highlight_all = 1
+"*****************************************************************************
+"" Language Specific Settings
+"*****************************************************************************
+"  HTML
+" ----------------------------------------------------------------------------"
+" for html files, 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+"  JAVASCRIPT
+" ----------------------------------------------------------------------------"
+let g:javascript_enable_domhtmlcss = 1
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
+augroup END
+"  PYTHON
+" ----------------------------------------------------------------------------"
+augroup vimrc-python
+  autocmd!
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+      \ formatoptions+=croq softtabstop=4
+      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup END
 
 
 
