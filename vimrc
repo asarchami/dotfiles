@@ -46,6 +46,7 @@ Plug 'vim-scripts/grep.vim'                             " Plugin to integrate va
 Plug 'Shougo/vimproc.vim', {'do': 'make'}               " Asynchronous execution library for Vim
 Plug 'Shougo/vimshell.vim'                              " Support for shell
 Plug 'sheerun/vim-polyglot'                             " A collection of language packs for Vim
+Plug 'maralla/completor.vim'                            " Completor is an asynchronous code completion framework for vim8
 
 if filereadable(expand("~/.vimrc.local.bundles"))
   source ~/.vimrc.local.bundles                         " Include user's extra bundle
@@ -312,6 +313,11 @@ let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt =  '$ '
 " terminal emulation
 nnoremap <silent> <leader>sh :VimShellCreate<CR>
+"  Completor
+" ----------------------------------------------------------------------------"
+" let g:completor_python_binary = '/path/to/python/with/jedi/installed'
+let g:completor_auto_trigger = 0
+inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
 
 
 
