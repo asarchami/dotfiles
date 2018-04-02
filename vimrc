@@ -356,6 +356,12 @@ let g:syntastic_python_checkers=['python', 'flake8']
 " ----------------------------------------------------------------------------"
 let g:polyglot_disabled = ['python']                    " Default highlight is better than polyglot
 let python_highlight_all = 1
+"  emmet
+" ----------------------------------------------------------------------------"
+" let g:user_emmet_leader_key='<C-e>' " map emmet to C-e
+" let g:user_emmet_expandabbr_key='<Tab>'
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+imap <C-e> <C-y>,
 "*****************************************************************************
 "" Language Specific Settings
 "*****************************************************************************
