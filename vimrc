@@ -35,6 +35,7 @@ Plug 'tpope/vim-fugitive'                               " The best Git wrapper
 Plug 'tpope/vim-commentary'                             " Comment stuff out
 Plug 'tpope/vim-surround'                               " Surround.vim is all about 'surroundings': parentheses, brackets, quotes, XML tags, and more
 Plug 'tpope/vim-repeat'                                 " remaps . in a way that plugins can tap into it.
+Plug 'airblade/vim-gitgutter'                           " Vim plugin which shows a git diff in the 'gutter' (sign column)
 Plug 'vim-airline/vim-airline'                          " Lean & mean status/tabline for vim that's light as air
 Plug 'vim-airline/vim-airline-themes'                   " airline theme
 Plug 'yggdroot/leaderf', { 'do': './install.sh' }       " An alternative for CtrlP but much faster!
