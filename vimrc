@@ -270,6 +270,7 @@ cnoreabbrev Qall qall
 " Assign C-P for LeaderF
 let g:Lf_ShortcutF = '<C-P>'
 let g:Lf_WindowHeight = 0.2
+let g:Lf_ExternalCommand = "cd %s && git ls-files --recurse-submodules"
 
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
