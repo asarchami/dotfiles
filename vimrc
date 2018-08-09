@@ -49,7 +49,11 @@ Plug 'Shougo/vimshell.vim'                              " Support for shell
 Plug 'maralla/completor.vim'                            " Completor is an asynchronous code completion framework for vim8
 Plug 'bronson/vim-trailing-whitespace'                  " This plugin causes all trailing whitespace to be highlighted in red
 Plug 'Raimondi/delimitMate'                             " This plug-in provides automatic closing of quotes, parenthesis, brackets, etc
+Plug 'krisajenkins/vim-pipe'                            " Associates a shell command with a file
+Plug 'mklabs/split-term.vim'                            " Utilities around neovim's terminal
 
+Plug 'krisajenkins/vim-postgresql-syntax'               " Vim syntax for Postgres
+Plug 'alcesleo/vim-uppercase-sql'                       " Upper case for sql commands in a SQL file
 Plug 'scrooloose/syntastic'                             " syntax checking plugin for Vim
 Plug 'sheerun/vim-polyglot'                             " A collection of language packs for Vim
 Plug 'gorodinskiy/vim-coloresque'                       " color preview for vim
@@ -308,6 +312,7 @@ let g:Lf_ShortcutB = '<C-O>'                            " Assign C-O to search i
 let g:Lf_StlColorscheme = 'powerline'                   " colorscheme
 let g:Lf_WindowHeight = 0.2                             " Take 20% of vertical space
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+let g:Lf_ExternalCommand = "cd %s && git ls-files --recurse-submodules"
 "  NerdTree
 " ----------------------------------------------------------------------------"
 let g:NERDTreeChDirMode=2
