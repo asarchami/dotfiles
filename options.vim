@@ -128,8 +128,3 @@ else
     set shell=/bin/sh
 endif
 
-" if !exists('g:not_finish_vimplug')
-"     colorscheme onedark                                 " Set colorscheme to onedark
-" endif
-
-

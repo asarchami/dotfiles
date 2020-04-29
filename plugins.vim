@@ -516,6 +516,9 @@ let g:vim_markdown_json_frontmatter = 1  " for JSON format
 let g:vim_markdown_toc_autofit = 1
 
 "{{ UI: Status line, look
+"""""""""""""""""""""""""""""onedark color scheme"""""""""""""""""""""""""""""
+colorscheme onedark                                 " Set colorscheme to onedark
+
 """""""""""""""""""""""""""vim-airline setting""""""""""""""""""""""""""""""
 let g:airline_theme = 'onedark'
 let g:airline#extensions#syntastic#enabled = 1
