@@ -49,8 +49,15 @@ Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
 " Python indent (follows the PEP8 style)
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 
+" Black code formatter
+Plug 'psf/black', { 'tag': '*'  }
+" Plug 'ambv/black'
+
 " Python-related text object
 Plug 'jeetsukumaran/vim-pythonsense'
+
+" PUDB Integration with NeoVim
+Plug 'skyleach/pudb.vim'
 "}}
 
 "{{ Search related plugins
@@ -288,6 +295,10 @@ let g:SuperTabMappingBackward = '<s-tab>'
 "}}
 
 "{{ Python-related
+""""""""""""""""""black settings"""""""""""""""""""""""""""
+autocmd BufWritePre *.py execute ':Black'
+nnoremap <leader>b :Black<CR>
+
 """"""""""""""""""deoplete-jedi settings"""""""""""""""""""""""""""
 " Whether to show doc string
 let g:deoplete#sources#jedi#show_docstring = 0
@@ -304,6 +315,8 @@ let g:jedi#completions_enabled = 0
 
 " Whether to show function call signature
 let g:jedi#show_call_signatures = '0'
+" Change <leader>g to <lkeader>D to prevent conflict
+let g:jedi#goto_assignments_command = '<leader>D'
 
 """""""""""""""""""""""""" semshi settings """""""""""""""""""""""""""""""
 " Do not highlight for all occurances of variable under cursor
@@ -372,6 +385,7 @@ nnoremap <silent> <leader>f :Leaderf file --popup<CR>
 " Toggle nerdtree window and keep cursor in file window,
 " adapted from https://stackoverflow.com/q/24808932/6064933
 nnoremap <silent> <Space>s :NERDTreeToggle<CR>:wincmd p<CR>
+nnoremap <silent> <Space>S :NERDTreeToggle<CR>
 
 " Reveal currently editted file in nerdtree widnow,
 " see https://stackoverflow.com/q/7692233/6064933
@@ -469,6 +483,8 @@ let g:neoformat_enabled_c = ['clangformat']
 "}}
 
 "{{ Git-related
+"""""""""""""""""""""""""fugitive settings""""""""""""""""""""""""""""""
+nnoremap <leader>g : Gstatus<CR>
 """""""""""""""""""""""""vim-signify settings""""""""""""""""""""""""""""""
 " The VCS to use
 let g:signify_vcs_list = [ 'git' ]
