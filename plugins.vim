@@ -468,7 +468,7 @@ let g:ale_linters = {
 let g:ale_linters_explicit = 1
 
 " Linter signs
-let g:ale_sign_error = '⨯'
+let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '!'
 
 """""""""""""""""""""""""""""" neoformat settings """""""""""""""""""""""
