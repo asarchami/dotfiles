@@ -76,6 +76,13 @@ Plug 'haya14busa/vim-asterisk'
 
 " File search, tag search and more
 Plug 'Yggdroot/LeaderF'
+
+" Ack
+" brew install the_silver_searcher
+" install silversearcher-ag
+" yum install the_silver_searcher
+Plug 'mileszs/ack.vim'
+
 "}}
 
 "{{ UI: Color, theme etc.
@@ -328,6 +335,9 @@ let g:semshi#error_sign=v:false
 
 "{{ Search related
 """""""""""""""""""""""""""""vim-sneak settings"""""""""""""""""""""""
+" use ag instead of ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 " Use sneak label mode
 let g:sneak#label = 1
 
