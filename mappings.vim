@@ -25,7 +25,7 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-" Paste mode toggle, it seems that Neovim's bracketed paste mode
+" Paste mode toggle, it seems that Neovim's bracketed paste mod
 " does not work very well for nvim-qt, so we use good-old paste mode
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -34,7 +34,7 @@ set pastetoggle=<F2>
 noremap <leader>z :bp<CR>
 noremap <leader>q :bp<CR>
 noremap <leader>x :bn<CR>
-noremap <leader>w :bn<CR>
+noremap <leader>w :q<CR>
 " Close buffer
 noremap <leader>c :bd<CR>
 " Clean search (highlight)
