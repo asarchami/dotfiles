@@ -1,5 +1,5 @@
 " Change leader mapping
-let mapleader = ','
+let mapleader = ' '
 
 " Set syntax highlighting on
 syntax on
