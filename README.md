@@ -10,4 +10,6 @@ Tmux config  are based on [This](https://github.com/samoshkin/tmux-config).
 * ag(silver search bar)
 
 # Install
-Run: wget -O - `https://raw.githubusercontent.com/asarchami/dotfiles/add_tmux/install.sh | bash`
+```
+wget -O - https://raw.githubusercontent.com/asarchami/dotfiles/add_tmux/install.sh | bash
+```
