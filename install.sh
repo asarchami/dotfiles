@@ -1,6 +1,6 @@
 #/usr/bin/bash
 
-git clone https://github.com/asarchami/dotfiles.git
+git clone --branch add_tmux https://github.com/asarchami/dotfiles.git
 rm -rf ~/.config/nvim
 mkdir ~/.config/nvim
 cp dotfiles/*.vim ~/.config/nvim
