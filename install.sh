@@ -14,11 +14,11 @@ Install it first\n"
   exit 1
 fi
 
-
 rm -rf dotfiles
 git clone  https://github.com/asarchami/dotfiles.git
-rm -rf ~/.config/nvim
-rm -rf ~/.tmux*
+mv ~/.config/nvim ~/.config/nvim-back
+mv ~/.tmux ~/.tmux-back
+mv ~/.tmux.conf ~/.tmux.conf-back
 mkdir ~/.config/nvim
 cp dotfiles/*.vim ~/.config/nvim
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
