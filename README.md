@@ -11,5 +11,5 @@ Tmux config  are based on [This](https://github.com/samoshkin/tmux-config).
 
 # Install
 ```
-wget -O - https://raw.githubusercontent.com/asarchami/dotfiles/add_tmux/install.sh | bash
+wget -O - https://raw.githubusercontent.com/asarchami/dotfiles/master/install.sh | bash
 ```
