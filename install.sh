@@ -16,7 +16,7 @@ fi
 
 
 rm -rf dotfiles
-git clone --branch add_tmux https://github.com/asarchami/dotfiles.git
+git clone  https://github.com/asarchami/dotfiles.git
 rm -rf ~/.config/nvim
 rm -rf ~/.tmux*
 mkdir ~/.config/nvim
