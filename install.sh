@@ -16,9 +16,9 @@ fi
 
 rm -rf dotfiles
 git clone  https://github.com/asarchami/dotfiles.git
-mv ~/.config/nvim ~/.config/nvim-back
-mv ~/.tmux ~/.tmux-back
-mv ~/.tmux.conf ~/.tmux.conf-back
+rm -rf ~/.config/nvim-back && mv ~/.config/nvim ~/.config/nvim-back || true
+rm -rf ~/.tmux && mv ~/.tmux ~/.tmux-back || true
+rm -rf ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf-back || true
 mkdir ~/.config/nvim
 cp dotfiles/*.vim ~/.config/nvim
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
