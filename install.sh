@@ -15,7 +15,7 @@ Install it first\n"
 fi
 
 rm -rf dotfiles
-git clone --branch coc --single-branch https://github.com/asarchami/dotfiles.git
+git clone  https://github.com/asarchami/dotfiles.git
 rm -rf ~/.config/nvim-back && mv ~/.config/nvim ~/.config/nvim-back || true
 rm -rf ~/.tmux && mv ~/.tmux ~/.tmux-back || true
 rm -rf ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf-back || true
