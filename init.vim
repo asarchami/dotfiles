@@ -30,7 +30,6 @@ Plug 'hzchirs/vim-material'                             " material color themes
 Plug 'gregsexton/MatchTag'                              " highlight matching html tags
 
 "}}}
-
 " ================= Functionalities ================= "{{{
 
 " auto completion, Lang servers and stuff
@@ -40,32 +39,27 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }    " install fzf
 Plug 'junegunn/fzf.vim'                                " fuzzy search integration
 
-
-" snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'                               " actual snippets
-
 " visual
-Plug 'alvan/vim-closetag'                               " auto close html tags
 Plug 'Yggdroot/indentLine'                              " show indentation lines
+Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
+Plug 'hzchirs/vim-material'				                " material color themes
 
-" languages
-Plug 'tpope/vim-liquid'                                 " liquid language support
-Plug 'dart-lang/dart-vim-plugin'                        " dart language support
+
+" languages support
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
+Plug 'liuchengxu/vista.vim'                             " a bar of tags
+
+" text
+Plug 'tpope/vim-commentary'                             " better commenting
+" Plug 'tpope/vim-surround'                               " surround stuff
+Plug 'machakann/vim-sandwich'                           " make sandwiches
+Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
+
+" Git
+Plug 'tpope/vim-fugitive'                               " git support
 
 " other
-Plug 'tpope/vim-commentary'                             " better commenting
-Plug 'mhinz/vim-startify'                               " cool start up screen
-Plug 'kristijanhusak/vim-carbon-now-sh'                 " lit code Screenshots
-Plug 'tpope/vim-fugitive'                               " git support
-Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
-Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
-Plug 'wellle/tmux-complete.vim'                         " complete words from a tmux panes
-Plug 'liuchengxu/vista.vim'                             " a bar of tags
 Plug 'tpope/vim-eunuch'                                 " run common Unix commands inside Vim
-Plug 'machakann/vim-sandwich'                           " make sandwiches
-Plug 'easymotion/vim-easymotion'                        " make movement a lot faster and easier
 Plug '907th/vim-auto-save'                              " nothing beats this
 
 call plug#end()
@@ -73,20 +67,29 @@ call plug#end()
 "}}}
 
 " ==================== general config ======================== "{{{
-
+" performance tweaks
+set nocursorline
+set nocursorcolumn
+set scrolljump=5
+set lazyredraw
+set redrawtime=10000
+set synmaxcol=180
+set re=1
+set hidden
+set nowritebackup
+set cmdheight=2
+set updatetime=300
+set signcolumn=yes
 set termguicolors                                       " Opaque Background
 set mouse=a                                             " enable mouse scrolling
 set clipboard+=unnamedplus                              " use system clipboard by default
 filetype plugin indent on                               " enable indentations
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent            " tab key actions
 set incsearch ignorecase smartcase hlsearch             " highlight text while searching
-set list listchars=trail:»,tab:»-                       " use tab to navigate in list mode
 set fillchars+=vert:\▏                                  " requires a patched nerd font (try FiraCode)
 set wrap breakindent                                    " wrap long lines to the width set by tw
 set encoding=utf-8                                      " text encoding
 set number                                              " enable numbers on the left
-set relativenumber                                      " current line is 0
-set title                                               " tab title as file name
 set noshowmode                                          " dont show current mode below statusline
 set conceallevel=2                                      " set this so we wont break indentation plugin
 set splitright                                          " open vertical split to the right
@@ -104,7 +107,91 @@ set inccommand=nosplit                                  " visual feedback while 
 let loaded_netrw = 0                                    " diable netew
 let g:omni_sql_no_default_maps = 1                      " disable sql omni completion
 
-" Coloring
+" enable spell only if file type is normal text
+let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid']
+autocmd BufEnter * if index(spellable, &ft) < 0 | set nospell | else | set spell | endif
+
+autocmd FileType help wincmd L                          " open help in vertical split
+
+" tmux cursor shape
+if exists('$TMUX')
+    let &t_SI .= "\ePtmux;\e\e[=1c\e\\"
+    let &t_EI .= "\ePtmux;\e\e[=2c\e\\"
+else
+    let &t_SI .= "\e[=1c"
+    let &t_EI .= "\e[=2c"
+endif
+syntax on                                               " Set syntax highlighting on
+set ruler                                               " Set Ruler visible
+set noswapfile                                          " Disable creating swapfiles
+set matchpairs+=<:>,「:」                               " Set matching pairs of characters and highlight matching brackets
+set fileencoding=utf-8
+scriptencoding utf-8
+set wildmode=list:full                                  " List all items and start selecting matches in cmd completion
+set cursorline                                          " Show current line where the cursor is
+set colorcolumn=90                                      " Set a ruler at column 90
+set scrolloff=5                                         " Minimum lines to keep above and below cursor when scrolling
+set nobackup                                            " Do not create backup file
+set noswapfile                                          " Do not create swp file
+set fileformats=unix,dos,mac                            " Set fileformats
+
+set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe             " Ignore certain files and folders when globbing
+set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
+set wildignore+=*.pyc
+set wildignore+=*.DS_Store
+set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz
+
+set confirm                                             " Ask for confirmation when handling unsaved or read-only files
+set visualbell noerrorbells                             " Do not use visual and errorbells
+set list listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:+  " Use list mode and customized listchars
+set autowrite                                           " Auto-write the file based on some condition
+
+" Show hostname, full path of file and last-mod time on the window title. The
+" meaning of the format str for strftime can be found in
+" http://man7.org/linux/man-pages/man3/strftime.3.html. The function to get
+" lastmod time is drawn from https://stackoverflow.com/q/8426736/6064933
+set title
+set titlestring=
+set titlestring+=%(%{hostname()}\ \ %)
+set titlestring+=%(%{expand('%:p')}\ \ %)
+set titlestring+=%{strftime('%Y-%m-%d\ %H:%M',getftime(expand('%')))}
+
+set shortmess+=c                                        " Do not show "match xx of xx" and other messages during auto-completion
+
+" Completion behaviour
+" set completeopt+=noinsert  " Auto select the first completion entry
+set completeopt+=menuone  " Show menu even if there is only one item
+set completeopt-=preview  " Disable the preview window
+
+" Settings for popup menu
+set pumheight=15  " Maximum number of items to show in popup menu
+
+" Do not add two spaces after a period when joining lines or formatting texts,
+" see https://stackoverflow.com/q/4760428/6064933
+set nojoinspaces
+
+" Get shell environment
+if exists('$SHELL')
+    set shell=$SHELL
+else
+    set shell=/bin/sh
+endif
+
+" auto html tags closing, enable for markdown files as well
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.md'
+
+" relative numbers on normal mode only
+augroup numbertoggle
+  autocmd!
+  autocmd InsertLeave * set relativenumber
+  autocmd InsertEnter * set norelativenumber
+augroup END
+
+au BufRead,BufNewFile *.sbt,*.sc set filetype=scala         " Help Vim recognize *.sbt and *.sc as Scala files
+"}}}
+
+" ======================== Plugin Configurations ======================== "{{{
+" material
 let g:material_style='oceanic'
 set background=dark
 colorscheme vim-material
@@ -118,48 +205,13 @@ autocmd ColorScheme * highlight VertSplit cterm=NONE    " split color
 hi NonText guifg=bg                                     " mask ~ on empty lines
 hi clear CursorLineNr                                   " use the theme color for relative number
 hi CursorLineNr gui=bold                                " make relative number bold
-hi EasyMotionMoveHL guibg=#b16286 guifg=#ebdbb2 gui=NONE
 
 " colors for git (especially the gutter)
 hi DiffAdd  guibg=#0f111a guifg=#43a047
 hi DiffChange guibg=#0f111a guifg=#fdd835
 hi DiffRemoved guibg=#0f111a guifg=#e53935
 
-" coc multi cursor highlight color
-hi CocCursorRange guibg=#b16286 guifg=#ebdbb2
 
-" performance tweaks
-set nocursorline
-set nocursorcolumn
-set scrolljump=5
-set lazyredraw
-set redrawtime=10000
-set synmaxcol=180
-set re=1
-
-" required by coc
-set hidden
-set nobackup
-set nowritebackup
-set cmdheight=2
-set updatetime=300
-set shortmess+=c
-set signcolumn=yes
-
-" tmux cursor shape
-if exists('$TMUX')
-    let &t_SI .= "\ePtmux;\e\e[=1c\e\\"
-    let &t_EI .= "\ePtmux;\e\e[=2c\e\\"
-else
-    let &t_SI .= "\e[=1c"
-    let &t_EI .= "\e[=2c"
-endif
-
-
-
-"}}}
-
-" ======================== Plugin Configurations ======================== "{{{
 
 " Airline
 let g:airline_theme='material'
@@ -169,34 +221,64 @@ call airline#parts#define_raw('linenr', '%l')
 call airline#parts#define_accent('linenr', 'bold')
 let g:airline_section_z = airline#section#create(['%3p%%  ',
             \ g:airline_symbols.linenr .' ', 'linenr', ':%c '])
-let g:airline_section_warning = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_min_count = 2   " show tabline only if there is more than 1 buffer
-let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on tabs
-let airline#extensions#vista#enabled = 1                " vista integration
+            let g:airline_section_warning = ''
+            let g:airline#extensions#tabline#enabled = 1
+            let g:airline#extensions#tabline#buffer_min_count = 2   " show tabline only if there is more than 1 buffer
+            let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on tabs
+            let airline#extensions#vista#enabled = 1                " vista integration
 
-"" coc
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#virtualenv#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴➔' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
 
-" Use tab for trigger completion with characters ahead and navigate.
+" coc
+
+hi CocCursorRange guibg=#b16286 guifg=#ebdbb2                       " coc multi cursor highlight color
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" Navigate snippet placeholders using tab
-let g:coc_snippet_next = '<Tab>'
+let g:coc_snippet_next = '<Tab>'                                    " Navigate snippet placeholders using tab
 let g:coc_snippet_prev = '<S-Tab>'
-
-" Use enter to accept snippet expansion
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"              " Use enter to accept snippet expansion
+command! -nargs=0 Format :call CocAction('format')                  " Add `:Format` command to format current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport') " Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 Prettier :CocCommand prettier.formatFile          " coc prettier function
 
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
@@ -212,84 +294,9 @@ let g:coc_global_extensions = [
             \'coc-python',
             \'coc-xml',
             \'coc-syntax',
-            \'coc-flutter',
             \'coc-git',
             \'coc-metals'
             \]
-
-
-au BufRead,BufNewFile *.sbt,*.sc set filetype=scala     " Help Vim recognize *.sbt and *.sc as Scala files
-
-" indentLine
-let g:indentLine_char = '▏'
-let g:indentLine_color_gui = '#363949'
-
-" startify
-let g:startify_session_persistence = 1
-let g:startify_fortune_use_unicode = 1
-let g:startify_enable_special = 0
-
-" rainbow brackets
-let g:rainbow_active = 1
-
-" easymotion
-let g:EasyMotion_startofline = 0                        " keep cursor column when JK motion
-let g:EasyMotion_smartcase = 1                          " ignore case
-
-" auto save
-let g:auto_save        = 1
-let g:auto_save_silent = 1
-let g:auto_save_events = ["InsertLeave", "TextChanged", "FocusLost"]
-
-" semshi settings
-let g:semshi#error_sign	= v:false                       " let ms python lsp handle this
-
-"" FZF
-
-" general
-let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
-let $FZF_DEFAULT_OPTS="--reverse "                      " top to bottom
-
-" use rg by default
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-  set grepprg=rg\ --vimgrep
-endif
-
-"}}}
-
-" ======================== Auto Commands ============================= "{{{
-
-" enable spell only if file type is normal text
-let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid']
-autocmd BufEnter * if index(spellable, &ft) < 0 | set nospell | else | set spell | endif
-
-" open help in vertical split
-autocmd FileType help wincmd L
-
-" startify when there is no open buffer left
-autocmd BufDelete * if empty(filter(tabpagebuflist(), '!buflisted(v:val)')) | Startify | endif
-
-" open startify on start
-autocmd VimEnter * if argc() == 0 | Startify | endif
-
-" open files preview on enter and provided arg is a folder
-autocmd VimEnter * if argc() != 0 && isdirectory(argv()[0]) | Startify | endif
-autocmd VimEnter * if argc() != 0 && isdirectory(argv()[0]) | execute 'cd' fnameescape(argv()[0])  | endif
-autocmd VimEnter * if argc() != 0 && isdirectory(argv()[0]) | Files | endif
-
-" auto html tags closing, enable for markdown files as well
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.md'
-
-" python stuff
-autocmd FileType python nnoremap <leader>rn :Semshi rename
-
-" relative numbers on normal mode only
-augroup numbertoggle
-  autocmd!
-  autocmd InsertLeave * set relativenumber
-  autocmd InsertEnter * set norelativenumber
-augroup END
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -302,23 +309,61 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-"}}}
+command! -nargs=0 Format :call CocAction('format')                  " Use `:Format` to format current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>)            " Use `:Fold` to fold current buffer
 
-" ================== Custom Functions ===================== "{{{
+" indentLine
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_color_gui = '#363949'
 
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
+" rainbow brackets
+let g:rainbow_active = 1
 
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" coc prettier function
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
+" FZF
+let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
+let $FZF_DEFAULT_OPTS="--reverse "                      " top to bottom
 " files window with preview
 command! -bang -nargs=? -complete=dir Files
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
+command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+
+" use rg by default
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+endif
+
+" semshi
+autocmd FileType python nnoremap <leader>rn :Semshi rename
+
+
+" }}}
+
+" ======================== functions ======================== "{{{
+
+if !exists('*s:setupWrapping')
+  function s:setupWrapping()
+    set wrap
+    set wm=2
+    set textwidth=79
+  endfunction
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" show docs on things with K
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunctio
 
 " advanced grep(faster with preview)
 function! RipgrepFzf(query, fullscreen)
@@ -328,7 +373,6 @@ function! RipgrepFzf(query, fullscreen)
     let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
-command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 " floating fzf window with borders
 function! CreateCenteredFloatingWindow()
@@ -354,25 +398,27 @@ function! CreateCenteredFloatingWindow()
     au BufWipeout <buffer> exe 'bw '.s:buf
 endfunction
 
+" }}}
 
-" show docs on things with K
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunctio
+" ======================== key mapping ======================== "{{{
+let mapleader = ','                                     " Change leader mapping
 
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+nnoremap ; :
+xnoremap ; :
 
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-"}}}
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
-" ======================== Custom Mappings ====================== "{{{
-"" Common typos
+nnoremap <silent> <S-UP>    :exe "res +5"<CR>
+nnoremap <silent> <S-DOWN>  :exe "res -5"<CR>
+nnoremap <silent> <C-UP>    :exe "res +1"<CR>
+nnoremap <silent> <C-DOWN>  :exe "res -1"<CR>
+nnoremap <silent> <S-RIGHT> :exe "vertical res +5"<CR>
+nnoremap <silent> <S-LEFT>  :exe "vertical res -5"<CR>
+nnoremap <silent> <C-RIGHT> :exe "vertical res +1"<CR>
+nnoremap <silent> <C-LEFT>  :exe "vertical res -1"<CR>
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
 cnoreabbrev Qall! qall!
@@ -381,129 +427,100 @@ cnoreabbrev Wa wa
 cnoreabbrev wQ wq
 cnoreabbrev WQ wq
 cnoreabbrev W w
+cnoreabbrev X x
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-"" the essentials
-let mapleader=","
-nnoremap ; :
-map <F6> :Startify <CR>
-map <F4> :Vista!!<CR>
-nmap <leader>r :so ~/.config/nvim/init.vim<CR>
-map <leader>v :Vista finder<CR>
-nnoremap <silent> <leader>f :Files<CR>
-nmap <leader>b :Buffers<CR>
-nmap <leader>c :Commands<CR>
-map <leader>/ :Rg<CR>
-nmap <leader>w :w<CR>
-map <leader>s :Format<CR>
-nmap <Tab> :bnext<CR>
-nmap <S-Tab> :bprevious<CR>
-" noremap <leader>e :PlugInstall<CR>
-inoremap jj <ESC>
+" Paste mode toggle, it seems that Neovim's bracketed paste mod
+" does not work very well for nvim-qt, so we use good-old paste mode
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
 
-" nmap \ <leader>q
-" nmap <space>q :bd<CR>
-" Close a buffer and switching to another buffer, do not close the window
+" Clean search (highlight)
+nnoremap <silent> <leader><space> :noh<cr>
+" Switching windows
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+
+vmap < <gv                                                  " Vmap for maintain Visual Mode after shifting > and <
+vmap > >gv
+
+noremap <space>- :<C-u>split<CR>                            " Split
+noremap <space>\ :<C-u>vsplit<CR>
+
 nnoremap <space>q :bprevious <bar> :bdelete #<CR>
 noremap <C-q> :q<CR>
+nmap <Tab> :bnext<CR>
+nmap <S-Tab> :bprevious<CR>
 
-" " use a different buffer for delete and paste
-" nnoremap d "_d
-" vnoremap d "_d
-" vnoremap p "_dP
-" nnoremap x "_x
+nnoremap <leader><Tab> gt
+nnoremap <leader><S-Tab> gT
+nnoremap <silent> <S-t> :tabnew<CR>
 
-" emulate windows copy, cut behavior
-vnoremap <LeftRelease> "+y<LeftRelease>
-vnoremap <C-c> "+y<CR>
-vnoremap <C-x> "+d<CR>
+nnoremap <leader>. :lcd %:p:h<CR>                           " Set working directory
+" Opens an edit command with the path of the currently edited file filled in
+noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+" Opens a tab edit command with the path of the currently edited file filled
+noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
-" switch between splits using ctrl + {h,j,k,l}
-tnoremap <C-h> <C-\><C-N><C-w>h
-tnoremap <C-j> <C-\><C-N><C-w>j
-tnoremap <C-k> <C-\><C-N><C-w>k
-tnoremap <C-l> <C-\><C-N><C-w>l
-inoremap <C-h> <C-\><C-N><C-w>h
-inoremap <C-j> <C-\><C-N><C-w>j
-inoremap <C-k> <C-\><C-N><C-w>k
-inoremap <C-l> <C-\><C-N><C-w>l
-nnoremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <leader>p m`o<ESC>p``                              " Paste non-linewise text above or below current cursor, 
+nnoremap <leader>P m`O<ESC>p``
 
-" Split
-noremap <space>h :<C-u>split<CR>
-noremap <space>v :<C-u>vsplit<CR>
+nnoremap <leader>q :bprevious <bar> :bdelete #<CR>          " Close a buffer and switching to another buffer, do not close the
+
+nnoremap Y y$                          " Yank from current cursor position to the end of the line
+xnoremap $ g_                                               " Do not include white space characters when using $ in visual mode,
+
+" Search in selected region
+vnoremap / :<C-U>call feedkeys('/\%>'.(line("'<")-1).'l\%<'.(line("'>")+1)."l")<CR>
+
+map <F4> :Vista!!<CR>
+map <space>v :Vista finder<CR>
+nnoremap <silent> <space>f :Files<CR>
+nmap <space>b :Buffers<CR>
+nmap <space>c :Commands<CR>
+map <space>/ :Rg<CR>
+nmap <leader>w :w<CR>
+map <leader>s :Format<CR>
+
+inoremap jj <ESC>
+
+map <Enter> o<ESC>                                          " new line in normal mode and back
+map <S-Enter> O<ESC>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+
 
 "" coc mappings
-" multi cursor shortcuts
-nmap <silent> <C-c> <Plug>(coc-cursors-position)
+nmap <silent> <C-c> <Plug>(coc-cursors-position)            " multi cursor shortcuts
 nmap <silent> <C-a> <Plug>(coc-cursors-word)
 xmap <silent> <C-a> <Plug>(coc-cursors-range)
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)                " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" for global rename
-nmap <leader>rn <Plug>(coc-rename)
-
-" new line in normal mode and back
-map <Enter> o<ESC>
-map <S-Enter> O<ESC>
-
+nmap <leader>rn <Plug>(coc-rename)                          " for global rename
 " jump stuff
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" Used to expand decorations in worksheets
-nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
-
-" Use K to either doHover or show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" carbon sh now
-vnoremap <F8> :CarbonNowSh<CR>
-
-"" easy motion stuff
-" search behavior
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
-
-" quick navigation
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
-
-" fugitive mappings
-map <leader>d :Gdiffsplit<CR>
-
-" disable hl with 2 esc
-noremap <silent><esc> <esc>:noh<CR><esc>
-
-xmap <leader>F  <Plug>(coc-format-selected)                                 " Remap for format selected region
+xmap <leader>F  <Plug>(coc-format-selected)                 " Remap for format selected region
 nmap <leader>F  <Plug>(coc-format-selected)
 
+xmap <leader>a  <Plug>(coc-codeaction-selected)             " Remap for do codeAction of selected region, 
+nmap <leader>a  <Plug>(coc-codeaction-selected)             "ex: `<leader>aap` for current paragraph
 
-xmap <leader>a  <Plug>(coc-codeaction-selected)                             " Remap for do codeAction of selected region, 
-nmap <leader>a  <Plug>(coc-codeaction-selected)                             "ex: `<leader>aap` for current paragraph
-
-nmap <leader>ac  <Plug>(coc-codeaction)                                     " Remap for do codeAction of current line
-nmap <leader>qf  <Plug>(coc-fix-current)                                    " Fix autofix problem of current line
+nmap <leader>ac  <Plug>(coc-codeaction)                     " Remap for do codeAction of current line
+nmap <leader>qf  <Plug>(coc-fix-current)                    " Fix autofix problem of current line
 
 " Trigger for code actions
 " Make sure `"codeLens.enable": true` is set in your coc config
 nnoremap <leader>cl :<C-u>call CocActionAsync('codeLensAction')<CR>
-
-
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>                   " Show all diagnostics
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>                    " Manage extensions
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>                      " Show commands
@@ -523,4 +540,10 @@ nnoremap <silent> <space>tp :<C-u>CocCommand metals.tvp metalsPackages<CR>  " To
 nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>   " Toggle Tree View 'metalsCompile'
 nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>     " Toggle Tree View 'metalsBuild'
 nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsPackages<CR>     " Reveal current current class (trait or object) in Tree View 'metalsPackages'
-"}}}
+
+
+" fugitive mappings
+map <leader>d :Gdiffsplit<CR>
+map <leader>g :Gstatus<CR>
+
+" }}}
