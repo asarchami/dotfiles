@@ -1,0 +1,11 @@
+{
+    "python.jediEnabled": false,
+    "python.autoComplete.addBrackets": true,
+    "python.formatting.provider": "black",
+    "python.linting.flake8Enabled": true,
+    "diagnostic.errorSign": "×",
+    "diagnostic.warningSign": "!",
+    "snippets.priority": 10,
+    "metals.statusBarEnabled": true,
+    "coc.preferences.formatOnSaveFiletypes": ["scala"]
+}
