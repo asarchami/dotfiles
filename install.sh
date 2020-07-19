@@ -21,7 +21,7 @@ rm -rf ~/.tmux && mv ~/.tmux ~/.tmux-back || true
 rm -rf ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf-back || true
 mkdir ~/.config/nvim
 cp dotfiles/*.vim ~/.config/nvim
-cp dotfiles/coc-settings ~/.config/nvim
+cp dotfiles/coc-settings.json ~/.config/nvim
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp dotfiles/tmux.conf ~/.tmux.conf
 rm -rf dotfiles
