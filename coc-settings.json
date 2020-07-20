@@ -7,5 +7,6 @@
     "diagnostic.warningSign": "!",
     "snippets.priority": 10,
     "metals.statusBarEnabled": true,
-    "coc.preferences.formatOnSaveFiletypes": ["scala"]
+    "coc.preferences.formatOnSaveFiletypes": ["scala"],
+    "codeLens.enable": true
 }
