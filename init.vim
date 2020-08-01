@@ -48,6 +48,8 @@ Plug 'hzchirs/vim-material'				               									" material color themes
 " languages support
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} 									" better python
 Plug 'liuchengxu/vista.vim'                            									" a bar of tags
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 
 " text
 Plug 'tpope/vim-commentary'                            									" better commenting
