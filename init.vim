@@ -507,6 +507,7 @@ map <space>n :NERDTreeToggle<CR>
 nnoremap <silent> <space>d :windo diffthis<CR>
 nnoremap <silent> <space>D :diffoff!<CR>
 
+tnoremap <C-[> <C-\><C-n>                                                 " Exit from terminal
 
 "" coc mappings
 nmap <silent> <C-c> <Plug>(coc-cursors-position)           								" multi cursor shortcuts
