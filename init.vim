@@ -500,7 +500,8 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 map <space>n :NERDTreeToggle<CR>
 
-
+nnoremap <silent> <space>d :windo diffthis<CR>
+nnoremap <silent> <space>D :diffoff!<CR>
 "" coc mappings
 nmap <silent> <C-c> <Plug>(coc-cursors-position)           								" multi cursor shortcuts
 nmap <silent> <C-a> <Plug>(coc-cursors-word)
