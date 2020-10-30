@@ -92,7 +92,8 @@ set incsearch ignorecase smartcase hlsearch            									" highlight text
 set fillchars+=vert:\▏                                 									" requires a patched nerd font (try FiraCode)
 set wrap breakindent                                   									" wrap long lines to the width set by tw
 set encoding=utf-8                                     									" text encoding
-set number                                             									" enable numbers on the left
+set number relativenumber                                            					" enable relative numbers on the left
+set nu rnu                                                                              " set line number mode to hybrid
 set noshowmode                                         									" dont show current mode below statusline
 set conceallevel=2                                     									" set this so we wont break indentation plugin
 set splitright                                         									" open vertical split to the right
