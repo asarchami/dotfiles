@@ -455,7 +455,7 @@ noremap <space>- :<C-u>split<CR>                           								" Split
 noremap <space>\ :<C-u>vsplit<CR>
 
 nnoremap <space>q :bprevious <bar> :bdelete #<CR>
-noremap <C-q> :q<CR>
+noremap <C-q> :close<CR>                                                  " Prevent last pane from closing
 nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
 
