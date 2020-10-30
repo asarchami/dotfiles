@@ -28,7 +28,7 @@ Plug 'ryanoasis/vim-devicons'                          									" pretty icons e
 Plug 'luochen1990/rainbow'                             									" rainbow parenthesis
 Plug 'hzchirs/vim-material'                            									" material color themes
 Plug 'gregsexton/MatchTag'                             									" highlight matching html tags
-Plug 'preservim/nerdtree'                                                               " NERDTree
+Plug 'preservim/nerdtree'                                               " NERDTree
 
 "}}}
 " ================= Functionalities ================= "{{{
