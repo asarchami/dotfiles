@@ -28,6 +28,7 @@ Plug 'ryanoasis/vim-devicons'                          									" pretty icons e
 Plug 'luochen1990/rainbow'                             									" rainbow parenthesis
 Plug 'hzchirs/vim-material'                            									" material color themes
 Plug 'gregsexton/MatchTag'                             									" highlight matching html tags
+Plug 'preservim/nerdtree'                                                               " NERDTree
 
 "}}}
 " ================= Functionalities ================= "{{{
@@ -496,6 +497,7 @@ map <Enter> o<ESC>                                         								" new line in
 map <S-Enter> O<ESC>
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
+map <space>n :NERDTreeToggle<CR>
 
 
 "" coc mappings
