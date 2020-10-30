@@ -187,8 +187,8 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.md'
 " relative numbers on normal mode only
 augroup numbertoggle
   autocmd!
-  autocmd InsertLeave * set relativenumber
-  autocmd InsertEnter * set norelativenumber
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 
 au BufRead,BufNewFile *.sbt,*.sc set filetype=scala        								" Help Vim recognize *.sbt and *.sc as Scala files
