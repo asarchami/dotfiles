@@ -51,6 +51,7 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} 									" better python
 Plug 'liuchengxu/vista.vim'                            									" a bar of tags
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'psf/black', { 'branch': 'stable' }                                " black formatter for python
 
 " text
 Plug 'tpope/vim-commentary'                            									" better commenting
@@ -340,6 +341,9 @@ endif
 
 " semshi
 autocmd FileType python nnoremap <leader>rn :Semshi rename
+
+" black
+autocmd BufWritePre *.py execute ':Black'
 
 
 " }}}
