@@ -126,6 +126,7 @@ else
     let &t_SI .= "\e[=1c"
     let &t_EI .= "\e[=2c"
 endif
+set paste                                                               " Set paste
 syntax on                                              									" Set syntax highlighting on
 set ruler                                              									" Set Ruler visible
 set noswapfile                                         									" Disable creating swapfiles
