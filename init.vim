@@ -72,8 +72,6 @@ call plug#end()
 
 " ==================== general config ======================== "{{{
 " performance tweaks
-set nocursorline
-set nocursorcolumn
 set scrolljump=5
 set lazyredraw
 set redrawtime=10000
@@ -135,6 +133,7 @@ set fileencoding=utf-8
 scriptencoding utf-8
 set wildmode=list:full                                 									" List all items and start selecting matches in cmd completion
 set cursorline                                         									" Show current line where the cursor is
+set cursorcolumn                                                        " Highlight currenct column
 set colorcolumn=90                                     									" Set a ruler at column 90
 set scrolloff=5                                        									" Minimum lines to keep above and below cursor when scrolling
 set nobackup                                           									" Do not create backup file
