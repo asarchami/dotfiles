@@ -11,9 +11,9 @@ is_app_installed() {
 install_nvim() {
 	nvim_link="https://github.com/neovim/neovim/releases/download/stable/nvim.appimage"
 	mkdir -p ~/.local/bin
-	curl -Lo ~/.local/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage \
-    && chmod +x nvim.appimage
-    && mv nvim.appimage /usr/local/bin/nvim
+	curl -Lo ~/.local/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage &&
+		chmod +x nvim.appimage &&
+		mv nvim.appimage /usr/local/bin/nvim
 }
 
 install_tmux() {
@@ -22,9 +22,9 @@ install_tmux() {
 		cut -d : -f 2,3 |
 		tr -d \" |
 		wget -qi - &&
-		chmod +x tmux.appimage \
-	&& mv tmux.appimage /usr/local/bin/tmux \
-  && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+		chmod +x tmux.appimage &&
+		mv tmux.appimage /usr/local/bin/tmux &&
+		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
 rm -rf dotfiles
