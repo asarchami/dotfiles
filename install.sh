@@ -5,23 +5,48 @@ set -u
 set -o pipefail
 
 is_app_installed() {
-  type "$1" &>/dev/null
+	type "$1" &>/dev/null
 }
 
-if ! is_app_installed tmux; then
-  printf "WARNING: \"tmux\" command is not found. \
-Install it first\n"
-  exit 1
-fi
+install_nvim() {
+	nvim_link="https://github.com/neovim/neovim/releases/download/stable/nvim.appimage"
+	mkdir -p ~/.local/bin
+	curl -Lo ~/.local/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage \
+    && chmod +x nvim.appimage
+    && mv nvim.appimage /usr/local/bin/nvim
+}
+
+install_tmux() {
+	curl -s https://api.github.com/repos/nelsonenzo/tmux-appimage/releases/latest |
+		grep "browser_download_url.*appimage" |
+		cut -d : -f 2,3 |
+		tr -d \" |
+		wget -qi - &&
+		chmod +x tmux.appimage \
+	&& mv tmux.appimage /usr/local/bin/tmux \
+  && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+}
 
 rm -rf dotfiles
-git clone  https://github.com/asarchami/dotfiles.git
-rm -rf ~/.config/nvim-back && mv ~/.config/nvim ~/.config/nvim-back || true
-rm -rf ~/.tmux && mv ~/.tmux ~/.tmux-back || true
-rm -rf ~/.tmux.conf && mv ~/.tmux.conf ~/.tmux.conf-back || true
-mkdir ~/.config/nvim
-cp dotfiles/*.vim ~/.config/nvim
-cp dotfiles/coc-settings.json ~/.config/nvim
+git clone https://github.com/asarchami/dotfiles.git
+
+## Tmux
+if ! is_app_installed tmux; then
+	printf "Error: \"tmux\" is not installed. Installing tmux.\n"
+	install_tmux
+fi
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-cp dotfiles/tmux.conf ~/.tmux.conf
+mkdir -p ~/.config
+cp -r dotfiles/tmux ~/.config
+
+## NeoVim
+if ! is_app_installed nvim; then
+	printf "Warning: \"nvim\" is not installed. Installing nvim.\n"
+	install_nvim
+fi
+# required
+mv ~/.config/nvim{,.bak} && mv ~/.local/share/nvim{,.bak} && mv ~/.local/state/nvim{,.bak} && mv ~/.cache/nvim{,.bak}
+
+mkdir -p ~/.config/nvim
+cp dotfiles/nvim ~/.config
 rm -rf dotfiles
