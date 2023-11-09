@@ -35,8 +35,10 @@ if ! is_app_installed tmux; then
 	printf "Error: \"tmux\" is not installed. Installing tmux.\n"
 	install_tmux
 fi
+echo "Installing Tmux plugin manager (tpm)"
 rm -rf ~/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+echo "Copying tmux config"
 mkdir -p ~/.config
 cp -r dotfiles/tmux ~/.config
 
@@ -46,8 +48,12 @@ if ! is_app_installed nvim; then
 	install_nvim
 fi
 # required
+echo "Backing up current nvim configs"
 mv ~/.config/nvim{,.bak} && mv ~/.local/share/nvim{,.bak} && mv ~/.local/state/nvim{,.bak} && mv ~/.cache/nvim{,.bak}
-
+echo "Installing LazyVim"
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+echo "Copying nvim config"
 mkdir -p ~/.config/nvim
 cp dotfiles/nvim ~/.config
+echo "Removing dotfiles"
 rm -rf dotfiles
