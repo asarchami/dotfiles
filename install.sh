@@ -35,6 +35,7 @@ if ! is_app_installed tmux; then
 	printf "Error: \"tmux\" is not installed. Installing tmux.\n"
 	install_tmux
 fi
+rm -rf ~/.tmux/plugins/tpm
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 mkdir -p ~/.config
 cp -r dotfiles/tmux ~/.config
