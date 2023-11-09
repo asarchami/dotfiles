@@ -54,6 +54,6 @@ echo "Installing LazyVim"
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 echo "Copying nvim config"
 mkdir -p ~/.config/nvim
-cp dotfiles/nvim ~/.config
+cp -r dotfiles/nvim ~/.config
 echo "Removing dotfiles"
 rm -rf dotfiles
