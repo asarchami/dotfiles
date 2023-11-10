@@ -49,7 +49,7 @@ if ! is_app_installed nvim; then
 fi
 # required
 echo "Backing up current nvim configs"
-mv ~/.config/nvim{,.bak} && mv ~/.local/share/nvim{,.bak} && mv ~/.local/state/nvim{,.bak} && mv ~/.cache/nvim{,.bak}
+rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 echo "Installing LazyVim"
 git clone https://github.com/LazyVim/starter ~/.config/nvim
 echo "Copying nvim config"
