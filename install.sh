@@ -52,6 +52,7 @@ echo "Backing up current nvim configs"
 rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 echo "Installing LazyVim"
 git clone https://github.com/LazyVim/starter ~/.config/nvim
+rm -rf ~/.config/nvim/.git
 echo "Copying nvim config"
 mkdir -p ~/.config/nvim
 cp -r dotfiles/nvim ~/.config
