@@ -13,7 +13,7 @@ install_nvim() {
 	mkdir -p ~/.local/bin
 	curl -Lo ~/.local/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage &&
 		chmod +x nvim.appimage &&
-		mv nvim.appimage /usr/local/bin/nvim
+		sudo mv nvim.appimage /usr/local/bin/nvim
 }
 
 install_tmux() {
@@ -23,7 +23,7 @@ install_tmux() {
 		tr -d \" |
 		wget -qi - &&
 		chmod +x tmux.appimage &&
-		mv tmux.appimage /usr/local/bin/tmux &&
+		sudo mv tmux.appimage /usr/local/bin/tmux &&
 		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 }
 
