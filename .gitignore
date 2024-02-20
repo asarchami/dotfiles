@@ -4,3 +4,4 @@ tags
 tmux.conf-old
 nvim/lazy-lock.json
 nvim/lazy-lock.json
+tmux/plugins
