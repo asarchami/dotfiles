@@ -10,8 +10,7 @@ is_app_installed() {
 
 install_nvim() {
 	nvim_link="https://github.com/neovim/neovim/releases/download/stable/nvim.appimage"
-	mkdir -p ~/.local/bin
-	curl -Lo ~/.local/bin/nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage &&
+	curl -Lo nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage &&
 		chmod +x nvim.appimage &&
 		sudo mv nvim.appimage /usr/local/bin/nvim
 }
