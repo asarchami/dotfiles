@@ -43,7 +43,7 @@ return {
     end,
     -- stylua: ignore
     keys = {
-      {"<leader>rr", "<Plug>RestNvim", desc = "Run request" },
+      {"<leader>rr", "<Plug>RestNvim", desc = "Run request", ft="http" },
     },
   },
 }
