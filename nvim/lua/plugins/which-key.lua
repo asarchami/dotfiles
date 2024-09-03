@@ -1,16 +1,13 @@
 return {
   {
     "folke/which-key.nvim",
-    opts = {
-      defaults = {
-        ["<leader>r"] = { name = "+rest client" },
-        ["<leader>n"] = { name = "+neorg" },
-        ["<leader>nj"] = { name = "+journal" },
-        ["<leader>nt"] = { name = "+tasks" },
-        ["<leader>nn"] = { name = "+notes" },
-        ["<leader>wd"] = { name = "+delete" },
-        ["<localleader>i"] = { name = "+insert" },
-      },
+    spec = {
+      { "<leader>nj", group = "journal" },
+      { "<leader>nn", group = "notes" },
+      { "<leader>nt", group = "tasks" },
+      { "<leader>r", group = "rest client" },
+      { "<leader>wd", group = "delete" },
+      { "<localleader>i", group = "insert" },
     },
   },
 }
