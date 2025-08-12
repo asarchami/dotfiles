@@ -1,0 +1,326 @@
+# Alacritty Terminal Configuration
+# Configuration for Alacritty, a cross-platform, OpenGL terminal emulator.
+# https://github.com/alacritty/alacritty
+
+# General settings
+# Note: live_config_reload is deprecated - Alacritty now automatically reloads configuration
+
+[env]
+# Environment variables
+TERM = "xterm-256color"
+
+[window]
+# Window dimensions (changes require restart)
+dimensions = { columns = 120, lines = 30 }
+
+# Window position (changes require restart)
+# position = { x = 0, y = 0 }
+
+# Window padding (changes require restart)
+padding = { x = 8, y = 8 }
+
+# Spread additional padding evenly around the terminal content
+dynamic_padding = false
+
+# Window decorations
+decorations = "full"
+
+# Background opacity
+opacity = 0.95
+
+# Startup Mode (changes require restart)
+startup_mode = "Windowed"
+
+# Window title
+title = "Alacritty"
+
+# Allow terminal applications to change Alacritty's window title
+dynamic_title = true
+
+# Window class (Linux/BSD only)
+class = { instance = "Alacritty", general = "Alacritty" }
+
+# GTK theme variant (Linux/BSD only) - deprecated, removed
+
+# Resize increments
+resize_increments = false
+
+# Option as Alt (macOS only)
+option_as_alt = "OnlyLeft"
+
+[scrolling]
+# Maximum number of lines in the scrollback buffer
+history = 10000
+
+# Scrolling distance multiplier
+multiplier = 3
+
+[font]
+# Normal font (using Nerd Font for icons/glyphs support)
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+
+# Bold font
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+
+# Italic font
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+
+# Bold italic font
+bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
+
+# Font size
+size = 14.0
+
+# Offset is the extra space around each character. `offset.y` can be thought
+# of as modifying the line spacing, and `offset.x` as modifying the letter
+# spacing.
+offset = { x = 0, y = 0 }
+
+# Glyph offset determines the locations of the glyphs within their cells with
+# the default being at the bottom. Increasing `x` moves the glyph to the
+# right, increasing `y` moves the glyph upward.
+glyph_offset = { x = 0, y = 0 }
+
+# Use built-in font for box drawing characters
+builtin_box_drawing = true
+
+[bell]
+# Bell animation
+animation = "EaseOutExpo"
+
+# Bell duration
+duration = 0
+
+# Bell color
+color = "#ffffff"
+
+# Command to run when the bell is rung
+# command = "None"  # Deprecated - use program and args instead
+
+[selection]
+# This string contains all characters that are used as separators for
+# "semantic words" in Alacritty
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\\t"
+
+# When set to `true`, selected text will be copied to the primary clipboard
+save_to_clipboard = true
+
+[cursor]
+# Cursor style
+style = { shape = "Block", blinking = "Off" }
+
+# Vi mode cursor style
+vi_mode_style = "None"
+
+# Cursor blinking interval in milliseconds
+blink_interval = 750
+
+# Time after which cursor stops blinking, in seconds
+blink_timeout = 5
+
+# If this is `true`, the cursor will be rendered as a hollow box when the
+# window is not focused
+unfocused_hollow = true
+
+# Thickness of the cursor relative to the cell width as floating point number
+# from `0.0` to `1.0`
+thickness = 0.15
+
+[terminal]
+# Controls the OSC 52 behavior for clipboard interactions
+osc52 = "CopyPaste"
+
+# Shell configuration (updated format)
+[terminal.shell]
+program = "/opt/homebrew/bin/tmux" # <- Set your path
+args = ["new-session", "-A", "-D", "-s", "🏡 Home"]
+
+[mouse]
+# If this is `true`, the cursor is temporarily hidden when typing
+hide_when_typing = false
+
+[hints]
+# Terminal hints can be used to find text or hyperlinks in the visible part
+# of the terminal and pipe it to other applications
+enabled = [
+  { regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\\u0000-\\u001F\\u007F-\\u009F<>\"\\s{-}\\^⟨⟩`]+", hyperlinks = true, command = "open", post_processing = true, mouse = { enabled = true, mods = "None" }, binding = { key = "U", mods = "Control|Shift" } }
+]
+
+# Tokyo Night Theme
+[colors]
+# Default colors
+primary = { background = "#1a1b26", foreground = "#c0caf5" }
+
+# Cursor colors
+cursor = { text = "#1a1b26", cursor = "#c0caf5" }
+
+# Vi mode cursor colors
+vi_mode_cursor = { text = "#1a1b26", cursor = "#c0caf5" }
+
+# Selection colors
+selection = { text = "CellForeground", background = "#283457" }
+
+# Search colors
+search = { matches = { foreground = "#1a1b26", background = "#a9b1d6" }, focused_match = { foreground = "#1a1b26", background = "#9ece6a" } }
+
+# Keyboard regex hints
+hints = { start = { foreground = "#1a1b26", background = "#e0af68" }, end = { foreground = "#1a1b26", background = "#a9b1d6" } }
+
+# Line indicator
+line_indicator = { foreground = "None", background = "None" }
+
+# Normal colors
+normal = { black = "#15161e", red = "#f7768e", green = "#9ece6a", yellow = "#e0af68", blue = "#7aa2f7", magenta = "#bb9af7", cyan = "#7dcfff", white = "#a9b1d6" }
+
+# Bright colors
+bright = { black = "#414868", red = "#f7768e", green = "#9ece6a", yellow = "#e0af68", blue = "#7aa2f7", magenta = "#bb9af7", cyan = "#7dcfff", white = "#c0caf5" }
+
+# Indexed Colors
+indexed_colors = [
+  { index = 16, color = "#ff9e64" },
+  { index = 17, color = "#db4b4b" }
+]
+
+# Key bindings
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "Insert"
+mods = "Shift"
+action = "PasteSelection"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+[[keyboard.bindings]]
+key = "Equals"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Plus"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "NumpadAdd"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "NumpadSubtract"
+mods = "Control"
+action = "DecreaseFontSize"
+
+# Vi mode
+[[keyboard.bindings]]
+key = "Space"
+mods = "Shift|Control"
+action = "ToggleViMode"
+
+# Search
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Shift"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Control|Shift"
+action = "SearchBackward"
+
+# New instance
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+# Fullscreen
+[[keyboard.bindings]]
+key = "F11"
+mods = "None"
+action = "ToggleFullscreen"
+
+# Quit
+[[keyboard.bindings]]
+key = "Q"
+mods = "Control|Shift"
+action = "Quit"
+
+# Clear screen and scrollback
+[[keyboard.bindings]]
+key = "K"
+mods = "Control|Shift"
+action = "ClearHistory"
+
+# Clear screen
+[[keyboard.bindings]]
+key = "L"
+mods = "Control"
+chars = "\f"
+
+# Tmux-like bindings for splits (these send escape sequences to tmux)
+[[keyboard.bindings]]
+key = "D"
+mods = "Control|Shift"
+chars = "\u0001|"  # Ctrl-a + |
+
+[[keyboard.bindings]]
+key = "D"
+mods = "Control|Alt"
+chars = "\u0001-"  # Ctrl-a + -
+
+# Navigate tmux panes
+[[keyboard.bindings]]
+key = "H"
+mods = "Control|Shift"
+chars = "\u0001\u001b[D"  # Ctrl-a + Left
+
+[[keyboard.bindings]]
+key = "L"
+mods = "Control|Shift"
+chars = "\u0001\u001b[C"  # Ctrl-a + Right
+
+[[keyboard.bindings]]
+key = "K"
+mods = "Control|Alt"
+chars = "\u0001\u001b[A"  # Ctrl-a + Up
+
+[[keyboard.bindings]]
+key = "J"
+mods = "Control|Alt"
+chars = "\u0001\u001b[B"  # Ctrl-a + Down
+
+[debug]
+# Display the time it takes to redraw each frame
+render_timer = false
+
+# Keep the log file after quitting Alacritty
+persistent_logging = false
+
+# Log level
+log_level = "Warn"
+
+# Print all received window events
+print_events = false
+
+# Highlight window damage information
+highlight_damage = false
+
+# Use higher precision for rendering - deprecated in newer versions
+# prefer_egl = false
