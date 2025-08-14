@@ -25,6 +25,10 @@ A comprehensive, modular dotfiles setup for Neovim and tmux with intelligent Pyt
 - **Vim-style navigation** with intuitive pane switching
 - **Custom prefix** (Ctrl-a instead of Ctrl-b)
 - **Mouse support** and modern terminal features
+- **Visual session chooser** for easy navigation between sessions/windows
+- **Synchronized panes** for typing to multiple panes simultaneously
+- **True color support** with enhanced terminal compatibility
+- **Smart remote detection** with different status colors for SSH sessions
 - **Complete keymaps reference**: See [tmux/KEYMAPS.md](tmux/KEYMAPS.md)
 
 ### Alacritty Configuration
@@ -250,8 +254,11 @@ The tmux configuration includes TPM (Tmux Plugin Manager) for easy plugin manage
 **Key bindings**:
 - **Prefix**: `Ctrl-a` (instead of default `Ctrl-b`)
 - **Split panes**: `Ctrl-a + |` (vertical), `Ctrl-a + -` (horizontal)
-- **Navigate panes**: `Ctrl-a + h/j/k/l`
+- **Navigate panes**: `Ctrl-a + Ctrl-h/j/k/l`
+- **Navigate windows**: `Ctrl-a + h/l` (vim-style left/right)
 - **Resize panes**: `Ctrl-a + Ctrl-i/u/y/o`
+- **Session chooser**: `Ctrl-a + s` (visual tree navigation)
+- **Sync panes**: `Ctrl-a + y` (toggle synchronized typing)
 
 For complete tmux keymaps reference, see **[tmux/KEYMAPS.md](tmux/KEYMAPS.md)**.
 
