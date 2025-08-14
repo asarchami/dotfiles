@@ -136,54 +136,56 @@ return {
   -- None-ls (null-ls successor) configuration
   {
     "nvimtools/none-ls.nvim",
-    dependencies = { "mason.nvim" },
+    dependencies = { "mason.nvim", "jay-babu/mason-null-ls.nvim" },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local null_ls = require("null-ls")
       
-      local sources = {
-        -- General (always available)
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.diagnostics.shellcheck,
-        null_ls.builtins.formatting.shfmt,
-      }
+      -- Helper function to safely add source if builtin and tool exist
+      local function safe_add_source(sources_table, builtin, config, tool_name)
+        if builtin and (not tool_name or vim.fn.executable(tool_name) == 1) then
+          if config then
+            table.insert(sources_table, builtin.with(config))
+          else
+            table.insert(sources_table, builtin)
+          end
+        end
+      end
+      
+      local sources = {}
+      
+      -- General tools (add only if tool is available)
+      safe_add_source(sources, null_ls.builtins.formatting.prettier, nil, "prettier")
+      safe_add_source(sources, null_ls.builtins.diagnostics.eslint_d, nil, "eslint_d")
+      safe_add_source(sources, null_ls.builtins.diagnostics.shellcheck, nil, "shellcheck")
+      safe_add_source(sources, null_ls.builtins.formatting.shfmt, nil, "shfmt")
       
       -- Add Python sources if Python is available
       if is_python_available() then
-        vim.list_extend(sources, {
-          null_ls.builtins.formatting.black.with({
-            extra_args = { "--line-length", "88" },
-          }),
-          null_ls.builtins.formatting.isort.with({
-            extra_args = { "--profile", "black" },
-          }),
-          null_ls.builtins.diagnostics.flake8.with({
-            extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
-          }),
-          null_ls.builtins.diagnostics.mypy,
-        })
+        safe_add_source(sources, null_ls.builtins.formatting.black, {
+          extra_args = { "--line-length", "88" },
+        }, "black")
+        safe_add_source(sources, null_ls.builtins.formatting.isort, {
+          extra_args = { "--profile", "black" },
+        }, "isort")
+        safe_add_source(sources, null_ls.builtins.diagnostics.flake8, {
+          extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
+        }, "flake8")
+        safe_add_source(sources, null_ls.builtins.diagnostics.mypy, nil, "mypy")
       end
       
       -- Add Go sources if Go is available
       if is_go_available() then
-        vim.list_extend(sources, {
-          -- Go formatters
-          null_ls.builtins.formatting.gofumpt,
-          null_ls.builtins.formatting.goimports,
-          null_ls.builtins.formatting.golines.with({
-            extra_args = { "--max-len=120" },
-          }),
-          
-          -- Go linters
-          null_ls.builtins.diagnostics.golangci_lint.with({
-            extra_args = { "--fast" },
-          }),
-          
-          -- Go code actions
-          null_ls.builtins.code_actions.gomodifytags,
-          null_ls.builtins.code_actions.impl,
-        })
+        safe_add_source(sources, null_ls.builtins.formatting.gofumpt, nil, "gofumpt")
+        safe_add_source(sources, null_ls.builtins.formatting.goimports, nil, "goimports")
+        safe_add_source(sources, null_ls.builtins.formatting.golines, {
+          extra_args = { "--max-len=120" },
+        }, "golines")
+        safe_add_source(sources, null_ls.builtins.diagnostics.golangci_lint, {
+          extra_args = { "--fast" },
+        }, "golangci-lint")
+        safe_add_source(sources, null_ls.builtins.code_actions.gomodifytags, nil, "gomodifytags")
+        safe_add_source(sources, null_ls.builtins.code_actions.impl, nil, "impl")
       end
       
       null_ls.setup({
