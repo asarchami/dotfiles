@@ -69,14 +69,14 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 | Key Binding | Action | Description |
 |-------------|--------|-------------|
 | `v` | Begin selection | Start visual selection (in copy mode) |
-| `y` | Copy selection | Copy selection to system clipboard and exit copy mode (pbcopy on macOS, xclip on Linux) |
+| `y` | Copy selection | Copy selection to clipboard and exit copy mode |
 | `h/j/k/l` | Navigate | Vi-style movement in copy mode |
 | `Escape` | Exit copy mode | Exit copy mode without copying |
 
 ### Mouse Support
 | Action | Result | Description |
 |--------|--------|-------------|
-| Mouse drag | Copy selection | Automatically copies to system clipboard (cross-platform) |
+| Mouse drag | Copy selection | Automatically copies to clipboard |
 | Mouse click | Select pane | Click to focus pane |
 | Mouse wheel | Scroll | Scroll through pane content |
 

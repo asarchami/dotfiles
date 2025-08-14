@@ -298,7 +298,7 @@ install_dependencies() {
                 packages+=("luarocks")
             fi
             if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
-                packages+=("tmux" "xclip")
+                packages+=("tmux")
             fi
             
             for package in "${packages[@]}"; do
