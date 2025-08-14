@@ -225,6 +225,7 @@ install_dependencies() {
             done
             
             # Install Neovim (latest version)
+            print_info "Checking for Neovim installation..."
             if ! command -v nvim >/dev/null 2>&1; then
                 if [ "$DRY_RUN" = true ]; then
                     print_warning "Would install Neovim from AppImage"
@@ -236,7 +237,8 @@ install_dependencies() {
                     print_success "Neovim installed successfully"
                 fi
             else
-                print_info "Neovim is already installed (skipping)"
+                local nvim_path=$(command -v nvim)
+                print_info "Neovim is already installed at $nvim_path (skipping binary installation)"
             fi
             
             # Install Alacritty from official PPA (newer than apt version)
