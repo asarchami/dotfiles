@@ -196,35 +196,7 @@ return {
     end,
   },
 
-  -- Additional Go tools via none-ls
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local null_ls = require("null-ls")
 
-      null_ls.setup({
-        sources = {
-          -- Go formatters
-          null_ls.builtins.formatting.gofumpt,
-          null_ls.builtins.formatting.goimports_reviser,
-          null_ls.builtins.formatting.golines.with({
-            extra_args = { "--max-len=120" },
-          }),
-          
-          -- Go linters
-          null_ls.builtins.diagnostics.golangci_lint.with({
-            extra_args = { "--fast" },
-          }),
-          null_ls.builtins.diagnostics.staticcheck,
-          
-          -- Go code actions
-          null_ls.builtins.code_actions.gomodifytags,
-          null_ls.builtins.code_actions.impl,
-        },
-      })
-    end,
-  },
 
   -- Go-specific which-key mappings (loaded only for Go files)
   {

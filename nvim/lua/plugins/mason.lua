@@ -152,9 +152,15 @@ return {
       -- Add Python sources if Python is available
       if is_python_available() then
         vim.list_extend(sources, {
-          null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.isort,
-          null_ls.builtins.diagnostics.flake8,
+          null_ls.builtins.formatting.black.with({
+            extra_args = { "--line-length", "88" },
+          }),
+          null_ls.builtins.formatting.isort.with({
+            extra_args = { "--profile", "black" },
+          }),
+          null_ls.builtins.diagnostics.flake8.with({
+            extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
+          }),
           null_ls.builtins.diagnostics.mypy,
         })
       end
@@ -162,8 +168,21 @@ return {
       -- Add Go sources if Go is available
       if is_go_available() then
         vim.list_extend(sources, {
+          -- Go formatters
           null_ls.builtins.formatting.gofumpt,
           null_ls.builtins.formatting.goimports,
+          null_ls.builtins.formatting.golines.with({
+            extra_args = { "--max-len=120" },
+          }),
+          
+          -- Go linters
+          null_ls.builtins.diagnostics.golangci_lint.with({
+            extra_args = { "--fast" },
+          }),
+          
+          -- Go code actions
+          null_ls.builtins.code_actions.gomodifytags,
+          null_ls.builtins.code_actions.impl,
         })
       end
       

@@ -1,4 +1,14 @@
--- Python development support
+-- Python development support (only loads if Python is available)
+
+-- Check if Python is available
+local function is_python_available()
+  return vim.fn.executable("python3") == 1 or vim.fn.executable("python") == 1
+end
+
+-- Only return Python plugins if Python is installed
+if not is_python_available() then
+  return {}
+end
 
 -- Shared utility function for finding Python executable
 local function find_python_executable()
@@ -289,50 +299,7 @@ return {
     end,
   },
 
-  -- None-ls for formatting and additional linting (successor to null-ls)
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local null_ls = require("null-ls")
 
-      null_ls.setup({
-        sources = {
-          -- Python formatters
-          null_ls.builtins.formatting.black.with({
-            extra_args = { "--line-length", "88" },
-          }),
-          null_ls.builtins.formatting.isort.with({
-            extra_args = { "--profile", "black" },
-          }),
-          
-          -- Python linters
-          null_ls.builtins.diagnostics.flake8.with({
-            extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
-          }),
-          null_ls.builtins.diagnostics.mypy.with({
-            extra_args = function()
-              local python_path = find_python_executable()
-              if python_path ~= "python" then -- Only add if we found a specific path
-                return { "--python-executable", python_path }
-              end
-              return {}
-            end,
-          }),
-        },
-        on_attach = function(client, bufnr)
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr })
-              end,
-            })
-          end
-        end,
-      })
-    end,
-  },
 
   -- Python-specific which-key mappings (loaded only for Python files)
   {
