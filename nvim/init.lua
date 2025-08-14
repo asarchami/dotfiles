@@ -17,40 +17,19 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Load plugins from lua/plugins/init.lua with throttled downloads
-require("lazy").setup(require("plugins.init"), {
-  -- Performance settings for remote systems
-  concurrency = 2,  -- Limit concurrent downloads (default is 8)
-  
+-- Detect if running on a remote machine (SSH session)
+local is_remote = os.getenv("SSH_CLIENT") or os.getenv("SSH_TTY") or os.getenv("SSH_CONNECTION")
+
+-- Base configuration for Lazy.nvim
+local lazy_config = {
   -- UI configuration
   ui = {
-    -- Reduce UI refresh rate to lower resource usage
-    throttle = 100,  -- milliseconds between updates (default is 20)
-    
     -- Show progress for downloads
     size = { width = 0.8, height = 0.8 },
     wrap = true,
   },
   
-  -- Git configuration for better reliability
-  git = {
-    -- Reduce timeout for git operations
-    timeout = 300,  -- 5 minutes (default is 120)
-    
-    -- Use shallow clones for faster downloads
-    clone_timeout = 120,  -- 2 minutes for cloning
-    
-    -- Throttle git operations
-    throttle = {
-      enabled = true,
-      -- Minimum time between git operations
-      rate = 2,  -- operations per second (default is no limit)
-      -- Maximum concurrent git operations
-      duration = 1000,  -- milliseconds
-    },
-  },
-  
-  -- Performance optimizations
+  -- Performance optimizations (always enabled)
   performance = {
     cache = {
       enabled = true,
@@ -85,7 +64,6 @@ require("lazy").setup(require("plugins.init"), {
   -- Checker configuration (for updates)
   checker = {
     enabled = false,  -- Disable automatic checking on startup
-    concurrency = 1,  -- Only check one plugin at a time when enabled
     notify = false,   -- Don't show notifications
     frequency = 3600, -- Check every hour when enabled
   },
@@ -95,4 +73,37 @@ require("lazy").setup(require("plugins.init"), {
     enabled = false,
     notify = false,
   },
-})
+}
+
+-- Apply remote-specific optimizations if running over SSH
+if is_remote then
+  -- Performance settings for remote systems
+  lazy_config.concurrency = 2  -- Limit concurrent downloads (default is 8)
+  
+  -- Reduce UI refresh rate to lower resource usage
+  lazy_config.ui.throttle = 100  -- milliseconds between updates (default is 20)
+  
+  -- Git configuration for better reliability on remote systems
+  lazy_config.git = {
+    -- Reduce timeout for git operations
+    timeout = 300,  -- 5 minutes (default is 120)
+    
+    -- Use shallow clones for faster downloads
+    clone_timeout = 120,  -- 2 minutes for cloning
+    
+    -- Throttle git operations
+    throttle = {
+      enabled = true,
+      -- Minimum time between git operations
+      rate = 1,  -- operations per second (default is no limit)
+      -- Maximum concurrent git operations
+      duration = 1000,  -- milliseconds
+    },
+  }
+  
+  -- Additional remote optimizations
+  lazy_config.checker.concurrency = 1  -- Only check one plugin at a time when enabled
+end
+
+-- Load plugins from lua/plugins/init.lua
+require("lazy").setup(require("plugins.init"), lazy_config)
