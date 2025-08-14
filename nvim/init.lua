@@ -3,101 +3,96 @@ require("config.init")
 
 -- Color setup is now handled in config/options.lua
 
--- Plugin manager bootstrap (mini.deps)
-local path_package = vim.fn.stdpath('data') .. '/site/'
-local mini_path = path_package .. 'pack/deps/start/mini.nvim'
-if not vim.loop.fs_stat(mini_path) then
-  vim.cmd('echo "Installing `mini.nvim`" | redraw')
-  local clone_cmd = {
-    'git', 'clone', '--filter=blob:none',
-    'https://github.com/echasnovski/mini.nvim', mini_path
-  }
-  vim.fn.system(clone_cmd)
-  vim.cmd('packadd mini.nvim | helptags ALL')
+-- Plugin manager bootstrap (lazy.nvim)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
--- Setup mini.deps
-require('mini.deps').setup({ path = { package = path_package } })
-
--- Helper function for adding plugins
-local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
-
--- Load plugins immediately (essential ones first)
-now(function()
-  -- Core configuration first
-  require("config.init")
+-- Load plugins from lua/plugins/init.lua with throttled downloads
+require("lazy").setup(require("plugins.init"), {
+  -- Performance settings for remote systems
+  concurrency = 2,  -- Limit concurrent downloads (default is 8)
   
-  -- Essential plugins that need to load early
-  add("folke/tokyonight.nvim")
-  require("plugins.colorscheme")
+  -- UI configuration
+  ui = {
+    -- Reduce UI refresh rate to lower resource usage
+    throttle = 100,  -- milliseconds between updates (default is 20)
+    
+    -- Show progress for downloads
+    size = { width = 0.8, height = 0.8 },
+    wrap = true,
+  },
   
-  add("nvim-treesitter/nvim-treesitter")
-  require("plugins.treesitter")
-end)
-
--- Load LSP and completion (high priority but can be slightly delayed)
-later(function()
-  add("williamboman/mason.nvim")
-  add("williamboman/mason-lspconfig.nvim")
-  add("jay-babu/mason-nvim-dap.nvim")
-  add("jay-babu/mason-null-ls.nvim")
-  add("nvimtools/none-ls.nvim")
-  require("plugins.mason")
+  -- Git configuration for better reliability
+  git = {
+    -- Reduce timeout for git operations
+    timeout = 300,  -- 5 minutes (default is 120)
+    
+    -- Use shallow clones for faster downloads
+    clone_timeout = 120,  -- 2 minutes for cloning
+    
+    -- Throttle git operations
+    throttle = {
+      enabled = true,
+      -- Minimum time between git operations
+      rate = 2,  -- operations per second (default is no limit)
+      -- Maximum concurrent git operations
+      duration = 1000,  -- milliseconds
+    },
+  },
   
-  add("neovim/nvim-lspconfig")
-  add("hrsh7th/nvim-cmp")
-  add("hrsh7th/cmp-nvim-lsp")
-  add("hrsh7th/cmp-buffer")
-  add("hrsh7th/cmp-path")
-  add("hrsh7th/cmp-cmdline")
-  add("L3MON4D3/LuaSnip")
-  add("saadparwaiz1/cmp_luasnip")
-end)
-
--- Load language-specific tools
-later(function()
-  -- Python support
-  add("mfussenegger/nvim-dap")
-  add("mfussenegger/nvim-dap-python")
-  add("rcarriga/nvim-dap-ui")
-  require("plugins.python")
-  require("plugins.dap")
+  -- Performance optimizations
+  performance = {
+    cache = {
+      enabled = true,
+    },
+    reset_packpath = true,
+    rtp = {
+      reset = true,
+      -- Add additional paths if needed
+      paths = {},
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen", 
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
   
-  -- Go support  
-  add("ray-x/go.nvim")
-  add("ray-x/guihua.lua")
-  require("plugins.go")
-end)
-
--- Load navigation and productivity tools
-later(function()
-  add("nvim-lua/plenary.nvim")
-  add("nvim-telescope/telescope.nvim")
-  add("nvim-telescope/telescope-fzf-native.nvim")
-  require("plugins.telescope")
+  -- Installation configuration
+  install = {
+    -- Show installation progress
+    missing = true,
+    
+    -- Use a colorscheme during installation
+    colorscheme = { "tokyonight", "default" },
+  },
   
-  add("nvim-neo-tree/neo-tree.nvim")
-  add("nvim-tree/nvim-web-devicons")
-  add("MunifTanjim/nui.nvim")
-  require("plugins.neo-tree")
+  -- Checker configuration (for updates)
+  checker = {
+    enabled = false,  -- Disable automatic checking on startup
+    concurrency = 1,  -- Only check one plugin at a time when enabled
+    notify = false,   -- Don't show notifications
+    frequency = 3600, -- Check every hour when enabled
+  },
   
-  add("lewis6991/gitsigns.nvim")
-  add("tpope/vim-fugitive")
-  require("plugins.git")
-end)
-
--- Load UI enhancements last (lowest priority)
-later(function()
-  add("nvim-lualine/lualine.nvim")
-  require("plugins.lualine")
-  
-  add("akinsho/bufferline.nvim")
-  require("plugins.bufferline")
-  
-  add("folke/which-key.nvim")
-  require("plugins.which-key")
-  
-  add("folke/noice.nvim")
-  add("rcarriga/nvim-notify")
-  require("plugins.noice")
-end)
+  -- Change detection (disable for better performance)
+  change_detection = {
+    enabled = false,
+    notify = false,
+  },
+})
