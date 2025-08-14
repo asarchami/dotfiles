@@ -87,7 +87,6 @@ return {
         verbose = false,
       })
     end,
-    event = {"CmdlineEnter"},
     ft = {"go", "gomod"},
     build = ':lua require("go.install").update_all_sync()'
   },
