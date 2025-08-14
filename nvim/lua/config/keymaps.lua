@@ -1,49 +1,57 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
-local Util = require("lazyvim.util")
-local map = vim.keymap.set
-local lazyterm = function()
-  Util.terminal(nil, { cwd = Util.root(), border = "single" })
-end
+-- Keymaps configuration
+-- NON-LEADER key mappings only
+-- All leader-based mappings are handled by which-key.lua
 
-local function switch_case()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local word = vim.fn.expand("<cword>")
-  local word_start = vim.fn.matchstrpos(vim.fn.getline("."), "\\k*\\%" .. (col + 1) .. "c\\k*")[2]
+-- Set leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-  -- Detect camelCase
-  if word:find("[a-z][A-Z]") then
-    -- Convert camelCase to snake_case
-    local snake_case_word = word:gsub("([a-z])([A-Z])", "%1_%2"):lower()
-    -- snake_case_word = snake_case_word:gsub("^%l", string.upper)
-    vim.api.nvim_buf_set_text(0, line - 1, word_start, line - 1, word_start + #word, { snake_case_word })
-  -- Detect snake_case
-  elseif word:find("_[a-z]") then
-    -- Convert snake_case to camelCase
-    local camel_case_word = word:gsub("(_)([a-z])", function(_, l)
-      return l:upper()
-    end)
-    camel_case_word = camel_case_word:gsub("^%l", string.upper)
-    vim.api.nvim_buf_set_text(0, line - 1, word_start, line - 1, word_start + #word, { camel_case_word })
-  else
-    print("Not a snake_case or camelCase word")
-  end
-end
+local keymap = vim.keymap.set
+local opts = { noremap = true, silent = true }
 
--- return { switch_case = switch_case }
-map("v", "<leader>cs", switch_case, { desc = "CamelCase<->SnakeCase" })
-map("n", "<leader>ft", lazyterm, { desc = "Terminal (root dir)" })
-map("n", "<leader>fT", function()
-  Util.terminal()
-end, { desc = "Terminal (cwd)" })
-map("n", "<c-/>", lazyterm, { desc = "Terminal (root dir)" })
-map("n", "<c-_>", lazyterm, { desc = "which_key_ignore" })
-map("n", "<leader>wda", function()
-  vim.cmd([[bufdo bw!]])
-  vim.cmd([[only]])
-end, { desc = "Delete all buffers and windows" })
-map("n", "<leader>wdd", "<cmd>q<CR>", { desc = "Delete current windows" })
-map("n", "gC", function()
-  require("treesitter-context").go_to_context(vim.v.count1)
-end, { silent = true, desc = "Go to context" })
+-- ===================================================================
+-- Non-leader keymaps (Ctrl, Alt, Shift combinations)
+-- ===================================================================
+
+-- Better escape
+keymap("i", "jk", "<Esc>", opts)
+
+-- Better window navigation (Ctrl + hjkl)
+keymap("n", "<C-h>", "<C-w>h", opts)
+keymap("n", "<C-j>", "<C-w>j", opts)
+keymap("n", "<C-k>", "<C-w>k", opts)
+keymap("n", "<C-l>", "<C-w>l", opts)
+
+-- Resize windows with arrows (Ctrl + arrows)
+keymap("n", "<C-Up>", ":resize +2<CR>", opts)
+keymap("n", "<C-Down>", ":resize -2<CR>", opts)
+keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+
+-- Navigate buffers (Shift + hl) - Uses BufferLine for better integration
+keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", opts)
+keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", opts)
+
+-- Move text up and down (Alt + jk)
+keymap("v", "<A-j>", ":m .+1<CR>==", opts)
+keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+
+-- Better paste in visual mode (don't overwrite register)
+keymap("v", "p", '"_dP', opts)
+
+-- Stay in indent mode
+keymap("v", "<", "<gv", opts)
+keymap("v", ">", ">gv", opts)
+
+-- Diagnostic navigation (without leader)
+keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+
+-- Quick save (without leader)
+keymap("n", "<C-s>", ":w<CR>", opts)
+keymap("i", "<C-s>", "<Esc>:w<CR>", opts)
+
+-- ===================================================================
+-- NOTE: All leader-based mappings are defined in which-key.lua
+-- This includes <leader>f, <leader>g, <leader>b, etc.
+-- =================================================================== 
