@@ -38,8 +38,9 @@ A comprehensive, modular dotfiles setup for Neovim and tmux with intelligent Pyt
 - Clipboard integration and search functionality
 
 ### Smart Language Loading
-- **Python Support**: Only loads when Python 3 is installed AND you're working on a Python project
+- **Python Support**: Only loads when Python 3 is installed AND you're working on a Python project  
 - **Go Support**: Only loads when Go is installed AND you're working on a Go project
+- **Automatic Detection**: Language tools are automatically excluded if the language runtime isn't available
 - **Core Tools**: Always available regardless of project type
 - **Performance**: Faster startup by not loading unnecessary plugins
 
@@ -161,6 +162,11 @@ For complete keymaps reference, see **[KEYMAPS.md](KEYMAPS.md)**.
 - Go is installed on the system
 - Working in a detected Go project
 
+**If Go is not installed:**
+- Go plugins are completely skipped
+- No Go LSP servers or tools are installed via Mason
+- Zero impact on startup time or functionality
+
 **Features:**
 - **LSP**: gopls language server
 - **Formatting**: gofumpt and goimports
@@ -262,7 +268,7 @@ For complete tmux keymaps reference, see **[tmux/KEYMAPS.md](tmux/KEYMAPS.md)**.
 
 ## Dependencies
 
-The setup script automatically installs core dependencies but **assumes Python and Go are already installed**:
+The setup script automatically installs core dependencies. **Python and Go are optional** - language-specific features will only load if the respective languages are installed:
 
 ### Core Dependencies (Auto-installed)
 **macOS (via Homebrew):**
