@@ -52,6 +52,7 @@ later(function()
   add("hrsh7th/cmp-cmdline")
   add("L3MON4D3/LuaSnip")
   add("saadparwaiz1/cmp_luasnip")
+end)
 
 -- Load language-specific tools
 later(function()
