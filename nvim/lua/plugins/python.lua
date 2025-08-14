@@ -50,6 +50,7 @@ return {
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-python",  -- Python adapter
     },
+    ft = "python",
     config = function()
       require("neotest").setup({
         adapters = {
@@ -113,6 +114,8 @@ return {
       "mfussenegger/nvim-dap-python",
     },
     branch = "regexp",
+    ft = "python",
+    cmd = { "VenvSelect", "VenvSelectCached", "VenvSelectCurrent" },
     config = function()
       require("venv-selector").setup({
         settings = {
@@ -157,6 +160,8 @@ return {
   -- Python REPL integration
   {
     "Vigemus/iron.nvim",
+    ft = "python",
+    cmd = { "IronRepl", "IronFocus", "IronRestart", "IronHide" },
     config = function()
       local iron = require("iron.core")
       

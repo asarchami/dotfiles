@@ -11,6 +11,16 @@ return {
         build = "make",
       },
     },
+    cmd = "Telescope",
+    keys = {
+      { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+      { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
+      { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
+      { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent files" },
+      { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find word under cursor" },
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
+      { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = "Change colorscheme" },
+    },
     config = function()
       local telescope = require("telescope")
       local actions = require("telescope.actions")

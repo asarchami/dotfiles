@@ -6,6 +6,10 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+    cmd = "LazyGit",
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "Open LazyGit" },
+    },
     config = function()
       vim.g.lazygit_floating_window_winblend = 0
       vim.g.lazygit_floating_window_scaling_factor = 0.9
@@ -17,6 +21,7 @@ return {
   -- Git signs for inline git indicators
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("gitsigns").setup({
         signs = {
