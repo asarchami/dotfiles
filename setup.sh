@@ -247,7 +247,7 @@ install_dependencies() {
                         # Ensure /usr/local/bin exists
                         sudo mkdir -p /usr/local/bin
                         # Download and install Neovim with size validation
-                        curl -Lo nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+                        curl -Lo nvim.appimage https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage
                         if [ -f nvim.appimage ] && [ $(stat -c%s nvim.appimage) -gt 1000000 ]; then
                             chmod +x nvim.appimage && \
                             sudo mv nvim.appimage /usr/local/bin/nvim
