@@ -203,7 +203,8 @@ install_dependencies() {
             fi
             
             # Install core dependencies individually (excluding Python and Go)
-            local packages=("neovim" "tmux" "alacritty" "git" "lazygit" "fzf" "ripgrep" "fd" "tree-sitter" "node" "npm")
+            # Note: tree-sitter is not needed as system package (Neovim handles it internally)
+            local packages=("neovim" "tmux" "alacritty" "git" "lazygit" "fzf" "ripgrep" "fd" "node" "npm")
             for package in "${packages[@]}"; do
                 install_brew_package "$package"
             done
@@ -211,6 +212,10 @@ install_dependencies() {
 
             ;;
         debian)
+            # Fix locale warnings
+            export LC_ALL=C.UTF-8
+            export LANG=C.UTF-8
+            
             sudo apt-get update
             
             # Install basic packages
@@ -258,7 +263,8 @@ install_dependencies() {
 
             
             # Install other core dependencies (excluding Python and Go)
-            local packages=("tmux" "fzf" "ripgrep" "fd-find" "tree-sitter" "nodejs" "npm")
+            # Note: tree-sitter is not needed as system package (Neovim handles it internally)
+            local packages=("tmux" "fzf" "ripgrep" "fd-find" "nodejs" "npm")
             for package in "${packages[@]}"; do
                 install_apt_package "$package"
             done
