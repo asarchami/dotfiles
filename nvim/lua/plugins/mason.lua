@@ -78,7 +78,38 @@ return {
         "shellcheck",       -- Shell script linter
         "shfmt",            -- Shell script formatter
       },
-      automatic_installation = true,
+      automatic_installation = false,  -- Disable to prevent conflicts
+      handlers = {},  -- Add empty handlers to prevent auto-setup conflicts
     },
+  },
+
+  -- None-ls (null-ls successor) configuration
+  {
+    "nvimtools/none-ls.nvim",
+    dependencies = { "mason.nvim" },
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local null_ls = require("null-ls")
+      
+      null_ls.setup({
+        sources = {
+          -- Python
+          null_ls.builtins.formatting.black,
+          null_ls.builtins.formatting.isort,
+          null_ls.builtins.diagnostics.flake8,
+          null_ls.builtins.diagnostics.mypy,
+          
+          -- Go
+          null_ls.builtins.formatting.gofumpt,
+          null_ls.builtins.formatting.goimports,
+          
+          -- General
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.diagnostics.eslint_d,
+          null_ls.builtins.diagnostics.shellcheck,
+          null_ls.builtins.formatting.shfmt,
+        },
+      })
+    end,
   },
 } 
