@@ -231,8 +231,8 @@ install_dependencies() {
                     print_warning "Would install Neovim from AppImage"
                 else
                     print_info "Installing Neovim..."
-                    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-                    chmod u+x nvim.appimage
+                    curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+                    chmod +x nvim.appimage
                     sudo mv nvim.appimage /usr/local/bin/nvim
                     print_success "Neovim installed successfully"
                 fi
