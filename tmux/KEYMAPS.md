@@ -13,8 +13,7 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 ### Session Management
 | Key Binding | Action | Description |
 |-------------|--------|-------------|
-| `Ctrl-a + d` | Detach from session | Detach from current session |
-| `Ctrl-a + D` | Detach others | Detach other clients (if multiple attached) |
+| `Ctrl-a + s` | Choose session/window | Visual tree for choosing sessions/windows |
 | `Ctrl-a + N` | Rename session | Rename current session interactively |
 | `Ctrl-a + Q` | Kill session | Kill current session (with confirmation) |
 
@@ -39,7 +38,7 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 | `Ctrl-a + -` | Split horizontal | Split pane horizontally (down) |
 | `Ctrl-a + x` | Kill pane | Kill current pane |
 | `Ctrl-a + +` | Zoom pane | Toggle pane zoom (maximize/restore) |
-| `Ctrl-a + o` | Rotate panes | Rotate panes in current window |
+| `Ctrl-a + y` | Sync panes | Toggle synchronized typing to all panes |
 
 ### Pane Navigation
 | Key Binding | Action | Description |
@@ -90,8 +89,6 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 ### Advanced Features
 | Key Binding | Action | Description |
 |-------------|--------|-------------|
-| `Ctrl-a + w` | Link window | Link window from another session |
-| `F12` | Toggle remote mode | Disable local tmux when working on remote host |
 
 ## Plugin Management (TPM)
 
@@ -112,16 +109,11 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 
 ## Remote Work Support
 
-### F12 Mode (Remote Host Support)
-When working on a remote host via SSH, press `F12` to:
-- Disable local tmux prefix
-- Change status bar color to indicate remote mode
-- Allow remote tmux session to receive all key bindings
-
-| Key Binding | Action | Description |
-|-------------|--------|-------------|
-| `F12` | Enter remote mode | Disable local tmux for remote work |
-| `F12` (in remote mode) | Exit remote mode | Re-enable local tmux |
+### Terminal Features
+The configuration includes:
+- **True color support**: Enhanced color rendering with RGB
+- **Improved responsiveness**: Faster escape time for vim compatibility  
+- **System clipboard integration**: Seamless copy/paste
 
 ## Status Line Features
 
@@ -142,9 +134,9 @@ Mouse support is enabled for:
 ## Custom Features
 
 ### Enhanced Navigation
-- **Alt key shortcuts**: Navigate windows without prefix
 - **Vi-style keys**: Use hjkl for pane navigation
 - **Smart window swapping**: Move windows left/right easily
+- **Session tree view**: Visual chooser for sessions and windows
 
 ### Improved Splitting
 - **Current path awareness**: New panes open in current directory
@@ -154,7 +146,8 @@ Mouse support is enabled for:
 ### Session Management
 - **Interactive renaming**: Easy session and window renaming
 - **Safe killing**: Confirmation prompts for destructive actions
-- **Multi-client support**: Smart detaching when multiple clients
+- **Visual chooser**: Tree view for navigating sessions and windows
+- **Synchronized panes**: Type to multiple panes simultaneously
 
 ## Integration with Other Tools
 
@@ -178,22 +171,22 @@ This tmux configuration is designed to work seamlessly with the Neovim setup:
 4. **Save sessions**: Use `Ctrl-a + S` to persist your workspace
 
 ### Remote Development
-1. **Enable F12 mode**: Press F12 when connecting to remote hosts
-2. **Nested sessions**: Run tmux inside tmux for complex workflows
+1. **Color indicators**: Different status bar colors for local vs SSH sessions
+2. **Nested sessions**: Run tmux inside tmux for complex workflows  
 3. **Session sharing**: Multiple users can attach to same session
 
 ### Project Organization
 1. **Window per project**: Each project gets its own window
 2. **Consistent layouts**: Use tmux-resurrect to save project layouts
-3. **Quick switching**: Alt-h/l for rapid window navigation
+3. **Quick switching**: Ctrl-a + h/l for rapid window navigation
 
 ## Troubleshooting
 
 ### Common Issues
-- **Keys not working**: Check if in remote mode (F12)
-- **Copy not working**: Ensure xclip is installed on Linux
+- **Copy not working**: Ensure system clipboard tools are installed
 - **Plugins not loading**: Run `Ctrl-a + I` to install plugins
 - **Status line broken**: Check color variable definitions
+- **Colors not working**: Verify terminal supports true color
 
 ### Debugging
 - **Show key bindings**: `tmux list-keys`
