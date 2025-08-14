@@ -208,8 +208,7 @@ install_dependencies() {
                 install_brew_package "$package"
             done
             
-            # Install JetBrains Mono Nerd Font for Alacritty (includes icons/glyphs for Neovim)
-            install_brew_package "font-jetbrains-mono-nerd-font"
+
             ;;
         debian)
             sudo apt-get update
@@ -256,29 +255,7 @@ install_dependencies() {
                 print_info "Alacritty is already installed (skipping)"
             fi
             
-            # Install JetBrains Mono Nerd Font for Linux
-            if ! fc-list | grep -i "JetBrainsMono.*Nerd" >/dev/null 2>&1; then
-                if [ "$DRY_RUN" = true ]; then
-                    print_warning "Would install JetBrains Mono Nerd Font"
-                else
-                    print_info "Installing JetBrains Mono Nerd Font..."
-                    mkdir -p ~/.local/share/fonts
-                    cd ~/.local/share/fonts
-                    curl -fLo "JetBrains Mono Regular Nerd Font Complete.ttf" \
-                        https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/JetBrainsMono/Ligatures/Regular/complete/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete.ttf
-                    curl -fLo "JetBrains Mono Bold Nerd Font Complete.ttf" \
-                        https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/JetBrainsMono/Ligatures/Bold/complete/JetBrains%20Mono%20Bold%20Nerd%20Font%20Complete.ttf
-                    curl -fLo "JetBrains Mono Italic Nerd Font Complete.ttf" \
-                        https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/JetBrainsMono/Ligatures/Italic/complete/JetBrains%20Mono%20Italic%20Nerd%20Font%20Complete.ttf
-                    curl -fLo "JetBrains Mono Bold Italic Nerd Font Complete.ttf" \
-                        https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/JetBrainsMono/Ligatures/BoldItalic/complete/JetBrains%20Mono%20Bold%20Italic%20Nerd%20Font%20Complete.ttf
-                    fc-cache -fv
-                    cd - > /dev/null
-                    print_success "JetBrains Mono Nerd Font installed successfully"
-                fi
-            else
-                print_info "JetBrains Mono Nerd Font is already installed (skipping)"
-            fi
+
             
             # Install other core dependencies (excluding Python and Go)
             local packages=("tmux" "fzf" "ripgrep" "fd-find" "tree-sitter" "nodejs" "npm")
@@ -417,8 +394,56 @@ install_tmux() {
 }
 
 # Install Alacritty configuration
+# Install JetBrains Mono Nerd Font for Alacritty
+install_jetbrains_font() {
+    case "$OS" in
+        darwin)
+            install_brew_package "font-jetbrains-mono-nerd-font"
+            ;;
+        debian)
+            # Install fontconfig if not present
+            if ! command -v fc-list >/dev/null 2>&1; then
+                install_apt_package "fontconfig"
+            fi
+            
+            # Install unzip if not present (needed for font installation)
+            if ! command -v unzip >/dev/null 2>&1; then
+                install_apt_package "unzip"
+            fi
+            
+            # Install font
+            if command -v fc-list >/dev/null 2>&1; then
+                if ! fc-list | grep -i "JetBrainsMono.*Nerd" >/dev/null 2>&1; then
+                    if [ "$DRY_RUN" = true ]; then
+                        print_warning "Would install JetBrains Mono Nerd Font"
+                    else
+                        print_info "Installing JetBrains Mono Nerd Font..."
+                        mkdir -p ~/.local/share/fonts
+                        cd ~/.local/share/fonts || exit 1
+                        curl -fLo "JetBrains Mono Regular Nerd Font Complete.ttf" \
+                            "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip" 2>/dev/null && \
+                        unzip -o JetBrainsMono.zip "*.ttf" 2>/dev/null && \
+                        rm -f JetBrainsMono.zip
+                        fc-cache -fv >/dev/null 2>&1
+                        cd - > /dev/null || exit 1
+                        print_success "JetBrains Mono Nerd Font installed successfully"
+                    fi
+                else
+                    print_info "JetBrains Mono Nerd Font is already installed (skipping)"
+                fi
+            else
+                print_info "Skipping font installation (no GUI environment detected)"
+                print_info "To install manually: https://www.jetbrains.com/lp/mono/"
+            fi
+            ;;
+    esac
+}
+
 install_alacritty() {
     print_info "Installing Alacritty configuration..."
+    
+    # Install the font first
+    install_jetbrains_font
     
     local alacritty_config_path="$HOME/.config/alacritty"
     
@@ -448,8 +473,6 @@ install_alacritty() {
     cp -r "./alacritty" "$alacritty_config_path"
     
     print_success "Alacritty configuration installed"
-    print_info "Note: Make sure you have JetBrains Mono font installed for best experience"
-    print_info "Download from: https://www.jetbrains.com/lp/mono/"
 }
 
 # Main installation function
@@ -487,7 +510,7 @@ main() {
     print_info "  1. Reload your shell or run 'source ~/.bashrc' / 'source ~/.zshrc'"
     print_info "  2. Run 'nvim' to automatically install plugins"
     print_info "  3. Language-specific plugins will auto-load based on your project type"
-    print_info "  4. Install JetBrains Mono font for Alacritty: https://www.jetbrains.com/lp/mono/"
+    print_info "  4. JetBrains Mono font is auto-installed with Alacritty"
     print_info ""
     print_info "If you install Python 3 or Go later, restart Neovim to enable those features."
 }
