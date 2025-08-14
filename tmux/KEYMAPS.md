@@ -29,6 +29,8 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 | `Alt-l` | Next window | Navigate to next window (no prefix needed) |
 | `Alt-H` | Move window left | Swap current window with previous |
 | `Alt-L` | Move window right | Swap current window with next |
+| `Ctrl-a + H` | Move window left | Swap current window with previous (with prefix) |
+| `Ctrl-a + L` | Move window right | Swap current window with next (with prefix) |
 
 ### Pane Management
 | Key Binding | Action | Description |
@@ -88,7 +90,7 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 ### Advanced Features
 | Key Binding | Action | Description |
 |-------------|--------|-------------|
-| `Ctrl-a + L` | Link window | Link window from another session |
+| `Ctrl-a + l` | Link window | Link window from another session |
 | `F12` | Toggle remote mode | Disable local tmux when working on remote host |
 
 ## Plugin Management (TPM)
