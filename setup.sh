@@ -204,7 +204,7 @@ install_dependencies() {
             
             # Install core dependencies individually (excluding Python and Go)
             # Note: tree-sitter is not needed as system package (Neovim handles it internally)
-            local packages=("neovim" "tmux" "alacritty" "git" "lazygit" "fzf" "ripgrep" "fd" "node" "npm")
+            local packages=("neovim" "tmux" "alacritty" "git" "lazygit" "fzf" "ripgrep" "fd" "node" "npm" "luarocks")
             for package in "${packages[@]}"; do
                 install_brew_package "$package"
             done
@@ -264,7 +264,7 @@ install_dependencies() {
             
             # Install other core dependencies (excluding Python and Go)
             # Note: tree-sitter is not needed as system package (Neovim handles it internally)
-            local packages=("tmux" "fzf" "ripgrep" "fd-find" "nodejs" "npm")
+            local packages=("tmux" "fzf" "ripgrep" "fd-find" "nodejs" "npm" "luarocks")
             for package in "${packages[@]}"; do
                 install_apt_package "$package"
             done
