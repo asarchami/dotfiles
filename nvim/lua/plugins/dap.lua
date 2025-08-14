@@ -8,17 +8,6 @@ return {
       "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
     },
-    keys = {
-      { "<leader>db", "<cmd>DapToggleBreakpoint<cr>", desc = "Toggle breakpoint" },
-      { "<leader>dc", "<cmd>DapContinue<cr>", desc = "Continue" },
-      { "<leader>di", "<cmd>DapStepInto<cr>", desc = "Step into" },
-      { "<leader>do", "<cmd>DapStepOver<cr>", desc = "Step over" },
-      { "<leader>dO", "<cmd>DapStepOut<cr>", desc = "Step out" },
-      { "<leader>dr", "<cmd>DapRepl<cr>", desc = "Open REPL" },
-      { "<leader>dl", "<cmd>DapShowLog<cr>", desc = "Show DAP log" },
-      { "<leader>dt", "<cmd>DapTerminate<cr>", desc = "Terminate" },
-      { "<leader>du", function() require("dapui").toggle() end, desc = "Toggle DAP UI" },
-    },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
