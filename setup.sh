@@ -523,8 +523,9 @@ install_alacritty() {
 main() {
     print_info "Starting dotfiles installation..."
     print_info ""
-    print_info "Note: This setup assumes Python 3 and Go are already installed on your system."
+    print_info "Note: Python 3 and Go are optional dependencies."
     print_info "Language-specific features will only be available if the respective languages are installed."
+    print_info "If Go is not installed, Go-related tools will be automatically skipped."
     print_info ""
     
     parse_args "$@"
@@ -557,6 +558,7 @@ main() {
     print_info "  4. JetBrains Mono font is auto-installed with Alacritty"
     print_info ""
     print_info "If you install Python 3 or Go later, restart Neovim to enable those features."
+    print_info "Go tools are completely optional and will be skipped if Go is not installed."
 }
 
 # Run main function

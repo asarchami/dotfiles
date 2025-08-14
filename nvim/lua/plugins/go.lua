@@ -1,4 +1,15 @@
--- Go development support
+-- Go development support (only loads if Go is available)
+
+-- Check if Go is available
+local function is_go_available()
+  return vim.fn.executable("go") == 1
+end
+
+-- Only return Go plugins if Go is installed
+if not is_go_available() then
+  return {}
+end
+
 return {
   -- Go.nvim: Comprehensive Go development plugin
   {
