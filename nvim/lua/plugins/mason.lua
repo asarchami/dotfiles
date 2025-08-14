@@ -136,56 +136,61 @@ return {
   -- None-ls (null-ls successor) configuration
   {
     "nvimtools/none-ls.nvim",
-    dependencies = { "mason.nvim", "jay-babu/mason-null-ls.nvim" },
+    dependencies = { "mason.nvim" },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local null_ls = require("null-ls")
       
-      -- Helper function to safely add source if builtin and tool exist
-      local function safe_add_source(sources_table, builtin, config, tool_name)
-        if builtin and (not tool_name or vim.fn.executable(tool_name) == 1) then
+      -- Helper function to safely add source if builtin exists
+      local function add_source_if_available(sources, builtin, config)
+        if builtin then
           if config then
-            table.insert(sources_table, builtin.with(config))
+            table.insert(sources, builtin.with(config))
           else
-            table.insert(sources_table, builtin)
+            table.insert(sources, builtin)
           end
         end
       end
       
       local sources = {}
       
-      -- General tools (add only if tool is available)
-      safe_add_source(sources, null_ls.builtins.formatting.prettier, nil, "prettier")
-      safe_add_source(sources, null_ls.builtins.diagnostics.eslint_d, nil, "eslint_d")
-      safe_add_source(sources, null_ls.builtins.diagnostics.shellcheck, nil, "shellcheck")
-      safe_add_source(sources, null_ls.builtins.formatting.shfmt, nil, "shfmt")
+      -- General tools (add if available)
+      add_source_if_available(sources, null_ls.builtins.formatting.prettier)
+      add_source_if_available(sources, null_ls.builtins.diagnostics.eslint_d)
+      add_source_if_available(sources, null_ls.builtins.diagnostics.shellcheck)
+      add_source_if_available(sources, null_ls.builtins.formatting.shfmt)
       
       -- Add Python sources if Python is available
       if is_python_available() then
-        safe_add_source(sources, null_ls.builtins.formatting.black, {
+        add_source_if_available(sources, null_ls.builtins.formatting.black, {
           extra_args = { "--line-length", "88" },
-        }, "black")
-        safe_add_source(sources, null_ls.builtins.formatting.isort, {
+        })
+        add_source_if_available(sources, null_ls.builtins.formatting.isort, {
           extra_args = { "--profile", "black" },
-        }, "isort")
-        safe_add_source(sources, null_ls.builtins.diagnostics.flake8, {
+        })
+        add_source_if_available(sources, null_ls.builtins.diagnostics.flake8, {
           extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
-        }, "flake8")
-        safe_add_source(sources, null_ls.builtins.diagnostics.mypy, nil, "mypy")
+        })
+        add_source_if_available(sources, null_ls.builtins.diagnostics.mypy)
       end
       
       -- Add Go sources if Go is available
       if is_go_available() then
-        safe_add_source(sources, null_ls.builtins.formatting.gofumpt, nil, "gofumpt")
-        safe_add_source(sources, null_ls.builtins.formatting.goimports, nil, "goimports")
-        safe_add_source(sources, null_ls.builtins.formatting.golines, {
+        -- Go formatters
+        add_source_if_available(sources, null_ls.builtins.formatting.gofumpt)
+        add_source_if_available(sources, null_ls.builtins.formatting.goimports)
+        add_source_if_available(sources, null_ls.builtins.formatting.golines, {
           extra_args = { "--max-len=120" },
-        }, "golines")
-        safe_add_source(sources, null_ls.builtins.diagnostics.golangci_lint, {
+        })
+        
+        -- Go linters
+        add_source_if_available(sources, null_ls.builtins.diagnostics.golangci_lint, {
           extra_args = { "--fast" },
-        }, "golangci-lint")
-        safe_add_source(sources, null_ls.builtins.code_actions.gomodifytags, nil, "gomodifytags")
-        safe_add_source(sources, null_ls.builtins.code_actions.impl, nil, "impl")
+        })
+        
+        -- Go code actions
+        add_source_if_available(sources, null_ls.builtins.code_actions.gomodifytags)
+        add_source_if_available(sources, null_ls.builtins.code_actions.impl)
       end
       
       null_ls.setup({
