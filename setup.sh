@@ -204,7 +204,19 @@ install_dependencies() {
             
             # Install core dependencies individually (excluding Python and Go)
             # Note: tree-sitter is not needed as system package (Neovim handles it internally)
-            local packages=("neovim" "tmux" "alacritty" "git" "lazygit" "fzf" "ripgrep" "fd" "node" "npm" "luarocks")
+            local packages=("git" "fzf" "ripgrep" "fd" "node" "npm" "luarocks")
+            
+            # Add packages based on what's being installed
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_NVIM" = true ]; then
+                packages+=("neovim")
+            fi
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
+                packages+=("tmux" "lazygit")
+            fi
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_ALACRITTY" = true ]; then
+                packages+=("alacritty")
+            fi
+            
             for package in "${packages[@]}"; do
                 install_brew_package "$package"
             done
@@ -224,76 +236,92 @@ install_dependencies() {
                 install_apt_package "$package"
             done
             
-            # Install Neovim (latest version)
-            print_info "Checking for Neovim installation..."
-            if ! command -v nvim >/dev/null 2>&1; then
-                if [ "$DRY_RUN" = true ]; then
-                    print_warning "Would install Neovim from AppImage"
-                else
-                    print_info "Installing Neovim..."
-                    # Ensure /usr/local/bin exists
-                    sudo mkdir -p /usr/local/bin
-                    # Download and install Neovim
-                    curl -Lo nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage && \
-                        chmod +x nvim.appimage && \
-                        sudo mv nvim.appimage /usr/local/bin/nvim
-                    if [ $? -eq 0 ]; then
-                        print_success "Neovim installed successfully"
+            # Install Neovim (latest version) - only if requested
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_NVIM" = true ]; then
+                print_info "Checking for Neovim installation..."
+                if ! command -v nvim >/dev/null 2>&1; then
+                    if [ "$DRY_RUN" = true ]; then
+                        print_warning "Would install Neovim from AppImage"
                     else
-                        print_error "Failed to install Neovim"
-                        return 1
+                        print_info "Installing Neovim..."
+                        # Ensure /usr/local/bin exists
+                        sudo mkdir -p /usr/local/bin
+                        # Download and install Neovim with size validation
+                        curl -Lo nvim.appimage https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+                        if [ -f nvim.appimage ] && [ $(stat -c%s nvim.appimage) -gt 1000000 ]; then
+                            chmod +x nvim.appimage && \
+                            sudo mv nvim.appimage /usr/local/bin/nvim
+                            print_success "Neovim installed successfully"
+                        else
+                            print_error "Failed to download Neovim (file too small or missing)"
+                            rm -f nvim.appimage
+                            return 1
+                        fi
                     fi
+                else
+                    local nvim_path=$(command -v nvim)
+                    print_info "Neovim is already installed at $nvim_path (skipping binary installation)"
                 fi
-            else
-                local nvim_path=$(command -v nvim)
-                print_info "Neovim is already installed at $nvim_path (skipping binary installation)"
             fi
             
-            # Install Alacritty from official PPA (newer than apt version)
-            if ! command -v alacritty >/dev/null 2>&1; then
-                if [ "$DRY_RUN" = true ]; then
-                    print_warning "Would install Alacritty from GitHub releases"
-                else
-                    print_info "Installing Alacritty..."
-                    # Install via cargo if rust is available, otherwise use AppImage
-                    if command -v cargo >/dev/null 2>&1; then
-                        cargo install alacritty
+            # Install Alacritty from official PPA (newer than apt version) - only if requested
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_ALACRITTY" = true ]; then
+                if ! command -v alacritty >/dev/null 2>&1; then
+                    if [ "$DRY_RUN" = true ]; then
+                        print_warning "Would install Alacritty from GitHub releases"
                     else
-                        # Download latest Alacritty AppImage
-                        curl -L "https://github.com/alacritty/alacritty/releases/latest/download/Alacritty-v*-ubuntu_18_04_amd64.AppImage" -o alacritty.appimage
-                        chmod +x alacritty.appimage
-                        sudo mv alacritty.appimage /usr/local/bin/alacritty
+                        print_info "Installing Alacritty..."
+                        # Install via cargo if rust is available, otherwise use AppImage
+                        if command -v cargo >/dev/null 2>&1; then
+                            cargo install alacritty
+                        else
+                            # Download latest Alacritty AppImage
+                            curl -L "https://github.com/alacritty/alacritty/releases/latest/download/Alacritty-v*-ubuntu_18_04_amd64.AppImage" -o alacritty.appimage
+                            chmod +x alacritty.appimage
+                            sudo mv alacritty.appimage /usr/local/bin/alacritty
+                        fi
+                        print_success "Alacritty installed successfully"
                     fi
-                    print_success "Alacritty installed successfully"
+                else
+                    print_info "Alacritty is already installed (skipping)"
                 fi
-            else
-                print_info "Alacritty is already installed (skipping)"
             fi
             
 
             
             # Install other core dependencies (excluding Python and Go)
             # Note: tree-sitter is not needed as system package (Neovim handles it internally)
-            local packages=("tmux" "fzf" "ripgrep" "fd-find" "nodejs" "npm" "luarocks")
+            local packages=("fzf" "ripgrep" "fd-find" "nodejs" "npm")
+            
+            # Add packages based on what's being installed
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_NVIM" = true ]; then
+                packages+=("luarocks")
+            fi
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
+                packages+=("tmux")
+            fi
+            
             for package in "${packages[@]}"; do
                 install_apt_package "$package"
             done
             
-            # Install lazygit
-            if ! command -v lazygit >/dev/null 2>&1; then
-                if [ "$DRY_RUN" = true ]; then
-                    print_warning "Would install lazygit from GitHub releases"
+            # Install lazygit - only if tmux is being installed (for git integration)
+            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
+                if ! command -v lazygit >/dev/null 2>&1; then
+                    if [ "$DRY_RUN" = true ]; then
+                        print_warning "Would install lazygit from GitHub releases"
+                    else
+                        print_info "Installing lazygit..."
+                        LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+                        curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+                        tar xf lazygit.tar.gz lazygit
+                        sudo install lazygit /usr/local/bin
+                        rm lazygit.tar.gz lazygit
+                        print_success "lazygit installed successfully"
+                    fi
                 else
-                    print_info "Installing lazygit..."
-                    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-                    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-                    tar xf lazygit.tar.gz lazygit
-                    sudo install lazygit /usr/local/bin
-                    rm lazygit.tar.gz lazygit
-                    print_success "lazygit installed successfully"
+                    print_info "lazygit is already installed (skipping)"
                 fi
-            else
-                print_info "lazygit is already installed (skipping)"
             fi
             ;;
     esac
