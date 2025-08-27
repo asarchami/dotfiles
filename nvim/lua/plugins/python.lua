@@ -112,7 +112,6 @@ return {
       "nvim-telescope/telescope.nvim",
       "mfussenegger/nvim-dap-python",
     },
-    branch = "regexp",
     config = function()
       require("venv-selector").setup({
         settings = {
