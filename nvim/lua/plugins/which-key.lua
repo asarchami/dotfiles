@@ -112,6 +112,25 @@ return {
         { "<leader>sm", "<cmd>Telescope marks<cr>", desc = " Marks" },
 
         -- ===================================================================
+        -- TELESCOPE OPERATIONS (<leader>t)
+        -- ===================================================================
+        { "<leader>t", group = " Telescope" },
+        { "<leader>tf", "<cmd>Telescope find_files<cr>", desc = " Find files" },
+        { "<leader>tg", "<cmd>Telescope live_grep<cr>", desc = " Live grep" },
+        { "<leader>tb", "<cmd>Telescope buffers<cr>", desc = " Find buffers" },
+        { "<leader>tr", "<cmd>Telescope oldfiles<cr>", desc = " Recent files" },
+        { "<leader>tw", "<cmd>Telescope grep_string<cr>", desc = " Find word" },
+        { "<leader>th", "<cmd>Telescope help_tags<cr>", desc = " Help tags" },
+        { "<leader>tc", "<cmd>Telescope colorscheme<cr>", desc = " Change colorscheme" },
+        { "<leader>te", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
+        { "<leader>tE", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File browser (current dir)" },
+        { "<leader>ts", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = " Search in buffer" },
+        { "<leader>tR", "<cmd>Telescope resume<cr>", desc = " Resume search" },
+        { "<leader>tC", "<cmd>Telescope commands<cr>", desc = " Commands" },
+        { "<leader>tk", "<cmd>Telescope keymaps<cr>", desc = " Keymaps" },
+        { "<leader>tm", "<cmd>Telescope marks<cr>", desc = " Marks" },
+
+        -- ===================================================================
         -- CODE OPERATIONS (<leader>c) - Universal LSP operations only
         -- ===================================================================
         { "<leader>c", group = " Code" },
@@ -140,7 +159,7 @@ return {
         -- ===================================================================
         -- QUICK ACTIONS (Single letters)
         -- ===================================================================
-        { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File explorer" },
+        { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
         { "<leader>o", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File explorer (current dir)" },
         { "<leader>h", "<cmd>nohl<cr>", desc = " Clear search highlights" },
         { "<leader>q", "<cmd>q<cr>", desc = " Quit" },
