@@ -10,6 +10,9 @@ return {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
       },
+      {
+        "nvim-telescope/telescope-file-browser.nvim",
+      },
     },
     config = function()
       local telescope = require("telescope")
@@ -80,11 +83,20 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
+          file_browser = {
+            theme = "dropdown",
+            hijack_netrw = true,
+            hidden = { file_browser = true, folder_browser = true },
+            respect_gitignore = false,
+            no_ignore = false,
+            follow_symlinks = false,
+          },
         },
       })
 
       -- Load extensions
       telescope.load_extension("fzf")
+      telescope.load_extension("file_browser")
     end,
   },
 } 
