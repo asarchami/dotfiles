@@ -141,9 +141,19 @@ return {
     config = function()
       local null_ls = require("null-ls")
       
-      -- Helper function to safely add source if builtin exists
-      local function add_source_if_available(sources, builtin, config)
+      -- Helper function to check if a command is available
+      local function is_command_available(cmd)
+        return vim.fn.executable(cmd) == 1
+      end
+      
+      -- Helper function to safely add source if builtin exists and tool is available
+      local function add_source_if_available(sources, builtin, config, tool_name)
         if builtin then
+          -- If tool_name is specified, check if it's installed
+          if tool_name and not is_command_available(tool_name) then
+            return
+          end
+          
           if config then
             table.insert(sources, builtin.with(config))
           else
@@ -155,42 +165,42 @@ return {
       local sources = {}
       
       -- General tools (add if available)
-      add_source_if_available(sources, null_ls.builtins.formatting.prettier)
-      add_source_if_available(sources, null_ls.builtins.diagnostics.eslint_d)
-      add_source_if_available(sources, null_ls.builtins.diagnostics.shellcheck)
-      add_source_if_available(sources, null_ls.builtins.formatting.shfmt)
+      add_source_if_available(sources, null_ls.builtins.formatting.prettier, nil, "prettier")
+      add_source_if_available(sources, null_ls.builtins.diagnostics.eslint_d, nil, "eslint_d")
+      add_source_if_available(sources, null_ls.builtins.diagnostics.shellcheck, nil, "shellcheck")
+      add_source_if_available(sources, null_ls.builtins.formatting.shfmt, nil, "shfmt")
       
       -- Add Python sources if Python is available
       if is_python_available() then
         add_source_if_available(sources, null_ls.builtins.formatting.black, {
           extra_args = { "--line-length", "88" },
-        })
+        }, "black")
         add_source_if_available(sources, null_ls.builtins.formatting.isort, {
           extra_args = { "--profile", "black" },
-        })
+        }, "isort")
         add_source_if_available(sources, null_ls.builtins.diagnostics.flake8, {
           extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
-        })
-        add_source_if_available(sources, null_ls.builtins.diagnostics.mypy)
+        }, "flake8")
+        add_source_if_available(sources, null_ls.builtins.diagnostics.mypy, nil, "mypy")
       end
       
       -- Add Go sources if Go is available
       if is_go_available() then
         -- Go formatters
-        add_source_if_available(sources, null_ls.builtins.formatting.gofumpt)
-        add_source_if_available(sources, null_ls.builtins.formatting.goimports)
+        add_source_if_available(sources, null_ls.builtins.formatting.gofumpt, nil, "gofumpt")
+        add_source_if_available(sources, null_ls.builtins.formatting.goimports, nil, "goimports")
         add_source_if_available(sources, null_ls.builtins.formatting.golines, {
           extra_args = { "--max-len=120" },
-        })
+        }, "golines")
         
         -- Go linters
         add_source_if_available(sources, null_ls.builtins.diagnostics.golangci_lint, {
           extra_args = { "--fast" },
-        })
+        }, "golangci-lint")
         
         -- Go code actions
-        add_source_if_available(sources, null_ls.builtins.code_actions.gomodifytags)
-        add_source_if_available(sources, null_ls.builtins.code_actions.impl)
+        add_source_if_available(sources, null_ls.builtins.code_actions.gomodifytags, nil, "gomodifytags")
+        add_source_if_available(sources, null_ls.builtins.code_actions.impl, nil, "impl")
       end
       
       null_ls.setup({
