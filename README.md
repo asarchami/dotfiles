@@ -138,6 +138,13 @@ All key mappings are documented in [KEYMAPS.md](KEYMAPS.md). The configuration f
 
 **Leader Key**: `<Space>`
 
+### Keymap Organization
+
+The keymap configuration is organized into two main files:
+
+- **`lua/config/keymaps.lua`**: Non-leader keymaps (Ctrl, Alt, Shift combinations, telescope file browser actions)
+- **`lua/plugins/which-key.lua`**: All leader-based mappings with discoverable groups and descriptions
+
 For complete keymaps reference, see **[KEYMAPS.md](KEYMAPS.md)**.
 
 ## Language Support

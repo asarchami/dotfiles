@@ -14,15 +14,16 @@ This document contains all key mappings configured in this Neovim setup. The con
   - [Window/Split Operations (`<leader>w`)](#windowsplit-operations-leaderw)
   - [Tab Operations (`<leader>T`)](#tab-operations-leadert)
   - [Search Operations (`<leader>s`)](#search-operations-leaders)
-  - [Telescope Operations (`<leader>t`)](#telescope-operations-leadert)
   - [Universal Code Operations (`<leader>c`)](#universal-code-operations-leaderc)
   - [Clipboard Operations](#clipboard-operations)
   - [Quick Actions](#quick-actions)
 - [Language-Specific Keymaps (Conditional)](#language-specific-keymaps-conditional)
-  - [Python Projects](#python-projects-leaderd-leadercp)
+  - [Python Projects](#python-projects-leadert-leaderd-leadercp)
+    - [Test Operations (`<leader>t`)](#test-operations-leadert---overrides-tab-operations)
     - [Debug Operations (`<leader>d`)](#debug-operations-leaderd)
     - [Python-Specific Operations (`<leader>cp`)](#python-specific-operations-leadercp)
-  - [Go Projects](#go-projects-leaderd-leadercg)
+  - [Go Projects](#go-projects-leadert-leaderd-leadercg)
+    - [Test Operations (`<leader>t`)](#test-operations-leadert---overrides-tab-operations-1)
     - [Debug Operations (`<leader>d`)](#debug-operations-leaderd-1)
     - [Go-Specific Operations (`<leader>cg`)](#go-specific-operations-leadercg)
       - [Running and Building](#running-and-building)
@@ -37,6 +38,20 @@ This document contains all key mappings configured in this Neovim setup. The con
 - [Customization](#customization)
   - [Adding New Languages](#adding-new-languages)
   - [Modifying Existing Mappings](#modifying-existing-mappings)
+
+## Configuration Organization
+
+The keymap configuration is split into two main files for better organization:
+
+### `lua/config/keymaps.lua`
+- **Non-leader keymaps**: Ctrl, Alt, Shift combinations
+- **Basic navigation**: Window movement, buffer navigation, text manipulation
+- **Telescope file browser shortcuts**: File operations within telescope file browser
+
+### `lua/plugins/which-key.lua`  
+- **All leader-based mappings**: Organized into logical groups
+- **Discoverable interface**: Shows available keymaps on `<leader>` press
+- **Context-aware**: Language-specific groups appear when relevant
 
 ## Leader Key
 
@@ -59,6 +74,20 @@ These mappings work without the leader key:
 | `[d` / `]d` | Normal | Previous/next diagnostic |
 | `Ctrl+s` | Normal/Insert | Quick save |
 
+### Telescope File Browser Shortcuts
+
+When using telescope file browser (`<leader>e`), these shortcuts are available:
+
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `Ctrl+n` | Insert | Create new file/folder |
+| `Ctrl+r` | Insert | Rename file/folder |
+| `Ctrl+d` | Insert | Delete file/folder |
+| `Ctrl+m` | Insert | Move file/folder |
+| `Ctrl+y` | Insert | Copy file/folder |
+| `Ctrl+x` | Insert | Close telescope |
+| `q` | Normal | Close telescope |
+
 ### File Operations (`<leader>f`)
 
 | Key Binding | Description |
@@ -70,32 +99,9 @@ These mappings work without the leader key:
 | `<leader>fw` | Find word under cursor |
 | `<leader>fh` | Help tags |
 | `<leader>fc` | Change colorscheme |
-| `<leader>fe` | File explorer (telescope file browser) |
-| `<leader>fE` | File explorer (current directory) |
 | `<leader>fn` | New file |
 | `<leader>fs` | Save file |
 | `<leader>fS` | Save all files |
-
-#### File Browser Operations (`<leader>fe` / `<leader>fE`)
-
-When in telescope file browser, these keys are available:
-
-| Key | Operation | Description |
-|-----|-----------|-------------|
-| `%` | Create File | Create a new file in current directory |
-| `/` | Create Folder | Create a new folder in current directory |
-| `r` | Rename | Rename selected file or folder |
-| `d` | Delete | **Permanently delete** file/folder |
-| `y` | Copy | Copy selected file/folder to clipboard |
-| `x` | Cut | Cut selected file/folder to clipboard |
-| `p` | Paste | Paste from clipboard to current directory |
-| `c` | Create Copy | Create a copy of selected file |
-| `<Tab>` | Toggle Selection | Select/deselect current item |
-| `<S-Tab>` | Toggle All | Select/deselect all items |
-| `h` | Parent Directory | Go up one level |
-| `l` | Enter/Open | Enter directory or open file |
-| `t` | Toggle Hidden | Show/hide hidden files and folders |
-| `s` | Toggle View | Switch between files and folders view |
 
 ### Git Operations (`<leader>g`)
 
@@ -123,22 +129,22 @@ When in telescope file browser, these keys are available:
 
 ### Buffer Operations (`<leader>b`)
 
-**Note**: No visual buffer tabs - use telescope for buffer management.
-
 | Key Binding | Description |
 |-------------|-------------|
 | `<leader>bd` | Delete buffer |
 | `<leader>bD` | Force delete buffer |
-| `<leader>bn` | Next buffer (native vim command) |
-| `<leader>bp` | Previous buffer (native vim command) |
-| `<leader>bf` | Find buffer (telescope picker) |
-| `<leader>bl` | List all buffers (telescope picker) |
+| `<leader>bn` | Next buffer |
+| `<leader>bp` | Previous buffer |
+| `<leader>bf` | Find buffer |
 | `<leader>bs` | Save buffer |
 | `<leader>bS` | Save all buffers |
+| `<leader>bc` | Pick & close buffer |
+| `<leader>bC` | Close all but current |
 | `<leader>br` | Reload buffer |
-| `<leader>bc` | Choose buffer to close (telescope picker) |
-| `<leader>bC` | Close all other buffers |
-| `<leader>ba` | Close all buffers |
+| `<leader>bl` | Move buffer right |
+| `<leader>bh` | Move buffer left |
+| `<leader>bP` | Pick buffer |
+| `<leader>bo` | Close other buffers |
 
 ### Window/Split Operations (`<leader>w`)
 
@@ -183,27 +189,6 @@ When in telescope file browser, these keys are available:
 | `<leader>sk` | Keymaps |
 | `<leader>sm` | Marks |
 
-### Telescope Operations (`<leader>t`)
-
-**Note**: This group provides dedicated telescope commands and is always available.
-
-| Key Binding | Description |
-|-------------|-------------|
-| `<leader>tf` | Find files |
-| `<leader>tg` | Live grep |
-| `<leader>tb` | Find buffers |
-| `<leader>tr` | Recent files |
-| `<leader>tw` | Find word |
-| `<leader>th` | Help tags |
-| `<leader>tc` | Change colorscheme |
-| `<leader>te` | File browser |
-| `<leader>tE` | File browser (current directory) |
-| `<leader>ts` | Search in buffer |
-| `<leader>tR` | Resume search |
-| `<leader>tC` | Commands |
-| `<leader>tk` | Keymaps |
-| `<leader>tm` | Marks |
-
 ### Universal Code Operations (`<leader>c`)
 
 These work across all file types:
@@ -237,8 +222,8 @@ These work across all file types:
 
 | Key Binding | Description |
 |-------------|-------------|
-| `<leader>e` | File browser (telescope file browser) |
-| `<leader>o` | File browser (current directory) |
+| `<leader>e` | Toggle file explorer |
+| `<leader>o` | Focus file explorer |
 | `<leader>h` | Clear search highlights |
 | `<leader>q` | Quit |
 | `<leader>Q` | Quit all |
@@ -249,14 +234,14 @@ These work across all file types:
 
 These mappings only appear when working on projects with the respective languages installed.
 
-### Python Projects (`<leader>d`, `<leader>cp`)
+### Python Projects (`<leader>t`, `<leader>d`, `<leader>cp`)
 
 **Only visible when:**
 - Python 3 is installed on the system
 - Working in a detected Python project
 - Editing `.py` files
 
-**Note**: Test operations have been moved to language-specific Python keybindings to avoid conflicts with the universal telescope operations (`<leader>t`).
+#### Test Operations (`<leader>t` - overrides Tab operations)
 
 | Key Binding | Description |
 |-------------|-------------|
@@ -303,14 +288,14 @@ These mappings only appear when working on projects with the respective language
 | `<leader>cph` | Hide REPL |
 | `<leader>cpg` | Generate docstring |
 
-### Go Projects (`<leader>d`, `<leader>cg`)
+### Go Projects (`<leader>t`, `<leader>d`, `<leader>cg`)
 
 **Only visible when:**
 - Go is installed on the system
 - Working in a detected Go project
 - Editing `.go`, `.mod`, `.work`, or `.tmpl` files
 
-**Note**: Test operations have been moved to language-specific Go keybindings to avoid conflicts with the universal telescope operations (`<leader>t`).
+#### Test Operations (`<leader>t` - overrides Tab operations)
 
 | Key Binding | Description |
 |-------------|-------------|
