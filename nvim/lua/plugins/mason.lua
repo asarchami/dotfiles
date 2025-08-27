@@ -91,48 +91,6 @@ return {
     end,
   },
 
-  -- Mason none-ls: Bridge for linters and formatters (successor to mason-null-ls)
-  {
-    "jay-babu/mason-null-ls.nvim",
-    dependencies = { "mason.nvim", "nvimtools/none-ls.nvim" },
-    opts = function()
-      local ensure_installed = {
-        -- General tools (always install)
-        "prettier",         -- General formatter
-        "eslint_d",         -- JavaScript linter
-        "shellcheck",       -- Shell script linter
-        "shfmt",            -- Shell script formatter
-      }
-      
-      -- Add Python tools if Python is available
-      if is_python_available() then
-        vim.list_extend(ensure_installed, {
-          "black",           -- Python formatter
-          "isort",           -- Python import sorter
-          "flake8",          -- Python linter
-          "mypy",            -- Python type checker
-          "pytest",          -- Python testing
-        })
-      end
-      
-      -- Add Go tools if Go is available
-      if is_go_available() then
-        vim.list_extend(ensure_installed, {
-          "gofumpt",         -- Go formatter
-          "golangci-lint",   -- Go linter
-          "golines",         -- Go line formatter
-          "goimports",       -- Go import formatter
-        })
-      end
-      
-      return {
-        ensure_installed = ensure_installed,
-        automatic_installation = false,  -- Disable to prevent conflicts
-        handlers = {},  -- Add empty handlers to prevent auto-setup conflicts
-      }
-    end,
-  },
-
   -- None-ls (null-ls successor) configuration
   {
     "nvimtools/none-ls.nvim",
