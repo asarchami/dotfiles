@@ -84,6 +84,7 @@ return {
             case_mode = "smart_case",
           },
           file_browser = {
+            -- File Browser Configuration with Preview on Right
             -- theme = "dropdown",  -- Removed to enable preview
             hijack_netrw = true,
             hidden = { file_browser = true, folder_browser = true },
@@ -105,6 +106,21 @@ return {
             grouped = true,
             files = true,
             add_dirs = true,
+            -- 
+            -- FILE OPERATIONS KEYBINDINGS (Available in file browser):
+            -- % : Create new file
+            -- / : Create new folder
+            -- r : Rename file/folder
+            -- d : Delete file/folder (permanent)
+            -- y : Copy file/folder
+            -- x : Cut file/folder
+            -- p : Paste file/folder
+            -- c : Create copy
+            -- h : Go to parent directory
+            -- l : Enter directory or open file
+            -- <Tab> : Toggle selection
+            -- t : Toggle hidden files
+            -- s : Toggle between files/folders view
           },
         },
       })
