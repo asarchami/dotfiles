@@ -57,18 +57,24 @@ return {
         { "<leader>b", group = " Buffer" },
         { "<leader>bd", "<cmd>bdelete<cr>", desc = " Delete buffer" },
         { "<leader>bD", "<cmd>bdelete!<cr>", desc = " Force delete buffer" },
-        { "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = " Next buffer" },
-        { "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = " Previous buffer" },
+        { "<leader>bn", "<cmd>bnext<cr>", desc = " Next buffer" },
+        { "<leader>bp", "<cmd>bprevious<cr>", desc = " Previous buffer" },
         { "<leader>bf", "<cmd>Telescope buffers<cr>", desc = " Find buffer" },
+        { "<leader>bl", "<cmd>Telescope buffers<cr>", desc = " List all buffers" },
         { "<leader>bs", "<cmd>w<cr>", desc = " Save buffer" },
         { "<leader>bS", "<cmd>wa<cr>", desc = " Save all buffers" },
-        { "<leader>bc", "<cmd>BufferLinePickClose<cr>", desc = " Pick & close buffer" },
-        { "<leader>bC", "<cmd>BufferLineCloseOthers<cr>", desc = " Close all but current" },
         { "<leader>br", "<cmd>e<cr>", desc = " Reload buffer" },
-        { "<leader>bl", "<cmd>BufferLineMoveNext<cr>", desc = " Move buffer right" },
-        { "<leader>bh", "<cmd>BufferLineMovePrev<cr>", desc = " Move buffer left" },
-        { "<leader>bP", "<cmd>BufferLinePick<cr>", desc = " Pick buffer" },
-        { "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", desc = " Close other buffers" },
+        { "<leader>bc", "<cmd>Telescope buffers<cr>", desc = " Choose buffer to close" },
+        { "<leader>bC", function() 
+          local current_buf = vim.api.nvim_get_current_buf()
+          local buffers = vim.api.nvim_list_bufs()
+          for _, buf in ipairs(buffers) do
+            if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
+              vim.api.nvim_buf_delete(buf, {force = false})
+            end
+          end
+        end, desc = " Close all other buffers" },
+        { "<leader>ba", "<cmd>bufdo bd<cr>", desc = " Close all buffers" },
 
         -- ===================================================================
         -- WINDOW/SPLIT OPERATIONS (<leader>w)

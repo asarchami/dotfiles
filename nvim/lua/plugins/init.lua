@@ -18,8 +18,7 @@ vim.list_extend(plugins, require("plugins.telescope"))     -- 8. Fuzzy finder
 vim.list_extend(plugins, require("plugins.git"))           -- 9. Git integration
 
 -- UI enhancements (lower priority - can be loaded last)
-vim.list_extend(plugins, require("plugins.bufferline"))    -- 10. Buffer tabs
-vim.list_extend(plugins, require("plugins.which-key"))     -- 11. Key hints
-vim.list_extend(plugins, require("plugins.noice"))         -- 12. UI improvements
+vim.list_extend(plugins, require("plugins.which-key"))     -- 10. Key hints
+vim.list_extend(plugins, require("plugins.noice"))         -- 11. UI improvements
 
 return plugins
