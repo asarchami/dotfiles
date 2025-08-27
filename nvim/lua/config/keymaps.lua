@@ -28,9 +28,9 @@ keymap("n", "<C-Down>", ":resize -2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
--- Navigate buffers (Shift + hl) - Uses BufferLine for better integration
-keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", opts)
-keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", opts)
+-- Navigate buffers (Shift + hl) - Standard vim buffer navigation
+keymap("n", "<S-l>", "<cmd>bnext<cr>", opts)
+keymap("n", "<S-h>", "<cmd>bprevious<cr>", opts)
 
 -- Move text up and down (Alt + jk)
 keymap("v", "<A-j>", ":m .+1<CR>==", opts)
@@ -50,6 +50,24 @@ keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 -- Quick save (without leader)
 keymap("n", "<C-s>", ":w<CR>", opts)
 keymap("i", "<C-s>", "<Esc>:w<CR>", opts)
+
+-- ===================================================================
+-- TELESCOPE FILE BROWSER MAPPINGS
+-- ===================================================================
+
+-- File browser mappings are configured in telescope.lua plugin configuration
+-- Available when using telescope file browser (<leader>e):
+--
+-- Insert mode:
+--   <C-n> : Create new file/folder
+--   <C-r> : Rename file/folder  
+--   <C-d> : Delete file/folder
+--   <C-m> : Move file/folder
+--   <C-y> : Copy file/folder
+--   <C-x> : Close telescope
+--
+-- Normal mode:
+--   q     : Close telescope
 
 -- ===================================================================
 -- NOTE: All leader-based mappings are defined in which-key.lua
