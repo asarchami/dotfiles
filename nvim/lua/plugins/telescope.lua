@@ -107,9 +107,10 @@ return {
             files = true,
             add_dirs = true,
             -- 
-            -- FILE OPERATIONS KEYBINDINGS (Available in file browser):
+            -- FILE OPERATIONS KEYBINDINGS:
+            -- In NORMAL MODE (press <Esc> first):
             -- % : Create new file
-            -- / : Create new folder
+            -- / : Create new folder  
             -- r : Rename file/folder
             -- d : Delete file/folder (permanent)
             -- y : Copy file/folder
@@ -121,6 +122,20 @@ return {
             -- <Tab> : Toggle selection
             -- t : Toggle hidden files
             -- s : Toggle between files/folders view
+            mappings = {
+              n = {
+                ["<C-n>"] = require("telescope._extensions.file_browser.actions").create,
+                ["<C-r>"] = require("telescope._extensions.file_browser.actions").rename,
+                ["<C-d>"] = require("telescope._extensions.file_browser.actions").remove,
+                ["<C-y>"] = require("telescope._extensions.file_browser.actions").copy,
+                ["<C-x>"] = require("telescope._extensions.file_browser.actions").move,
+                ["<C-o>"] = require("telescope._extensions.file_browser.actions").open,
+                ["<C-g>"] = require("telescope._extensions.file_browser.actions").goto_parent_dir,
+                ["<C-e>"] = require("telescope._extensions.file_browser.actions").goto_home_dir,
+                ["<C-w>"] = require("telescope._extensions.file_browser.actions").goto_cwd,
+                ["<C-t>"] = require("telescope._extensions.file_browser.actions").toggle_hidden,
+              },
+            },
           },
         },
       })
