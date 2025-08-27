@@ -23,7 +23,7 @@ return {
         { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = " Find word under cursor" },
         { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = " Help tags" },
         { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = " Change colorscheme" },
-        { "<leader>fe", "<cmd>Telescope file_browser path=%:p:h<cr>", desc = " File explorer" },
+        { "<leader>fe", "<cmd>Telescope file_browser<cr>", desc = " File explorer" },
         { "<leader>fE", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File explorer (current dir)" },
         { "<leader>fn", "<cmd>enew<cr>", desc = " New file" },
         { "<leader>fs", "<cmd>w<cr>", desc = " Save file" },
@@ -60,21 +60,15 @@ return {
         { "<leader>bn", "<cmd>bnext<cr>", desc = " Next buffer" },
         { "<leader>bp", "<cmd>bprevious<cr>", desc = " Previous buffer" },
         { "<leader>bf", "<cmd>Telescope buffers<cr>", desc = " Find buffer" },
-        { "<leader>bl", "<cmd>Telescope buffers<cr>", desc = " List all buffers" },
         { "<leader>bs", "<cmd>w<cr>", desc = " Save buffer" },
         { "<leader>bS", "<cmd>wa<cr>", desc = " Save all buffers" },
-        { "<leader>br", "<cmd>e<cr>", desc = " Reload buffer" },
         { "<leader>bc", "<cmd>Telescope buffers<cr>", desc = " Choose buffer to close" },
-        { "<leader>bC", function() 
-          local current_buf = vim.api.nvim_get_current_buf()
-          local buffers = vim.api.nvim_list_bufs()
-          for _, buf in ipairs(buffers) do
-            if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
-              vim.api.nvim_buf_delete(buf, {force = false})
-            end
-          end
-        end, desc = " Close all other buffers" },
-        { "<leader>ba", "<cmd>bufdo bd<cr>", desc = " Close all buffers" },
+        { "<leader>bC", "<cmd>%bdelete|edit #|normal `\"<cr>", desc = " Close all but current" },
+        { "<leader>br", "<cmd>e<cr>", desc = " Reload buffer" },
+        { "<leader>bl", "<cmd>blast<cr>", desc = " Go to last buffer" },
+        { "<leader>bh", "<cmd>bfirst<cr>", desc = " Go to first buffer" },
+        { "<leader>bP", "<cmd>Telescope buffers<cr>", desc = " Pick buffer" },
+        { "<leader>bo", "<cmd>%bdelete|edit #|normal `\"<cr>", desc = " Close other buffers" },
 
         -- ===================================================================
         -- WINDOW/SPLIT OPERATIONS (<leader>w)
@@ -128,7 +122,7 @@ return {
         { "<leader>tw", "<cmd>Telescope grep_string<cr>", desc = " Find word" },
         { "<leader>th", "<cmd>Telescope help_tags<cr>", desc = " Help tags" },
         { "<leader>tc", "<cmd>Telescope colorscheme<cr>", desc = " Change colorscheme" },
-        { "<leader>te", "<cmd>Telescope file_browser path=%:p:h<cr>", desc = " File browser" },
+        { "<leader>te", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
         { "<leader>tE", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File browser (current dir)" },
         { "<leader>ts", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = " Search in buffer" },
         { "<leader>tR", "<cmd>Telescope resume<cr>", desc = " Resume search" },
@@ -165,8 +159,9 @@ return {
         -- ===================================================================
         -- QUICK ACTIONS (Single letters)
         -- ===================================================================
-        { "<leader>e", "<cmd>Telescope file_browser path=%:p:h<cr>", desc = " File browser" },
+        { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
         { "<leader>o", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File explorer (current dir)" },
+        { "<leader>B", "<cmd>Telescope buffers<cr>", desc = " Buffer list" },
         { "<leader>h", "<cmd>nohl<cr>", desc = " Clear search highlights" },
         { "<leader>q", "<cmd>q<cr>", desc = " Quit" },
         { "<leader>Q", "<cmd>qa<cr>", desc = " Quit all" },
