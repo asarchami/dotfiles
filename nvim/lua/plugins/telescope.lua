@@ -108,15 +108,17 @@ return {
             add_dirs = true,
             mappings = {
               ["i"] = { -- insert mode mappings
+                ["<CR>"] = actions.select_default, -- Enter to open file/enter directory
                 ["<C-n>"] = fb_actions.create, -- new file / folder
                 ["<C-r>"] = fb_actions.rename,
                 ["<C-d>"] = fb_actions.remove,
                 ["<C-m>"] = fb_actions.move,
                 ["<C-y>"] = fb_actions.copy,
-                ["<C-x>"] = require("telescope.actions").close, -- close telescope
+                ["<C-x>"] = actions.close, -- close telescope
               },
-              ["n"] = { -- normal mode mappings (optional)
-                ["q"] = require("telescope.actions").close,
+              ["n"] = { -- normal mode mappings
+                ["<CR>"] = actions.select_default, -- Enter to open file/enter directory
+                ["q"] = actions.close,
               },
             },
           },

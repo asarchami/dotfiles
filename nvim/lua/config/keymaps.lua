@@ -59,6 +59,7 @@ keymap("i", "<C-s>", "<Esc>:w<CR>", opts)
 -- Available when using telescope file browser (<leader>e):
 --
 -- Insert mode:
+--   Enter : Open file/enter directory
 --   <C-n> : Create new file/folder
 --   <C-r> : Rename file/folder  
 --   <C-d> : Delete file/folder
@@ -67,6 +68,7 @@ keymap("i", "<C-s>", "<Esc>:w<CR>", opts)
 --   <C-x> : Close telescope
 --
 -- Normal mode:
+--   Enter : Open file/enter directory
 --   q     : Close telescope
 
 -- ===================================================================

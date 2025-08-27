@@ -80,6 +80,7 @@ When using telescope file browser (`<leader>e`), these shortcuts are available:
 
 | Key Binding | Mode | Description |
 |-------------|------|-------------|
+| `Enter` | Insert/Normal | Open file or enter directory |
 | `Ctrl+n` | Insert | Create new file/folder |
 | `Ctrl+r` | Insert | Rename file/folder |
 | `Ctrl+d` | Insert | Delete file/folder |
