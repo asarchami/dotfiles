@@ -23,6 +23,8 @@ return {
         { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = " Find word under cursor" },
         { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = " Help tags" },
         { "<leader>fc", "<cmd>Telescope colorscheme<cr>", desc = " Change colorscheme" },
+        { "<leader>fe", "<cmd>Telescope file_browser<cr>", desc = " File explorer" },
+        { "<leader>fE", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File explorer (current dir)" },
         { "<leader>fn", "<cmd>enew<cr>", desc = " New file" },
         { "<leader>fs", "<cmd>w<cr>", desc = " Save file" },
         { "<leader>fS", "<cmd>wa<cr>", desc = " Save all files" },
@@ -138,8 +140,8 @@ return {
         -- ===================================================================
         -- QUICK ACTIONS (Single letters)
         -- ===================================================================
-        { "<leader>e", "<cmd>Neotree toggle<cr>", desc = " Toggle file explorer" },
-        { "<leader>o", "<cmd>Neotree focus<cr>", desc = " Focus file explorer" },
+        { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File explorer" },
+        { "<leader>o", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File explorer (current dir)" },
         { "<leader>h", "<cmd>nohl<cr>", desc = " Clear search highlights" },
         { "<leader>q", "<cmd>q<cr>", desc = " Quit" },
         { "<leader>Q", "<cmd>qa<cr>", desc = " Quit all" },
