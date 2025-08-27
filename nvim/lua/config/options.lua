@@ -1,6 +1,4 @@
--- Neovim options configuration
-
--- Basic editor settings
+-- Neovim options
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.expandtab = true
@@ -21,8 +19,5 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 50
 
--- Enable true colors for modern terminals
 vim.opt.termguicolors = true
-
--- Clipboard integration - sync with system clipboard
 vim.opt.clipboard = "unnamedplus"

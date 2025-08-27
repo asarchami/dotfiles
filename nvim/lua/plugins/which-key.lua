@@ -1,6 +1,4 @@
--- Which-Key plugin for discoverable key bindings
--- CENTRAL HUB for ALL leader-based key mappings
--- Non-leader mappings are in config/keymaps.lua
+-- Which-key leader-based mappings
 
 return {
   {
