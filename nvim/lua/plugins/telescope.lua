@@ -17,6 +17,7 @@ return {
     config = function()
       local telescope = require("telescope")
       local actions = require("telescope.actions")
+      local fb_actions = require("telescope._extensions.file_browser.actions")
 
       telescope.setup({
         defaults = {
@@ -84,7 +85,6 @@ return {
             case_mode = "smart_case",
           },
           file_browser = {
-            -- File Browser Configuration with Preview on Right
             -- theme = "dropdown",  -- Removed to enable preview
             hijack_netrw = true,
             hidden = { file_browser = true, folder_browser = true },
@@ -106,24 +106,19 @@ return {
             grouped = true,
             files = true,
             add_dirs = true,
-            -- Default to current working directory if no path specified
-            path = "%:p:h",
-            cwd = vim.fn.expand("~"),
-            -- 
-            -- FILE OPERATIONS KEYBINDINGS (Available in file browser):
-            -- % : Create new file
-            -- / : Create new folder
-            -- r : Rename file/folder
-            -- d : Delete file/folder (permanent)
-            -- y : Copy file/folder
-            -- x : Cut file/folder
-            -- p : Paste file/folder
-            -- c : Create copy
-            -- h : Go to parent directory
-            -- l : Enter directory or open file
-            -- <Tab> : Toggle selection
-            -- t : Toggle hidden files
-            -- s : Toggle between files/folders view
+            mappings = {
+              ["i"] = { -- insert mode mappings
+                ["<C-n>"] = fb_actions.create, -- new file / folder
+                ["<C-r>"] = fb_actions.rename,
+                ["<C-d>"] = fb_actions.remove,
+                ["<C-m>"] = fb_actions.move,
+                ["<C-y>"] = fb_actions.copy,
+                ["<C-x>"] = require("telescope.actions").close, -- close telescope
+              },
+              ["n"] = { -- normal mode mappings (optional)
+                ["q"] = require("telescope.actions").close,
+              },
+            },
           },
         },
       })
