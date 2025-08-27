@@ -106,6 +106,9 @@ return {
             grouped = true,
             files = true,
             add_dirs = true,
+            -- Default to current working directory if no path specified
+            path = "%:p:h",
+            cwd = vim.fn.expand("~"),
             -- 
             -- FILE OPERATIONS KEYBINDINGS (Available in file browser):
             -- % : Create new file
