@@ -84,12 +84,19 @@ return {
             case_mode = "smart_case",
           },
           file_browser = {
-            theme = "dropdown",
+            -- theme = "dropdown",  -- Removed to enable preview
             hijack_netrw = true,
             hidden = { file_browser = true, folder_browser = true },
             respect_gitignore = false,
             no_ignore = false,
             follow_symlinks = false,
+            layout_strategy = "horizontal",
+            layout_config = {
+              preview_width = 0.6,
+              width = 0.9,
+              height = 0.9,
+            },
+            previewer = true,
           },
         },
       })
