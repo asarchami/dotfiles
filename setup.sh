@@ -90,8 +90,7 @@ detect_os() {
         if command -v apt-get >/dev/null 2>&1; then
             OS="debian"
         else
-            print_error "Unsupported Linux distribution. Only Debian-based systems are supported."
-            exit 1
+            OS="linux"
         fi
     else
         print_error "Unsupported operating system: $OSTYPE"
@@ -188,7 +187,7 @@ install_dependencies() {
     print_info "Installing core dependencies..."
     
     case $OS in
-        macos)
+        macos|linux)
             # Check if Homebrew is installed
             if ! command -v brew >/dev/null 2>&1; then
                 if [ "$DRY_RUN" = true ]; then
@@ -441,7 +440,7 @@ install_tmux() {
 # Install JetBrains Mono Nerd Font for Alacritty
 install_jetbrains_font() {
     case "$OS" in
-        darwin)
+        darwin|linux)
             install_brew_package "font-jetbrains-mono-nerd-font"
             ;;
         debian)
