@@ -21,8 +21,8 @@ return {
 
       telescope.setup({
         defaults = {
-          prompt_prefix = " 🔍 ",
-          selection_caret = " ❯ ",
+          prompt_prefix = "  ",
+          selection_caret = "  ",
           path_display = { "truncate" },
           file_ignore_patterns = {
             "%.git/",
@@ -102,7 +102,7 @@ return {
             previewer = true,
             sorting_strategy = "ascending",
             file_ignore_patterns = {},
-            dir_icon = "📁",
+            dir_icon = "",
             dir_icon_hl = "Default",
             display_stat = { date = true, size = true, mode = true },
             grouped = true,
