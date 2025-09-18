@@ -124,7 +124,6 @@ return {
       
       -- General tools (add if available)
       add_source_if_available(sources, null_ls.builtins.formatting.prettier, nil, "prettier")
-      add_source_if_available(sources, null_ls.builtins.diagnostics.eslint_d, nil, "eslint_d")
       add_source_if_available(sources, null_ls.builtins.diagnostics.shellcheck, nil, "shellcheck")
       add_source_if_available(sources, null_ls.builtins.formatting.shfmt, nil, "shfmt")
       
