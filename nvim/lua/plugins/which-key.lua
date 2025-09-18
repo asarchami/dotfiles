@@ -96,37 +96,28 @@ return {
         { "<leader>Tm", "<cmd>tabmove<cr>", desc = " Move tab" },
 
         -- ===================================================================
-        -- SEARCH OPERATIONS (<leader>s)
+        -- SURROUND OPERATIONS (<leader>s) - Normal and Visual mode
         -- ===================================================================
-        { "<leader>s", group = " Search" },
-        { "<leader>sf", "<cmd>Telescope find_files<cr>", desc = " Find files" },
-        { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = " Live grep" },
-        { "<leader>sw", "<cmd>Telescope grep_string<cr>", desc = " Find word" },
-        { "<leader>sh", "<cmd>nohl<cr>", desc = " Clear highlights" },
-        { "<leader>ss", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = " Search in buffer" },
-        { "<leader>sr", "<cmd>Telescope resume<cr>", desc = " Resume search" },
-        { "<leader>sc", "<cmd>Telescope commands<cr>", desc = " Commands" },
-        { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = " Keymaps" },
-        { "<leader>sm", "<cmd>Telescope marks<cr>", desc = " Marks" },
+        { "<leader>s", group = " Surround" },
+        { "<leader>sa", "ys", desc = " Add surround", remap = true },
+        { "<leader>sd", "ds", desc = " Delete surround", remap = true },
+        { "<leader>sc", "cs", desc = " Change surround", remap = true },
+        { "<leader>sl", "yss", desc = " Surround line", remap = true },
+        
+        -- Visual mode surround operations
+        { "<leader>s", group = " Surround", mode = "v" },
+        { "<leader>sa", "S", desc = " Add surround", mode = "v", remap = true },
 
         -- ===================================================================
-        -- TELESCOPE OPERATIONS (<leader>t)
+        -- SEARCH OPERATIONS (<leader>S)
         -- ===================================================================
-        { "<leader>t", group = " Telescope" },
-        { "<leader>tf", "<cmd>Telescope find_files<cr>", desc = " Find files" },
-        { "<leader>tg", "<cmd>Telescope live_grep<cr>", desc = " Live grep" },
-        { "<leader>tb", "<cmd>Telescope buffers<cr>", desc = " Find buffers" },
-        { "<leader>tr", "<cmd>Telescope oldfiles<cr>", desc = " Recent files" },
-        { "<leader>tw", "<cmd>Telescope grep_string<cr>", desc = " Find word" },
-        { "<leader>th", "<cmd>Telescope help_tags<cr>", desc = " Help tags" },
-        { "<leader>tc", "<cmd>Telescope colorscheme<cr>", desc = " Change colorscheme" },
-        { "<leader>te", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
-        { "<leader>tE", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File browser (current dir)" },
-        { "<leader>ts", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = " Search in buffer" },
-        { "<leader>tR", "<cmd>Telescope resume<cr>", desc = " Resume search" },
-        { "<leader>tC", "<cmd>Telescope commands<cr>", desc = " Commands" },
-        { "<leader>tk", "<cmd>Telescope keymaps<cr>", desc = " Keymaps" },
-        { "<leader>tm", "<cmd>Telescope marks<cr>", desc = " Marks" },
+        { "<leader>S", group = " Search" },
+        { "<leader>Ss", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = " Search in buffer" },
+        { "<leader>Sr", "<cmd>Telescope resume<cr>", desc = " Resume search" },
+        { "<leader>Sc", "<cmd>Telescope commands<cr>", desc = " Commands" },
+        { "<leader>Sk", "<cmd>Telescope keymaps<cr>", desc = " Keymaps" },
+        { "<leader>Sm", "<cmd>Telescope marks<cr>", desc = " Marks" },
+        { "<leader>Sh", "<cmd>nohl<cr>", desc = " Clear highlights" },
 
         -- ===================================================================
         -- CODE OPERATIONS (<leader>c) - Universal LSP operations only

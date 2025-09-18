@@ -257,49 +257,6 @@ return {
     end,
   },
 
-  -- LSP and formatting configuration
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = { "mason.nvim", "mason-lspconfig.nvim" },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      -- Python LSP (Pyright)
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-        settings = {
-          python = {
-            analysis = {
-              typeCheckingMode = "basic",
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              autoImportCompletions = true,
-              diagnosticMode = "workspace",
-            },
-          },
-        },
-        on_attach = function(client, bufnr)
-          -- Disable Pyright's formatting in favor of black/ruff
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-      })
-
-      -- Ruff LSP for fast linting
-      lspconfig.ruff.setup({
-        capabilities = capabilities,
-        init_options = {
-          settings = {
-            args = {},
-          },
-        },
-      })
-    end,
-  },
-
-
-
   -- Python-specific which-key mappings (loaded only for Python files)
   {
     "folke/which-key.nvim",

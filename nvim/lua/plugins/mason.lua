@@ -30,7 +30,7 @@ return {
   -- Mason LSP config: Bridges mason and lspconfig
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "mason.nvim" },
+    dependencies = { "mason.nvim", "neovim/nvim-lspconfig" },
     opts = function()
       local ensure_installed = {
         -- General (always install)
@@ -59,6 +59,59 @@ return {
       return {
         ensure_installed = ensure_installed,
         automatic_installation = true,
+        handlers = {
+          -- Default handler for all servers
+          function(server_name)
+            require("lspconfig")[server_name].setup({
+              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            })
+          end,
+          
+          -- Custom handlers for specific servers
+          ["pyright"] = function()
+            require("lspconfig").pyright.setup({
+              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+              settings = {
+                python = {
+                  analysis = {
+                    typeCheckingMode = "basic",
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
+                    autoImportCompletions = true,
+                    diagnosticMode = "workspace",
+                  },
+                },
+              },
+              on_attach = function(client, bufnr)
+                -- Disable Pyright's formatting in favor of black/ruff
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+              end,
+            })
+          end,
+          
+          ["gopls"] = function()
+            require("lspconfig").gopls.setup({
+              capabilities = require("cmp_nvim_lsp").default_capabilities(),
+              settings = {
+                gopls = {
+                  completeUnimported = true,
+                  usePlaceholders = true,
+                  analyses = {
+                    unusedparams = true,
+                    shadow = true,
+                    fieldalignment = true,
+                    nilness = true,
+                    unusedwrite = true,
+                    useany = true,
+                  },
+                  staticcheck = true,
+                  gofumpt = true,
+                },
+              },
+            })
+          end,
+        },
       }
     end,
   },

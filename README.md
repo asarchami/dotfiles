@@ -15,6 +15,7 @@ A comprehensive, modular dotfiles setup for Neovim and tmux with intelligent Pyt
 - **Debugging**: DAP support for Python and Go with visual debugging interface
 - **Testing**: Integrated testing frameworks for both Python (pytest) and Go
 - **LSP**: Language servers with auto-completion, formatting, and linting
+- **Text Manipulation**: Powerful surround operations for quotes, brackets, and tags
 - **File Navigation**: Telescope fuzzy finder and Neo-tree file explorer
 - **Tmux Integration**: Seamless navigation between Neovim and tmux panes
 
