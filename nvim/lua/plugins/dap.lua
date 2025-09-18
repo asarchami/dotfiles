@@ -176,9 +176,6 @@ return {
       
       local python_path = find_python_executable()
       dap_python.setup(python_path)
-      
-      -- Notify which Python is being used for debugging
-      vim.notify("DAP-Python using: " .. python_path, vim.log.levels.INFO)
 
       -- Custom configurations for different Python scenarios
       table.insert(require("dap").configurations.python, {
