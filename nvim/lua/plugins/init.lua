@@ -11,5 +11,6 @@ vim.list_extend(plugins, require("plugins.telescope"))
 vim.list_extend(plugins, require("plugins.git"))
 vim.list_extend(plugins, require("plugins.which-key"))
 vim.list_extend(plugins, require("plugins.noice"))
+vim.list_extend(plugins, require("plugins.surround"))
 
 return plugins

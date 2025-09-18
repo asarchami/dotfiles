@@ -7,13 +7,15 @@ This document contains all key mappings configured in this Neovim setup. The con
 - [Leader Key](#leader-key)
 - [Universal Keymaps (Always Available)](#universal-keymaps-always-available)
   - [Non-Leader Mappings](#non-leader-mappings)
+  - [Surround Operations](#surround-operations)
   - [File Operations (`<leader>f`)](#file-operations-leaderf)
   - [Git Operations (`<leader>g`)](#git-operations-leaderg)
     - [Git Hunk Operations (`<leader>gh`)](#git-hunk-operations-leadergh)
   - [Buffer Operations (`<leader>b`)](#buffer-operations-leaderb)
   - [Window/Split Operations (`<leader>w`)](#windowsplit-operations-leaderw)
   - [Tab Operations (`<leader>T`)](#tab-operations-leadert)
-  - [Search Operations (`<leader>s`)](#search-operations-leaders)
+  - [Surround Operations (`<leader>s`)](#surround-operations-leaders)
+  - [Search Operations (`<leader>S`)](#search-operations-leaders)
   - [Universal Code Operations (`<leader>c`)](#universal-code-operations-leaderc)
   - [Clipboard Operations](#clipboard-operations)
   - [Quick Actions](#quick-actions)
@@ -73,6 +75,43 @@ These mappings work without the leader key:
 | `Alt+j/k` | Visual | Move text up/down |
 | `[d` / `]d` | Normal | Previous/next diagnostic |
 | `Ctrl+s` | Normal/Insert | Quick save |
+
+### Surround Operations
+
+Powerful text manipulation for adding, changing, or deleting surrounding characters:
+
+| Key Binding | Mode | Description | Example |
+|-------------|------|-------------|---------|
+| `ys{motion}{char}` | Normal | Add surround around motion | `ysiw"` → surround word with quotes |
+| `yss{char}` | Normal | Add surround around entire line | `yss)` → surround line with parentheses |
+| `yS{motion}{char}` | Normal | Add surround around motion (new lines) | `ySiw{` → surround word with braces on new lines |
+| `ySS{char}` | Normal | Add surround around line (new lines) | `ySS}` → surround line with braces on new lines |
+| `S{char}` | Visual | Add surround around selection | Select text, `S"` → surround with quotes |
+| `gS{char}` | Visual | Add surround around selection (new lines) | Select text, `gS{` → surround with braces on new lines |
+| `<leader>sa{char}` | Normal/Visual | Add surround (via which-key) | `<leader>saiw"` → surround word / Select + `<leader>sa"` → surround selection |
+| `ds{char}` | Normal | Delete surrounding character | `ds"` → delete surrounding quotes |
+| `cs{old}{new}` | Normal | Change surrounding character | `cs"'` → change quotes to single quotes |
+| `cS{old}{new}` | Normal | Change surround (new lines) | `cS){` → change parens to braces on new lines |
+
+**Common Surrounding Characters:**
+- `b` or `)` → parentheses `()`
+- `B` or `}` → braces `{}`
+- `r` or `]` → brackets `[]`
+- `a` or `>` → angle brackets `<>`
+- `q` → any quote `"`, `'`, or `` ` ``
+- `s` → any surrounding character
+
+**Advanced Examples:**
+- `ysiw*` → surround word with asterisks (for markdown bold)
+- `<leader>saiw*` → surround word with asterisks via which-key
+- `ds<` → delete surrounding angle brackets
+- `<leader>sd<` → delete surrounding angle brackets via which-key
+- `cs([` → change parentheses to brackets
+- `<leader>sc([` → change parentheses to brackets via which-key
+- `yss<div>` → wrap entire line with HTML div tags
+- `<leader>sl<div>` → wrap line with HTML div via which-key
+- Visual mode: Select text + `S*` → surround selection with asterisks
+- Visual mode: Select text + `<leader>sa*` → surround selection via which-key
 
 ### Universal Telescope Shortcuts
 
@@ -191,19 +230,32 @@ When using telescope file browser (`<leader>e`), these additional shortcuts are 
 | `<leader>TL` | Last tab |
 | `<leader>Tm` | Move tab |
 
-### Search Operations (`<leader>s`)
+### Surround Operations (`<leader>s`)
 
-| Key Binding | Description |
-|-------------|-------------|
-| `<leader>sf` | Find files |
-| `<leader>sg` | Live grep |
-| `<leader>sw` | Find word |
-| `<leader>sh` | Clear highlights |
-| `<leader>ss` | Search in buffer |
-| `<leader>sr` | Resume search |
-| `<leader>sc` | Commands |
-| `<leader>sk` | Keymaps |
-| `<leader>sm` | Marks |
+Which-key shortcuts for surround operations:
+
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `<leader>sa` | Normal | Add surround (then motion + char) |
+| `<leader>sd` | Normal | Delete surround (then char) |
+| `<leader>sc` | Normal | Change surround (then old + new char) |
+| `<leader>sl` | Normal | Surround entire line |
+| `<leader>sa` | Visual | Add surround around selection |
+
+**Alternative**: Select text and press `S{char}` for direct surround, or use the comprehensive surround operations detailed below.
+
+### Search Operations (`<leader>S`)
+
+Search operations (file finding is in `<leader>f`):
+
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `<leader>Ss` | Normal | Search in buffer |
+| `<leader>Sr` | Normal | Resume search |
+| `<leader>Sc` | Normal | Commands |
+| `<leader>Sk` | Normal | Keymaps |
+| `<leader>Sm` | Normal | Marks |
+| `<leader>Sh` | Normal | Clear highlights |
 
 ### Universal Code Operations (`<leader>c`)
 
