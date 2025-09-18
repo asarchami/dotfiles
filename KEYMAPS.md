@@ -86,6 +86,7 @@ When using telescope file browser (`<leader>e`), these shortcuts are available:
 | `Ctrl+d` | Insert | Delete file/folder |
 | `Ctrl+m` | Insert | Move file/folder |
 | `Ctrl+y` | Insert | Copy file/folder |
+| `Ctrl+f` | Insert/Normal | **Fuzzy find files in current directory** |
 | `Ctrl+x` | Insert | Close telescope |
 | `q` | Normal | Close telescope |
 

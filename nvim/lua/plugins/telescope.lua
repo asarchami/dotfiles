@@ -115,10 +115,30 @@ return {
                 ["<C-m>"] = fb_actions.move,
                 ["<C-y>"] = fb_actions.copy,
                 ["<C-x>"] = actions.close,
+                ["<C-f>"] = function(prompt_bufnr)
+                  local state = require("telescope.actions.state")
+                  local current_picker = state.get_current_picker(prompt_bufnr)
+                  local current_dir = current_picker.finder.path
+                  actions.close(prompt_bufnr)
+                  require("telescope.builtin").find_files({
+                    cwd = current_dir,
+                    prompt_title = "Find Files in " .. vim.fn.fnamemodify(current_dir, ":t"),
+                  })
+                end,
               },
               ["n"] = {
                 ["<CR>"] = actions.select_default,
                 ["q"] = actions.close,
+                ["<C-f>"] = function(prompt_bufnr)
+                  local state = require("telescope.actions.state")
+                  local current_picker = state.get_current_picker(prompt_bufnr)
+                  local current_dir = current_picker.finder.path
+                  actions.close(prompt_bufnr)
+                  require("telescope.builtin").find_files({
+                    cwd = current_dir,
+                    prompt_title = "Find Files in " .. vim.fn.fnamemodify(current_dir, ":t"),
+                  })
+                end,
               },
             },
           },
