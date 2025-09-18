@@ -88,7 +88,7 @@ Powerful text manipulation for adding, changing, or deleting surrounding charact
 | `ySS{char}` | Normal | Add surround around line (new lines) | `ySS}` → surround line with braces on new lines |
 | `S{char}` | Visual | Add surround around selection | Select text, `S"` → surround with quotes |
 | `gS{char}` | Visual | Add surround around selection (new lines) | Select text, `gS{` → surround with braces on new lines |
-| `<leader>sa{char}` | Normal/Visual | Add surround (via which-key) | `<leader>saiw"` → surround word / Select + `<leader>sa"` → surround selection |
+| `<leader>sa{char}` | Visual | Add surround around selection (via which-key) | Select text + `<leader>sa"` → surround selection with quotes |
 | `ds{char}` | Normal | Delete surrounding character | `ds"` → delete surrounding quotes |
 | `cs{old}{new}` | Normal | Change surrounding character | `cs"'` → change quotes to single quotes |
 | `cS{old}{new}` | Normal | Change surround (new lines) | `cS){` → change parens to braces on new lines |
@@ -103,7 +103,6 @@ Powerful text manipulation for adding, changing, or deleting surrounding charact
 
 **Advanced Examples:**
 - `ysiw*` → surround word with asterisks (for markdown bold)
-- `<leader>saiw*` → surround word with asterisks via which-key
 - `ds<` → delete surrounding angle brackets
 - `<leader>sd<` → delete surrounding angle brackets via which-key
 - `cs([` → change parentheses to brackets
@@ -236,13 +235,12 @@ Which-key shortcuts for surround operations:
 
 | Key Binding | Mode | Description |
 |-------------|------|-------------|
-| `<leader>sa` | Normal | Add surround (then motion + char) |
 | `<leader>sd` | Normal | Delete surround (then char) |
 | `<leader>sc` | Normal | Change surround (then old + new char) |
 | `<leader>sl` | Normal | Surround entire line |
 | `<leader>sa` | Visual | Add surround around selection |
 
-**Alternative**: Select text and press `S{char}` for direct surround, or use the comprehensive surround operations detailed below.
+**Note**: For adding surround in normal mode, use direct `ys{motion}{char}` keybindings (e.g., `ysiw"` to surround word with quotes) as they're more efficient than a which-key mapping.
 
 ### Search Operations (`<leader>S`)
 

@@ -99,7 +99,6 @@ return {
         -- SURROUND OPERATIONS (<leader>s) - Normal and Visual mode
         -- ===================================================================
         { "<leader>s", group = " Surround" },
-        { "<leader>sa", "ys", desc = " Add surround", remap = true },
         { "<leader>sd", "ds", desc = " Delete surround", remap = true },
         { "<leader>sc", "cs", desc = " Change surround", remap = true },
         { "<leader>sl", "yss", desc = " Surround line", remap = true },
