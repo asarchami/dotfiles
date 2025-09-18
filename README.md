@@ -49,6 +49,10 @@ A comprehensive, modular dotfiles setup for Neovim and tmux with intelligent Pyt
 ### Prerequisites
 The setup script assumes Python 3 and Go are already installed if you plan to use them. If not installed, warnings will be shown but core functionality remains available.
 
+**Optional tools for enhanced functionality:**
+- `prettier` - General formatting tool  
+- `shfmt` - Shell script formatter
+
 ### Quick Setup
 Install all configurations (default):
 ```bash

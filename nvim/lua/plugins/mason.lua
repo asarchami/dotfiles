@@ -124,7 +124,6 @@ return {
       
       -- General tools (add if available)
       add_source_if_available(sources, null_ls.builtins.formatting.prettier, nil, "prettier")
-      add_source_if_available(sources, null_ls.builtins.diagnostics.shellcheck, nil, "shellcheck")
       add_source_if_available(sources, null_ls.builtins.formatting.shfmt, nil, "shfmt")
       
       -- Add Python sources if Python is available
@@ -135,9 +134,6 @@ return {
         add_source_if_available(sources, null_ls.builtins.formatting.isort, {
           extra_args = { "--profile", "black" },
         }, "isort")
-        add_source_if_available(sources, null_ls.builtins.diagnostics.flake8, {
-          extra_args = { "--max-line-length", "88", "--extend-ignore", "E203,W503" },
-        }, "flake8")
         add_source_if_available(sources, null_ls.builtins.diagnostics.mypy, nil, "mypy")
       end
       
