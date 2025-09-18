@@ -74,9 +74,26 @@ These mappings work without the leader key:
 | `[d` / `]d` | Normal | Previous/next diagnostic |
 | `Ctrl+s` | Normal/Insert | Quick save |
 
+### Universal Telescope Shortcuts
+
+These shortcuts work in **all** telescope windows (find files, live grep, file browser, etc.):
+
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `Ctrl+k/j` | Insert | Move selection up/down |
+| `Ctrl+q` | Insert | Send to quickfix list |
+| `Ctrl+x` | Insert/Normal | Open in horizontal split |
+| `Ctrl+v` | Insert/Normal | Open in vertical split |
+| `Ctrl+t` | Insert/Normal | Open in new tab |
+| `Ctrl+u/d` | Insert | Scroll preview up/down |
+| `Ctrl+h` | Insert | **Show help/available keymaps** |
+| `?` | Normal | **Show help/available keymaps** |
+| `Esc` | Insert | Close telescope |
+| `q` | Normal | Close telescope |
+
 ### Telescope File Browser Shortcuts
 
-When using telescope file browser (`<leader>e`), these shortcuts are available:
+When using telescope file browser (`<leader>e`), these additional shortcuts are available:
 
 | Key Binding | Mode | Description |
 |-------------|------|-------------|
@@ -86,8 +103,6 @@ When using telescope file browser (`<leader>e`), these shortcuts are available:
 | `Ctrl+d` | Insert | Delete file/folder |
 | `Ctrl+m` | Insert | Move file/folder |
 | `Ctrl+y` | Insert | Copy file/folder |
-| `Ctrl+x` | Insert | Close telescope |
-| `q` | Normal | Close telescope |
 
 ### File Operations (`<leader>f`)
 
