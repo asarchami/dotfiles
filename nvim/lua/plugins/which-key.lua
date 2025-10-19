@@ -148,7 +148,6 @@ return {
         -- QUICK ACTIONS (Single letters)
         -- ===================================================================
         { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
-        { "<leader>o", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " File explorer (current dir)" },
         { "<leader>B", "<cmd>Telescope buffers<cr>", desc = " Buffer list" },
         { "<leader>l", "<cmd>Lazy<cr>", desc = " Lazy plugin manager" },
         { "<leader>h", "<cmd>nohl<cr>", desc = " Clear search highlights" },
@@ -156,6 +155,21 @@ return {
         { "<leader>Q", "<cmd>qa<cr>", desc = " Quit all" },
         { "<leader>x", "<cmd>x<cr>", desc = " Save and quit" },
         { "<leader>?", "<cmd>WhichKey<cr>", desc = " Show all keymaps" },
+
+        -- ===================================================================
+        -- OPENCODE OPERATIONS (<leader>o)
+        -- ===================================================================
+        { "<leader>o", group = " Opencode" },
+        { "<leader>oa", function() require("opencode").ask("@this: ", { submit = true }) end, desc = " Ask about this", mode = { "n", "x" } },
+        { "<leader>os", function() require("opencode").select() end, desc = " Select prompt", mode = { "n", "x" } },
+        { "<leader>o+", function() require("opencode").prompt("@this") end, desc = " Add this", mode = { "n", "x" } },
+        { "<leader>ot", function() require("opencode").toggle() end, desc = " Toggle embedded", mode = "n" },
+        { "<leader>oc", function() require("opencode").command() end, desc = " Select command", mode = "n" },
+        { "<leader>on", function() require("opencode").command("session_new") end, desc = " New session", mode = "n" },
+        { "<leader>oi", function() require("opencode").command("session_interrupt") end, desc = " Interrupt session", mode = "n" },
+        { "<leader>oA", function() require("opencode").command("agent_cycle") end, desc = " Cycle selected agent", mode = "n" },
+        { "<leader>oj", function() require("opencode").command("messages_half_page_up") end, desc = " Messages half page up", mode = "n" },
+        { "<leader>ok", function() require("opencode").command("messages_half_page_down") end, desc = " Messages half page down", mode = "n" },
 
         -- ===================================================================
         -- NOTES FOR FUTURE PLUGINS:
