@@ -1,4 +1,5 @@
 return {
+  lazy = false,
   "NickvanDyke/opencode.nvim",
   dependencies = {
     -- Recommended for `ask()` and `select()`.
