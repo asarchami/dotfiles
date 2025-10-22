@@ -90,17 +90,17 @@ These mappings work without the leader key:
 Powerful text manipulation for adding, changing, or deleting surrounding characters:
 
 | Key Binding | Mode | Description | Example |
-|-------------|------|-------------|---------|\
-| `ys{motion}{char}` | Normal | Add surround around motion | `ysiw"` → surround word with quotes |\
-| `yss{char}` | Normal | Add surround around entire line | `yss)` → surround line with parentheses |\
-| `yS{motion}{char}` | Normal | Add surround around motion (new lines) | `ySiw{` → surround word with braces on new lines |\
-| `ySS{char}` | Normal | Add surround around line (new lines) | `ySS}` → surround line with braces on new lines |\
-| `S{char}` | Visual | Add surround around selection | Select text, `S"` → surround with quotes |\
-| `gS{char}` | Visual | Add surround around selection (new lines) | Select text, `gS{` → surround with braces on new lines |\
-| `<leader>sa{char}` | Visual | Add surround around selection (via which-key) | Select text + `<leader>sa"` → surround selection with quotes |\
-| `ds{char}` | Normal | Delete surrounding character | `ds"` → delete surrounding quotes |\
-| `cs{old}{new}` | Normal | Change surrounding character | `cs"\'` → change quotes to single quotes |\
-| `cS{old}{new}` | Normal | Change surround (new lines) | `cS){` → change parens to braces on new lines |\
+|-------------|------|-------------|---------|
+| `ys{motion}{char}` | Normal | Add surround around motion | `ysiw"` → surround word with quotes |
+| `yss{char}` | Normal | Add surround around entire line | `yss)` → surround line with parentheses |
+| `yS{motion}{char}` | Normal | Add surround around motion (new lines) | `ySiw{` → surround word with braces on new lines |
+| `ySS{char}` | Normal | Add surround around line (new lines) | `ySS}` → surround line with braces on new lines |
+| `S{char}` | Visual | Add surround around selection | Select text, `S"` → surround with quotes |
+| `gS{char}` | Visual | Add surround around selection (new lines) | Select text, `gS{` → surround with braces on new lines |
+| `<leader>sa{char}` | Visual | Add surround around selection (via which-key) | Select text + `<leader>sa"` → surround selection with quotes |
+| `ds{char}` | Normal | Delete surrounding character | `ds"` → delete surrounding quotes |
+| `cs{old}{new}` | Normal | Change surrounding character | `cs"\'` → change quotes to single quotes |
+| `cS{old}{new}` | Normal | Change surround (new lines) | `cS){` → change parens to braces on new lines |
 
 **Common Surrounding Characters:**
 - `b` or `)` → parentheses `()`
@@ -153,102 +153,102 @@ When using telescope file browser (`<leader>e`), these additional shortcuts are 
 
 ### File Operations (`<leader>f`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>ff` | Find files |\
-| `<leader>fg` | Live grep (search in files) |\
-| `<leader>fb` | Find buffers |\
-| `<leader>fr` | Recent files |\
-| `<leader>fw` | Find word under cursor |\
-| `<leader>fh` | Help tags |\
-| `<leader>fc` | Change colorscheme |\
-| `<leader>fe` | File explorer |\
-| `<leader>fE` | File explorer (current dir) |\
-| `<leader>fn` | New file |\
-| `<leader>fs` | Save file |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>ff` | Find files |
+| `<leader>fg` | Live grep (search in files) |
+| `<leader>fb` | Find buffers |
+| `<leader>fr` | Recent files |
+| `<leader>fw` | Find word under cursor |
+| `<leader>fh` | Help tags |
+| `<leader>fc` | Change colorscheme |
+| `<leader>fe` | File explorer |
+| `<leader>fE` | File explorer (current dir) |
+| `<leader>fn` | New file |
+| `<leader>fs` | Save file |
 | `<leader>fS` | Save all files |
 
 ### Git Operations (`<leader>g`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>gg` | LazyGit |\
-| `<leader>gs` | Git status |\
-| `<leader>gb` | Git branches |\
-| `<leader>gc` | Git commits |\
-| `<leader>gd` | Git diff |\
-| `<leader>gp` | Preview hunk |\
-| `<leader>gr` | Reset hunk |\
-| `<leader>gR` | Reset buffer |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>gg` | LazyGit |
+| `<leader>gs` | Git status |
+| `<leader>gb` | Git branches |
+| `<leader>gc` | Git commits |
+| `<leader>gd` | Git diff |
+| `<leader>gp` | Preview hunk |
+| `<leader>gr` | Reset hunk |
+| `<leader>gR` | Reset buffer |
 | `<leader>gl` | Blame line |
 
 #### Git Hunk Operations (`<leader>gh`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>ghs` | Stage hunk |\
-| `<leader>ghu` | Undo stage hunk |\
-| `<leader>ghr` | Reset hunk |\
-| `<leader>ghp` | Preview hunk |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>ghs` | Stage hunk |
+| `<leader>ghu` | Undo stage hunk |
+| `<leader>ghr` | Reset hunk |
+| `<leader>ghp` | Preview hunk |
 | `<leader>ghd` | Diff this |
 
 ### Buffer Operations (`<leader>B`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>Bd` | Delete buffer |\
-| `<leader>BD` | Force delete buffer |\
-| `<leader>Bn` | Next buffer |\
-| `<leader>Bp` | Previous buffer |\
-| `<leader>Bf` | Find buffer |\
-| `<leader>Bs` | Save buffer |\
-| `<leader>BS` | Save all buffers |\
-| `<leader>Bc` | Choose buffer to close |\
-| `<leader>BC` | Close all but current |\
-| `<leader>Br` | Reload buffer |\
-| `<leader>Bl` | Go to last buffer |\
-| `<leader>Bh` | Go to first buffer |\
-| `<leader>BP` | Pick buffer |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>Bd` | Delete buffer |
+| `<leader>BD` | Force delete buffer |
+| `<leader>Bn` | Next buffer |
+| `<leader>Bp` | Previous buffer |
+| `<leader>Bf` | Find buffer |
+| `<leader>Bs` | Save buffer |
+| `<leader>BS` | Save all buffers |
+| `<leader>Bc` | Choose buffer to close |
+| `<leader>BC` | Close all but current |
+| `<leader>Br` | Reload buffer |
+| `<leader>Bl` | Go to last buffer |
+| `<leader>Bh` | Go to first buffer |
+| `<leader>BP` | Pick buffer |
 | `<leader>Bo` | Close other buffers |
 
 ### Window/Split Operations (`<leader>w`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>wv` | Split vertically |\
-| `<leader>wh` | Split horizontally |\
-| `<leader>wc` | Close window |\
-| `<leader>wo` | Only window |\
-| `<leader>ww` | Switch window |\
-| `<leader>wr` | Rotate windows |\
-| `<leader>w=` | Balance windows |\
-| `<leader>w|` | Max width |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>wv` | Split vertically |
+| `<leader>wh` | Split horizontally |
+| `<leader>wc` | Close window |
+| `<leader>wo` | Only window |
+| `<leader>ww` | Switch window |
+| `<leader>wr` | Rotate windows |
+| `<leader>w=` | Balance windows |
+| `<leader>w|` | Max width |
 | `<leader>w_` | Max height |
 
 ### Tab Operations (`<leader>T`)
 
 **Note**: Always available, no conflicts with test operations.
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>Tn` | New tab |\
-| `<leader>Tc` | Close tab |\
-| `<leader>To` | Only tab |\
-| `<leader>Tl` | Next tab |\
-| `<leader>Th` | Previous tab |\
-| `<leader>Tf` | First tab |\
-| `<leader>TL` | Last tab |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>Tn` | New tab |
+| `<leader>Tc` | Close tab |
+| `<leader>To` | Only tab |
+| `<leader>Tl` | Next tab |
+| `<leader>Th` | Previous tab |
+| `<leader>Tf` | First tab |
+| `<leader>TL` | Last tab |
 | `<leader>Tm` | Move tab |
 
 ### Surround Operations (`<leader>s`)
 
 Which-key shortcuts for surround operations:
 
-| Key Binding | Mode | Description |\
-|-------------|------|-------------|\
-| `<leader>sd` | Normal | Delete surround (then char) |\
-| `<leader>sc` | Normal | Change surround (then old + new char) |\
-| `<leader>sl` | Normal | Surround entire line |\
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `<leader>sd` | Normal | Delete surround (then char) |
+| `<leader>sc` | Normal | Change surround (then old + new char) |
+| `<leader>sl` | Normal | Surround entire line |
 | `<leader>sa` | Visual | Add surround around selection |
 
 **Note**: For adding surround in normal mode, use direct `ys{motion}{char}` keybindings (e.g., `ysiw"` to surround word with quotes) as they're more efficient than a which-key mapping.
@@ -257,55 +257,55 @@ Which-key shortcuts for surround operations:
 
 Search operations (file finding is in `<leader>f`):
 
-| Key Binding | Mode | Description |\
-|-------------|------|-------------|\
-| `<leader>Ss` | Normal | Search in buffer |\
-| `<leader>Sr` | Normal | Resume search |\
-| `<leader>Sc` | Normal | Commands |\
-| `<leader>Sk` | Normal | Keymaps |\
-| `<leader>Sm` | Normal | Marks |\
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `<leader>Ss` | Normal | Search in buffer |
+| `<leader>Sr` | Normal | Resume search |
+| `<leader>Sc` | Normal | Commands |
+| `<leader>Sk` | Normal | Keymaps |
+| `<leader>Sm` | Normal | Marks |
 | `<leader>Sh` | Normal | Clear highlights |
 
 ### Universal Code Operations (`<leader>c`)
 
 These work across all file types:
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>cf` | Format |\
-| `<leader>cr` | Rename |\
-| `<leader>ca` | Code action |\
-| `<leader>cd` | Diagnostics |\
-| `<leader>ch` | Hover |\
-| `<leader>cD` | Declaration |\
-| `<leader>cj` | Jump to definition |\
-| `<leader>cR` | References |\
-| `<leader>cs` | Document symbols |\
-| `<leader>cS` | Workspace symbols |\
-| `<leader>ci` | LSP info |\
-| `<leader>cI` | Mason installer |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>cf` | Format |
+| `<leader>cr` | Rename |
+| `<leader>ca` | Code action |
+| `<leader>cd` | Diagnostics |
+| `<leader>ch` | Hover |
+| `<leader>cD` | Declaration |
+| `<leader>cj` | Jump to definition |
+| `<leader>cR` | References |
+| `<leader>cs` | Document symbols |
+| `<leader>cS` | Workspace symbols |
+| `<leader>ci` | LSP info |
+| `<leader>cI` | Mason installer |
 | `<leader>cx` | Make executable |
 
 ### Clipboard Operations
 
-| Key Binding | Mode | Description |\
-|-------------|------|-------------|\
-| `<leader>y` | Normal/Visual | Copy to system clipboard |\
-| `<leader>Y` | Normal | Copy line to system clipboard |\
-| `<leader>p` | Normal/Visual | Paste from system clipboard |\
+| Key Binding | Mode | Description |
+|-------------|------|-------------|
+| `<leader>y` | Normal/Visual | Copy to system clipboard |
+| `<leader>Y` | Normal | Copy line to system clipboard |
+| `<leader>p` | Normal/Visual | Paste from system clipboard |
 | `<leader>P` | Normal | Paste before from system clipboard |
 
 ### Quick Actions
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>e` | File browser |\
-| `<leader>b` | Buffer list |\
-| `<leader>l` | Lazy plugin manager |\
-| `<leader>h` | Clear search highlights |\
-| `<leader>q` | Quit |\
-| `<leader>Q` | Quit all |\
-| `<leader>x` | Save and quit |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>e` | File browser |
+| `<leader>b` | Buffer list |
+| `<leader>l` | Lazy plugin manager |
+| `<leader>h` | Clear search highlights |
+| `<leader>q` | Quit |
+| `<leader>Q` | Quit all |
+| `<leader>x` | Save and quit |
 | `<leader>?` | Show all keymaps |
 
 ## Language-Specific Keymaps (Conditional)
@@ -321,49 +321,49 @@ These mappings only appear when working on projects with the respective language
 
 #### Test Operations (`<leader>t` - overrides Tab operations)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>tt` | Run nearest test |\
-| `<leader>tf` | Run file tests |\
-| `<leader>ta` | Run all tests |\
-| `<leader>to` | Test output |\
-| `<leader>ts` | Test summary |\
-| `<leader>tc` | Cancel test |\
-| `<leader>tl` | Run last test |\
-| `<leader>td` | Debug nearest test |\
-| `<leader>tm` | Debug test method |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>tt` | Run nearest test |
+| `<leader>tf` | Run file tests |
+| `<leader>ta` | Run all tests |
+| `<leader>to` | Test output |
+| `<leader>ts` | Test summary |
+| `<leader>tc` | Cancel test |
+| `<leader>tl` | Run last test |
+| `<leader>td` | Debug nearest test |
+| `<leader>tm` | Debug test method |
 | `<leader>tC` | Debug test class |
 
 #### Debug Operations (`<leader>d`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>db` | Toggle breakpoint |\
-| `<leader>dB` | Conditional breakpoint |\
-| `<leader>dc` | Continue |\
-| `<leader>di` | Step into |\
-| `<leader>do` | Step over |\
-| `<leader>dO` | Step out |\
-| `<leader>dr` | Open REPL |\
-| `<leader>dl` | Run last |\
-| `<leader>du` | Toggle UI |\
-| `<leader>dt` | Terminate |\
-| `<leader>dh` | Hover |\
-| `<leader>dv` | Preview |\
-| `<leader>ds` | Debug selection |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>db` | Toggle breakpoint |
+| `<leader>dB` | Conditional breakpoint |
+| `<leader>dc` | Continue |
+| `<leader>di` | Step into |
+| `<leader>do` | Step over |
+| `<leader>dO` | Step out |
+| `<leader>dr` | Open REPL |
+| `<leader>dl` | Run last |
+| `<leader>du` | Toggle UI |
+| `<leader>dt` | Terminate |
+| `<leader>dh` | Hover |
+| `<leader>dv` | Preview |
+| `<leader>ds` | Debug selection |
 | `<leader>df` | Debug current file |
 
 #### Python-Specific Operations (`<leader>cp`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>cps` | Select venv |\
-| `<leader>cpi` | Select cached venv |\
-| `<leader>cpe` | Show current venv |\
-| `<leader>cpr` | Toggle REPL |\
-| `<leader>cpR` | Focus REPL |\
-| `<leader>cpz` | Restart REPL |\
-| `<leader>cph` | Hide REPL |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>cps` | Select venv |
+| `<leader>cpi` | Select cached venv |
+| `<leader>cpe` | Show current venv |
+| `<leader>cpr` | Toggle REPL |
+| `<leader>cpR` | Focus REPL |
+| `<leader>cpz` | Restart REPL |
+| `<leader>cph` | Hide REPL |
 | `<leader>cpg` | Generate docstring |
 
 ### Go Projects (`<leader>t`, `<leader>d`, `<leader>cg`)
@@ -375,28 +375,28 @@ These mappings only appear when working on projects with the respective language
 
 #### Test Operations (`<leader>t` - overrides Tab operations)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>tt` | Run tests |\
-| `<leader>tf` | Test function |\
-| `<leader>tp` | Test package |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>tt` | Run tests |
+| `<leader>tf` | Test function |
+| `<leader>tp` | Test package |
 | `<leader>ta` | Add test |
 
 #### Debug Operations (`<leader>d`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>db` | Toggle breakpoint |\
-| `<leader>dc` | Continue |\
-| `<leader>di` | Step into |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>db` | Toggle breakpoint |
+| `<leader>dc` | Continue |
+| `<leader>di` | Step into |
 | `<leader>do` | Step over |
 
 #### Go-Specific Operations (`<leader>cg`)
 
-| Key Binding | Description |\
-|-------------|-------------|\
-| `<leader>cgr` | Run |\
-| `<leader>cgb` | Build |\
+| Key Binding | Description |
+|-------------|-------------|
+| `<leader>cgr` | Run |
+| `<leader>cgb` | Build |
 | `<leader>cgF` | Format |
 
 ## Smart Context System
