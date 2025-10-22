@@ -29,6 +29,11 @@ local lazy_config = {
     wrap = true,
   },
   
+  -- Disable luarocks support (fixes Lua 5.1 vs 5.4 version conflicts)
+  rocks = {
+    enabled = false,
+  },
+  
   -- Performance optimizations (always enabled)
   performance = {
     cache = {
