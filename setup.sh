@@ -14,6 +14,7 @@ INSTALL_ALL=false
 INSTALL_NVIM=false
 INSTALL_TMUX=false
 INSTALL_ALACRITTY=false
+INSTALL_HYPR=false
 DRY_RUN=false
 
 # Parse command line arguments
@@ -41,6 +42,10 @@ parse_args() {
                 INSTALL_ALACRITTY=true
                 shift
                 ;;
+            --hypr)
+                INSTALL_HYPR=true
+                shift
+                ;;
             --dry-run)
                 DRY_RUN=true
                 print_info "Dry run mode: will check what would be installed without making changes"
@@ -53,6 +58,7 @@ parse_args() {
                 echo "  --nvim      Install only Neovim configuration"
                 echo "  --tmux      Install only tmux configuration"
                 echo "  --alacritty Install only Alacritty configuration"
+                echo "  --hypr      Install only Hyprland configuration"
                 echo "  --dry-run   Show what would be installed without making changes"
                 echo "  -h, --help  Show this help message"
                 exit 0
@@ -518,6 +524,41 @@ install_alacritty() {
     print_success "Alacritty configuration installed"
 }
 
+# Install Hyprland configuration
+install_hypr() {
+    print_info "Installing Hyprland configuration..."
+    
+    local hypr_config_base_path="$HOME/.config/hypr"
+    local hypr_config_path="$hypr_config_base_path/config"
+    
+    # Check if config already exists and is identical
+    if [ -d "$hypr_config_path" ]; then
+        if diff -r "./hypr" "$hypr_config_path" >/dev/null 2>&1; then
+            print_info "Hyprland configuration is already up to date (skipping)"
+            return
+        else
+            print_info "Existing Hyprland configuration differs from dotfiles version"
+            if [ "$DRY_RUN" = true ]; then
+                print_warning "Would backup existing config and install new Hyprland configuration"
+                return
+            fi
+            create_backup "$hypr_config_path"
+        fi
+    else
+        if [ "$DRY_RUN" = true ]; then
+            print_warning "Would install Hyprland configuration"
+            return
+        fi
+    fi
+    
+    # Remove existing config and copy new config
+    rm -rf "$hypr_config_path"
+    mkdir -p "$hypr_config_path"
+    cp -r "./hypr" "$hypr_config_path"
+    
+    print_success "Hyprland configuration installed"
+}
+
 # Main installation function
 main() {
     print_info "Starting dotfiles installation..."
@@ -536,6 +577,7 @@ main() {
         install_nvim
         install_tmux
         install_alacritty
+        install_hypr
     else
         if [ "$INSTALL_NVIM" = true ]; then
             install_nvim
@@ -545,6 +587,9 @@ main() {
         fi
         if [ "$INSTALL_ALACRITTY" = true ]; then
             install_alacritty
+        fi
+        if [ "$INSTALL_HYPR" = true ]; then
+            install_hypr
         fi
     fi
     
