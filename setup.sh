@@ -10,26 +10,32 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default values
-INSTALL_ALL=false
 INSTALL_NVIM=false
 INSTALL_TMUX=false
 INSTALL_ALACRITTY=false
 INSTALL_HYPR=false
+INSTALL_FISH=false
 DRY_RUN=false
 
 # Parse command line arguments
 parse_args() {
     if [ $# -eq 0 ]; then
-        INSTALL_ALL=true
-        return
+        echo "Usage: $0 [OPTIONS]"
+        echo "Error: No options provided. Please specify what to install."
+        echo ""
+        echo "Options:"
+        echo "  --nvim      Install Neovim configuration"
+        echo "  --tmux      Install tmux configuration"
+        echo "  --alacritty Install Alacritty configuration"
+        echo "  --hypr      Install Hyprland configuration"
+        echo "  --fish      Install Fish configuration"
+        echo "  --dry-run   Show what would be installed without making changes"
+        echo "  -h, --help  Show this help message"
+        exit 1
     fi
     
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --all)
-                INSTALL_ALL=true
-                shift
-                ;;
             --nvim)
                 INSTALL_NVIM=true
                 shift
@@ -46,6 +52,10 @@ parse_args() {
                 INSTALL_HYPR=true
                 shift
                 ;;
+            --fish)
+                INSTALL_FISH=true
+                shift
+                ;;
             --dry-run)
                 DRY_RUN=true
                 print_info "Dry run mode: will check what would be installed without making changes"
@@ -54,11 +64,11 @@ parse_args() {
             -h|--help)
                 echo "Usage: $0 [OPTIONS]"
                 echo "Options:"
-                echo "  --all       Install all configurations (default)"
-                echo "  --nvim      Install only Neovim configuration"
-                echo "  --tmux      Install only tmux configuration"
-                echo "  --alacritty Install only Alacritty configuration"
-                echo "  --hypr      Install only Hyprland configuration"
+                echo "  --nvim      Install Neovim configuration"
+                echo "  --tmux      Install tmux configuration"
+                echo "  --alacritty Install Alacritty configuration"
+                echo "  --hypr      Install Hyprland configuration"
+                echo "  --fish      Install Fish configuration"
                 echo "  --dry-run   Show what would be installed without making changes"
                 echo "  -h, --help  Show this help message"
                 exit 0
@@ -86,23 +96,6 @@ print_warning() {
 
 print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
-}
-
-# Detect OS
-detect_os() {
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        OS="macos"
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        if command -v apt-get >/dev/null 2>&1; then
-            OS="debian"
-        else
-            OS="linux"
-        fi
-    else
-        print_error "Unsupported operating system: $OSTYPE"
-        exit 1
-    fi
-    print_info "Detected OS: $OS"
 }
 
 # Check for optional language dependencies
@@ -136,20 +129,22 @@ check_language_dependencies() {
     fi
 }
 
-# Check if a package is installed (macOS)
-check_brew_package() {
+# Check if a package is installed system-wide, not just via Homebrew
+check_if_package_is_installed() {
     local package="$1"
-    if brew list "$package" >/dev/null 2>&1; then
-        return 0  # Package is installed
-    else
-        return 1  # Package is not installed
-    fi
-}
+    local cmd_to_check="$package"
 
-# Check if a package is installed (Debian)
-check_apt_package() {
-    local package="$1"
-    if dpkg -l | grep -q "^ii  $package "; then
+    # Handle packages where the command is different from the package name
+    case "$package" in
+        ripgrep)
+            cmd_to_check="rg"
+            ;;
+        neovim)
+            cmd_to_check="nvim"
+            ;;
+    esac
+
+    if command -v "$cmd_to_check" >/dev/null 2>&1; then
         return 0  # Package is installed
     else
         return 1  # Package is not installed
@@ -159,7 +154,7 @@ check_apt_package() {
 # Install a single brew package if not already installed
 install_brew_package() {
     local package="$1"
-    if check_brew_package "$package"; then
+    if check_if_package_is_installed "$package"; then
         print_info "$package is already installed (skipping)"
     else
         if [ "$DRY_RUN" = true ]; then
@@ -172,164 +167,28 @@ install_brew_package() {
     fi
 }
 
-# Install a single apt package if not already installed
-install_apt_package() {
-    local package="$1"
-    if check_apt_package "$package"; then
-        print_info "$package is already installed (skipping)"
-    else
-        if [ "$DRY_RUN" = true ]; then
-            print_warning "Would install $package"
-        else
-            print_info "Installing $package..."
-            sudo apt-get install -y "$package"
-            print_success "$package installed successfully"
-        fi
-    fi
-}
-
 # Install dependencies
 install_dependencies() {
     print_info "Installing core dependencies..."
     
-    case $OS in
-        macos|linux)
-            # Check if Homebrew is installed
-            if ! command -v brew >/dev/null 2>&1; then
-                if [ "$DRY_RUN" = true ]; then
-                    print_warning "Would install Homebrew"
-                else
-                    print_info "Installing Homebrew..."
-                    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                    print_success "Homebrew installed successfully"
-                fi
-            else
-                print_info "Homebrew is already installed (skipping)"
-            fi
-            
-            # Install core dependencies individually (excluding Python and Go)
-            # Note: tree-sitter is not needed as system package (Neovim handles it internally)
-            local packages=("git" "fzf" "ripgrep" "fd" "node" "npm" "luarocks")
-            
-            # Add packages based on what's being installed
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_NVIM" = true ]; then
-                packages+=("neovim")
-            fi
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
-                packages+=("tmux" "lazygit")
-            fi
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_ALACRITTY" = true ]; then
-                packages+=("alacritty")
-            fi
-            
-            for package in "${packages[@]}"; do
-                install_brew_package "$package"
-            done
-            
-
-            ;;
-        debian)
-            # Fix locale warnings
-            export LC_ALL=C.UTF-8
-            export LANG=C.UTF-8
-            
-            sudo apt-get update
-            
-            # Install basic packages
-            local basic_packages=("curl" "git" "build-essential")
-            for package in "${basic_packages[@]}"; do
-                install_apt_package "$package"
-            done
-            
-            # Install Neovim (latest version) - only if requested
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_NVIM" = true ]; then
-                print_info "Checking for Neovim installation..."
-                if ! command -v nvim >/dev/null 2>&1; then
-                    if [ "$DRY_RUN" = true ]; then
-                        print_warning "Would install Neovim from AppImage"
-                    else
-                        print_info "Installing Neovim..."
-                        # Ensure /usr/local/bin exists
-                        sudo mkdir -p /usr/local/bin
-                        # Download and install Neovim with size validation
-                        curl -Lo nvim.appimage https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-x86_64.appimage
-                        if [ -f nvim.appimage ] && [ $(stat -c%s nvim.appimage) -gt 1000000 ]; then
-                            chmod +x nvim.appimage && \
-                            sudo mv nvim.appimage /usr/local/bin/nvim
-                            print_success "Neovim installed successfully"
-                        else
-                            print_error "Failed to download Neovim (file too small or missing)"
-                            rm -f nvim.appimage
-                            return 1
-                        fi
-                    fi
-                else
-                    local nvim_path=$(command -v nvim)
-                    print_info "Neovim is already installed at $nvim_path (skipping binary installation)"
-                fi
-            fi
-            
-            # Install Alacritty from official PPA (newer than apt version) - only if requested
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_ALACRITTY" = true ]; then
-                if ! command -v alacritty >/dev/null 2>&1; then
-                    if [ "$DRY_RUN" = true ]; then
-                        print_warning "Would install Alacritty from GitHub releases"
-                    else
-                        print_info "Installing Alacritty..."
-                        # Install via cargo if rust is available, otherwise use AppImage
-                        if command -v cargo >/dev/null 2>&1; then
-                            cargo install alacritty
-                        else
-                            # Download latest Alacritty AppImage
-                            curl -L "https://github.com/alacritty/alacritty/releases/latest/download/Alacritty-v*-ubuntu_18_04_amd64.AppImage" -o alacritty.appimage
-                            chmod +x alacritty.appimage
-                            sudo mv alacritty.appimage /usr/local/bin/alacritty
-                        fi
-                        print_success "Alacritty installed successfully"
-                    fi
-                else
-                    print_info "Alacritty is already installed (skipping)"
-                fi
-            fi
-            
-
-            
-            # Install other core dependencies (excluding Python and Go)
-            # Note: tree-sitter is not needed as system package (Neovim handles it internally)
-            local packages=("fzf" "ripgrep" "fd-find" "nodejs" "npm")
-            
-            # Add packages based on what's being installed
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_NVIM" = true ]; then
-                packages+=("luarocks")
-            fi
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
-                packages+=("tmux")
-            fi
-            
-            for package in "${packages[@]}"; do
-                install_apt_package "$package"
-            done
-            
-            # Install lazygit - only if tmux is being installed (for git integration)
-            if [ "$INSTALL_ALL" = true ] || [ "$INSTALL_TMUX" = true ]; then
-                if ! command -v lazygit >/dev/null 2>&1; then
-                    if [ "$DRY_RUN" = true ]; then
-                        print_warning "Would install lazygit from GitHub releases"
-                    else
-                        print_info "Installing lazygit..."
-                        LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-                        curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-                        tar xf lazygit.tar.gz lazygit
-                        sudo install lazygit /usr/local/bin
-                        rm lazygit.tar.gz lazygit
-                        print_success "lazygit installed successfully"
-                    fi
-                else
-                    print_info "lazygit is already installed (skipping)"
-                fi
-            fi
-            ;;
-    esac
+    # Install core dependencies individually (excluding Python and Go)
+    # Note: tree-sitter is not needed as system package (Neovim handles it internally)
+    local packages=("git" "fzf" "ripgrep" "fd" "node" "npm" "luarocks")
+    
+    # Add packages based on what's being installed
+    if [ "$INSTALL_NVIM" = true ]; then
+        packages+=("neovim")
+    fi
+    if [ "$INSTALL_TMUX" = true ]; then
+        packages+=("tmux" "lazygit")
+    fi
+    if [ "$INSTALL_ALACRITTY" = true ]; then
+        packages+=("alacritty")
+    fi
+    
+    for package in "${packages[@]}"; do
+        install_brew_package "$package"
+    done
     
     print_success "Core dependencies installation completed"
     
@@ -445,47 +304,7 @@ install_tmux() {
 # Install Alacritty configuration
 # Install JetBrains Mono Nerd Font for Alacritty
 install_jetbrains_font() {
-    case "$OS" in
-        darwin|linux)
-            install_brew_package "font-jetbrains-mono-nerd-font"
-            ;;
-        debian)
-            # Install fontconfig if not present
-            if ! command -v fc-list >/dev/null 2>&1; then
-                install_apt_package "fontconfig"
-            fi
-            
-            # Install unzip if not present (needed for font installation)
-            if ! command -v unzip >/dev/null 2>&1; then
-                install_apt_package "unzip"
-            fi
-            
-            # Install font
-            if command -v fc-list >/dev/null 2>&1; then
-                if ! fc-list | grep -i "JetBrainsMono.*Nerd" >/dev/null 2>&1; then
-                    if [ "$DRY_RUN" = true ]; then
-                        print_warning "Would install JetBrains Mono Nerd Font"
-                    else
-                        print_info "Installing JetBrains Mono Nerd Font..."
-                        mkdir -p ~/.local/share/fonts
-                        cd ~/.local/share/fonts || exit 1
-                        curl -fLo "JetBrains Mono Regular Nerd Font Complete.ttf" \
-                            "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip" 2>/dev/null && \
-                        unzip -o JetBrainsMono.zip "*.ttf" 2>/dev/null && \
-                        rm -f JetBrainsMono.zip
-                        fc-cache -fv >/dev/null 2>&1
-                        cd - > /dev/null || exit 1
-                        print_success "JetBrains Mono Nerd Font installed successfully"
-                    fi
-                else
-                    print_info "JetBrains Mono Nerd Font is already installed (skipping)"
-                fi
-            else
-                print_info "Skipping font installation (no GUI environment detected)"
-                print_info "To install manually: https://www.jetbrains.com/lp/mono/"
-            fi
-            ;;
-    esac
+    install_brew_package "font-jetbrains-mono-nerd-font"
 }
 
 install_alacritty() {
@@ -559,6 +378,40 @@ install_hypr() {
     print_success "Hyprland configuration installed"
 }
 
+# Install and configure Fish
+install_fish() {
+    print_info "Checking Fish shell..."
+
+    # Check if fish is installed
+    if ! command -v fish >/dev/null 2>&1; then
+        echo "Fish shell is not installed."
+        read -p "Do you want to install Fish now via Homebrew? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            print_info "Installing Fish..."
+            brew install fish
+            print_success "Fish installed successfully"
+        else
+            print_error "Fish shell installation was declined. Cannot proceed with Fish setup."
+            exit 1
+        fi
+    else
+        print_info "Fish shell is already installed."
+    fi
+
+    # Ask to configure fish
+    read -p "Do you want to run 'fish_config' to configure Fish? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        print_info "Running 'fish_config'. Please follow the on-screen instructions."
+        fish_config
+    else
+        print_info "Skipping Fish configuration."
+    fi
+    
+    print_success "Fish setup completed."
+}
+
 # Main installation function
 main() {
     print_info "Starting dotfiles installation..."
@@ -569,28 +422,84 @@ main() {
     print_info ""
     
     parse_args "$@"
-    detect_os
+
+    # Check if Homebrew is installed
+    if ! command -v brew >/dev/null 2>&1; then
+        echo "Homebrew is not installed. It is required to install dependencies."
+        read -p "Do you want to install Homebrew now? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            print_info "Installing Homebrew..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            print_success "Homebrew installed successfully"
+
+            # Add Homebrew to PATH for Linux
+            if [[ "$(uname)" == "Linux" ]]; then
+                print_info "Adding Homebrew to your shell environment..."
+                local brew_path="/home/linuxbrew/.linuxbrew/bin/brew"
+                
+                # Add to current session
+                eval "$($brew_path shellenv)"
+
+                # Add to shell config file
+                local shell_name
+                shell_name=$(basename "$SHELL")
+                
+                case "$shell_name" in
+                    bash)
+                        local profile_file="$HOME/.bash_profile"
+                        if [ ! -f "$profile_file" ]; then
+                            profile_file="$HOME/.profile"
+                        fi
+                        echo "" >> "$profile_file"
+                        echo "eval \"\$($brew_path shellenv)\"" >> "$profile_file"
+                        print_success "Homebrew added to $profile_file"
+                        ;;
+                    zsh)
+                        local zshrc_file="$HOME/.zshrc"
+                        echo "" >> "$zshrc_file"
+                        echo "eval \"\$($brew_path shellenv)\"" >> "$zshrc_file"
+                        print_success "Homebrew added to $zshrc_file"
+                        ;;
+                    fish)
+                        local fish_config_file="$HOME/.config/fish/config.fish"
+                        mkdir -p "$(dirname "$fish_config_file")"
+                        echo "" >> "$fish_config_file"
+                        echo "eval ($brew_path shellenv)" >> "$fish_config_file"
+                        print_success "Homebrew added to $fish_config_file"
+                        ;;
+                    *)
+                        print_warning "Could not determine shell. Please add Homebrew to your PATH manually."
+                        print_warning "Add the following to your shell configuration file:"
+                        print_warning "  eval \"\$($brew_path shellenv)\""
+                        ;;
+                esac
+            fi
+        else
+            print_error "Homebrew is required for this script. Exiting."
+            exit 1
+        fi
+    else
+        print_info "Homebrew is already installed."
+    fi
+
     install_dependencies
     
     # Determine what to install
-    if [ "$INSTALL_ALL" = true ]; then
+    if [ "$INSTALL_NVIM" = true ]; then
         install_nvim
+    fi
+    if [ "$INSTALL_TMUX" = true ]; then
         install_tmux
+    fi
+    if [ "$INSTALL_ALACRITTY" = true ]; then
         install_alacritty
+    fi
+    if [ "$INSTALL_HYPR" = true ]; then
         install_hypr
-    else
-        if [ "$INSTALL_NVIM" = true ]; then
-            install_nvim
-        fi
-        if [ "$INSTALL_TMUX" = true ]; then
-            install_tmux
-        fi
-        if [ "$INSTALL_ALACRITTY" = true ]; then
-            install_alacritty
-        fi
-        if [ "$INSTALL_HYPR" = true ]; then
-            install_hypr
-        fi
+    fi
+    if [ "$INSTALL_FISH" = true ]; then
+        install_fish
     fi
     
     print_success "Dotfiles installation completed!"
