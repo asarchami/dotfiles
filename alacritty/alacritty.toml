@@ -132,7 +132,7 @@ osc52 = "CopyPaste"
 
 # Shell configuration (updated format)
 [terminal.shell]
-program = "/opt/homebrew/bin/tmux" # <- Set your path
+program = "TMUX_PATH_PLACEHOLDER" # This path is dynamically set during installation
 args = ["new-session", "-A", "-D", "-s", "🏡 Home"]
 
 [mouse]
