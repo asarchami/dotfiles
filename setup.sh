@@ -366,8 +366,7 @@ install_alacritty() {
 install_hypr() {
     print_info "Installing Hyprland configuration..."
     
-    local hypr_config_base_path="$HOME/.config/hypr"
-    local hypr_config_path="$hypr_config_base_path/config"
+    local hypr_config_path="$HOME/.config/hypr"
     
     # Check if config already exists and is identical
     if [ -d "$hypr_config_path" ]; then
@@ -381,18 +380,19 @@ install_hypr() {
                 return
             fi
             create_backup "$hypr_config_path"
+            # Clear the directory instead of removing it
+            find "$hypr_config_path" -mindepth 1 -delete
         fi
     else
         if [ "$DRY_RUN" = true ]; then
             print_warning "Would install Hyprland configuration"
             return
         fi
+        mkdir -p "$hypr_config_path"
     fi
     
-    # Remove existing config and copy new config
-    rm -rf "$hypr_config_path"
-    mkdir -p "$hypr_config_path"
-    cp -r "./hypr" "$hypr_config_path"
+    # Copy new config
+    cp -r ./hypr/* "$hypr_config_path"
     
     print_success "Hyprland configuration installed"
 }
@@ -524,13 +524,30 @@ main() {
     print_success "Dotfiles installation completed!"
     print_info ""
     print_info "Next steps:"
-    print_info "  1. Reload your shell or run 'source ~/.bashrc' / 'source ~/.zshrc'"
-    print_info "  2. Run 'nvim' to automatically install plugins"
-    print_info "  3. Language-specific plugins will auto-load based on your project type"
-    print_info "  4. JetBrains Mono font is auto-installed with Alacritty"
-    print_info ""
-    print_info "If you install Python 3 or Go later, restart Neovim to enable those features."
-    print_info "Go tools are completely optional and will be skipped if Go is not installed."
+
+    local has_shell_changes=false
+    if [ "$INSTALL_FISH" = true ] || [ "$INSTALL_TMUX" = true ] || [ "$INSTALL_ALACRITTY" = true ] || [ "$INSTALL_HYPR" = true ]; then
+        has_shell_changes=true
+    fi
+
+    if [ "$has_shell_changes" = true ]; then
+        print_info "  - Reload your shell or log out/in for changes to take effect."
+    fi
+
+    if [ "$INSTALL_NVIM" = true ]; then
+        print_info "  - Run 'nvim' to automatically install plugins."
+        print_info "  - Language-specific plugins will auto-load based on your project type."
+        print_info "  - If you install Python 3 or Go later, restart Neovim to enable those features."
+        print_info "  - Go tools are completely optional and will be skipped if Go is not installed."
+    fi
+
+    if [ "$INSTALL_ALACRITTY" = true ]; then
+        print_info "  - JetBrains Mono font is auto-installed with Alacritty."
+    fi
+
+    if [ "$INSTALL_HYPR" = true ]; then
+        print_info "  - Reload Hyprland (e.g., $mainMod + SHIFT + R) for changes to take effect."
+    fi
 }
 
 # Run main function
