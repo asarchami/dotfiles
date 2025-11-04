@@ -52,21 +52,22 @@ return {
         -- ===================================================================
         -- BUFFER OPERATIONS (<leader>b)
         -- ===================================================================
-        { "<leader>B", group = " Buffer" },
-        { "<leader>Bd", "<cmd>bdelete<cr>", desc = " Delete buffer" },
-        { "<leader>BD", "<cmd>bdelete!<cr>", desc = " Force delete buffer" },
-        { "<leader>Bn", "<cmd>bnext<cr>", desc = " Next buffer" },
-        { "<leader>Bp", "<cmd>bprevious<cr>", desc = " Previous buffer" },
-        { "<leader>Bf", "<cmd>Telescope buffers<cr>", desc = " Find buffer" },
-        { "<leader>Bs", "<cmd>w<cr>", desc = " Save buffer" },
-        { "<leader>BS", "<cmd>wa<cr>", desc = " Save all buffers" },
-        { "<leader>Bc", "<cmd>Telescope buffers<cr>", desc = " Choose buffer to close" },
-        { "<leader>BC", "<cmd>%bdelete|edit #|normal `\"<cr>", desc = " Close all but current" },
-        { "<leader>Br", "<cmd>e<cr>", desc = " Reload buffer" },
-        { "<leader>Bl", "<cmd>blast<cr>", desc = " Go to last buffer" },
-        { "<leader>Bh", "<cmd>bfirst<cr>", desc = " Go to first buffer" },
-        { "<leader>BP", "<cmd>Telescope buffers<cr>", desc = " Pick buffer" },
-        { "<leader>Bo", "<cmd>%bdelete|edit #|normal `\"<cr>", desc = " Close other buffers" },
+        { "<leader>b", group = " Buffer" },
+        { "<leader>bb", "<cmd>Telescope buffers<cr>", desc = " Buffer list" },
+        { "<leader>bd", "<cmd>bdelete<cr>", desc = " Delete buffer" },
+        { "<leader>bD", "<cmd>bdelete!<cr>", desc = " Force delete buffer" },
+        { "<leader>bn", "<cmd>bnext<cr>", desc = " Next buffer" },
+        { "<leader>bp", "<cmd>bprevious<cr>", desc = " Previous buffer" },
+        { "<leader>bf", "<cmd>Telescope buffers<cr>", desc = " Find buffer" },
+        { "<leader>bs", "<cmd>w<cr>", desc = " Save buffer" },
+        { "<leader>bS", "<cmd>wa<cr>", desc = " Save all buffers" },
+        { "<leader>bc", "<cmd>Telescope buffers<cr>", desc = " Choose buffer to close" },
+        { "<leader>bC", "<cmd>%bdelete|edit #|normal `\"<cr>", desc = " Close all but current" },
+        { "<leader>br", "<cmd>e<cr>", desc = " Reload buffer" },
+        { "<leader>bl", "<cmd>blast<cr>", desc = " Go to last buffer" },
+        { "<leader>bh", "<cmd>bfirst<cr>", desc = " Go to first buffer" },
+        { "<leader>bP", "<cmd>Telescope buffers<cr>", desc = " Pick buffer" },
+        { "<leader>bo", "<cmd>%bdelete|edit #|normal `\"<cr>", desc = " Close other buffers" },
 
         -- ===================================================================
         -- WINDOW/SPLIT OPERATIONS (<leader>w)
@@ -148,7 +149,6 @@ return {
         -- QUICK ACTIONS (Single letters)
         -- ===================================================================
         { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
-        { "<leader>b", "<cmd>Telescope buffers<cr>", desc = " Buffer list" },
         { "<leader>l", "<cmd>Lazy<cr>", desc = " Lazy plugin manager" },
         { "<leader>h", "<cmd>nohl<cr>", desc = " Clear search highlights" },
         { "<leader>q", "<cmd>q<cr>", desc = " Quit" },
