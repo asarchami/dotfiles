@@ -12,6 +12,8 @@ install_hypr() {
     print_info "Installing Hyprland configuration..."
 
     install_hypr_dependencies
+    install_foot_config
+
     
     local hypr_config_path="$HOME/.config/hypr"
     
@@ -45,3 +47,36 @@ install_hypr() {
     print_info "  - Reload Hyprland (e.g., $mainMod + SHIFT + R) for changes to take effect."
 }
 
+install_foot_config() {
+    print_info "Installing foot configuration..."
+
+    local foot_config_path="$HOME/.config/foot"
+    local foot_config_file_path="$foot_config_path/foot.ini"
+    local dotfiles_foot_config="./foot/foot.ini"
+
+    if [ -f "$foot_config_file_path" ]; then
+        if diff "$dotfiles_foot_config" "$foot_config_file_path" >/dev/null 2>&1; then
+            print_info "foot configuration is already up to date (skipping)"
+            return
+        else
+            print_info "Existing foot configuration differs from dotfiles version"
+            if [ "$DRY_RUN" = true ]; then
+                print_warning "Would backup existing config and install new foot configuration"
+                return
+            fi
+            create_backup "$foot_config_file_path"
+        fi
+    else
+        if [ "$DRY_RUN" = true ]; then
+            print_warning "Would install foot configuration"
+            return
+        fi
+    fi
+
+    mkdir -p "$foot_config_path"
+    cp "$dotfiles_foot_config" "$foot_config_file_path"
+
+    print_success "foot configuration installed"
+}
+
+install_hypr
