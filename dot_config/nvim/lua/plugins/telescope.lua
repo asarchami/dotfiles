@@ -117,6 +117,8 @@ return {
                 ["<C-m>"] = fb_actions.move,
                 ["<C-y>"] = fb_actions.copy,
                 ["<C-x>"] = actions.close,
+                ["<C-v>"] = actions.select_vertical,
+                ["<C-h>"] = actions.select_horizontal,
               },
               ["n"] = {
                 ["<CR>"] = actions.select_default,
