@@ -47,71 +47,38 @@ A comprehensive, modular dotfiles setup for Neovim and tmux with intelligent Pyt
 
 ## Installation
 
-### Prerequisites
-The setup script assumes Python 3 and Go are already installed if you plan to use them. If not installed, warnings will be shown but core functionality remains available.
+This project is managed by [chezmoi](https://www.chezmoi.io/).
 
-**Optional tools for enhanced functionality:**
-- `prettier` - General formatting tool  
-- `shfmt` - Shell script formatter
+### Prerequisites
+
+- `chezmoi`
+- `git`
 
 ### Quick Setup
-Install all configurations (default):
-```bash
-./setup.sh
-```
 
-### Selective Installation
-Install only Neovim configuration:
-```bash
-./setup.sh --nvim
-```
+1.  **Initialize `chezmoi` with this repository.**
 
-Install only tmux configuration:
-```bash
-./setup.sh --tmux
-```
+    Run the following command. You will need to provide the absolute path to the directory where you cloned this repository.
 
-Install only Alacritty configuration:
-```bash
-./setup.sh --alacritty
-```
+    ```sh
+    chezmoi init --apply --source /path/to/this/repository
+    ```
 
-## Project Structure
+    This command will:
+    -   Configure `chezmoi` to use this directory as its source.
+    -   Run the installation script to install all the necessary applications (like Homebrew, Neovim, tmux, etc.).
+    -   Create symlinks for all the configuration files.
 
-```
-dotfiles/
-├── setup.sh                       # Installation script
-├── README.md                      # This file
-├── KEYMAPS.md                     # Complete keymaps reference
-├── nvim/                          # Neovim configuration
-│   ├── init.lua                  # Main entry point
-│   ├── lua/
-│   │   ├── config/               # Core configuration
-│   │   │   ├── keymaps.lua           # All key mappings (consolidated)
-│   │   │   ├── options.lua           # Neovim settings
-│   │   │   └── init.lua              # Configuration loader
-│   │   └── plugins/              # Plugin configurations
-│   │       ├── colorscheme.lua       # Dark themes (TokyoNight, Catppuccin, Rose Pine)
-│   │       ├── bufferline.lua        # Buffer tabs and navigation
-│   │       ├── completion.lua        # Auto-completion engine
-│   │       ├── dap.lua               # Debug adapter protocol
-│   │       ├── git.lua               # Git integration (Lazygit, GitSigns)
-│   │       ├── go.lua                # Go development tools (conditional)
-│   │       ├── python.lua            # Python development tools (conditional)
-│   │       ├── lualine.lua           # Status line
-│   │       ├── mason.lua             # LSP/tool installer
-│   │       ├── neo-tree.lua          # File explorer
-│   │       ├── noice.lua             # UI enhancements
-│   │       ├── telescope.lua         # Fuzzy finder and search
-│   │       ├── treesitter.lua        # Syntax highlighting
-│   │       ├── which-key.lua         # Key binding discovery
-│   │       └── init.lua              # Plugin loader
-├── tmux/                          # tmux configuration
-│   ├── tmux.conf                 # tmux settings with theme and key bindings
-│   └── KEYMAPS.md                # Complete tmux keymaps reference
-└── alacritty/                     # Alacritty terminal configuration
-    └── alacritty.toml            # Modern terminal settings with Tokyo Night theme
-```
+2.  **Reload your shell.**
+
+    For the changes to take effect, you need to reload your shell or open a new terminal.
+
+### How it Works
+
+-   **`chezmoi apply`**: This is the main command you will use. It ensures that your dotfiles are in the correct state. You can run it anytime to apply changes.
+-   **Installation Script**: The first time you run `chezmoi apply`, it will execute a script to install all the required packages. This script will only run once.
+-   **Updating**: To get the latest changes from this repository, you can run `git pull` and then `chezmoi apply`.
+
 
 ## Smart Project Detection
 
@@ -317,13 +284,6 @@ The setup script will:
 - **Python Project**: Python plugins load automatically when you open a Python project
 - **Go Project**: Go plugins load automatically when you open a Go project
 - **Mixed Projects**: Appropriate plugins load based on the primary project type
-
-## Backup System
-
-The setup script automatically creates timestamped backups of existing configurations:
-- Backups stored in `~/.config/dotfiles-backup/YYYYMMDD_HHMMSS/`
-- Preserves your existing tmux configuration if it exists
-- Safe to run multiple times
 
 ## Customization
 
