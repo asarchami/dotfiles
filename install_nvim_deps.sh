@@ -7,7 +7,6 @@
 # List of packages to ensure are installed.
 packages=(
     "neovim"
-    "git"
     "fzf"
     "ripgrep"
     "fd"
