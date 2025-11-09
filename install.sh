@@ -28,24 +28,46 @@ fi
 echo "Configuring shell for Homebrew..."
 if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then # Linux
     BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
-    PROFILE_FILE="$HOME/.profile"
 elif [ -f /opt/homebrew/bin/brew ]; then # macOS
     BREW_PATH="/opt/homebrew/bin/brew"
-    PROFILE_FILE="$HOME/.zprofile"
 else
     BREW_PATH=""
 fi
 
 if [ -n "$BREW_PATH" ]; then
     eval "$($BREW_PATH shellenv)"
-    if [ -f "$PROFILE_FILE" ]; then
-        if ! grep -q 'eval "$($BREW_PATH shellenv)"' "$PROFILE_FILE"; then
-            echo "Adding Homebrew to $PROFILE_FILE"
-            echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
+    
+    SHELL_TYPE=$(basename "$SHELL")
+    echo "Detected shell: $SHELL_TYPE"
+
+    case "$SHELL_TYPE" in
+    bash)
+        PROFILE_FILE="$HOME/.bashrc"
+        ;;
+    zsh)
+        PROFILE_FILE="$HOME/.zshrc"
+        ;;
+    fish)
+        PROFILE_FILE="$HOME/.config/fish/config.fish"
+        ;;
+    *)
+        echo "Unsupported shell: $SHELL_TYPE. Please add Homebrew to your shell's configuration file manually."
+        PROFILE_FILE=""
+        ;;
+    esac
+
+    if [ -n "$PROFILE_FILE" ]; then
+        if [ "$SHELL_TYPE" = "fish" ]; then
+            if ! grep -q "eval ($BREW_PATH shellenv)" "$PROFILE_FILE"; then
+                echo "Adding Homebrew to $PROFILE_FILE"
+                echo "eval ($BREW_PATH shellenv)" >> "$PROFILE_FILE"
+            fi
+        else
+            if ! grep -q 'eval "$('$BREW_PATH' shellenv)"' "$PROFILE_FILE"; then
+                echo "Adding Homebrew to $PROFILE_FILE"
+                echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
+            fi
         fi
-    else
-        echo "Creating $PROFILE_FILE and adding Homebrew"
-        echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
     fi
 fi
 
