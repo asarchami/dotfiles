@@ -1,17 +1,11 @@
-style = ~/.config/wofi/menu.css
-
-width=900
-height=600
-location=center
 show=drun
-prompt=Apps
-filter_rate=100
-allow_markup=true
-no_actions=true
-halign=fill
-orientation=vertical
-content_halign=fill
+width=750
+height=400
+always_parse_args=true
+show_all=false
+term=kitty
+hide_scroll=true
+print_command=true
 insensitive=true
-allow_images=true
-image_size=40
-gtk_dark=true
+prompt=
+columns=2
