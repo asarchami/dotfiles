@@ -1,0 +1,40 @@
+# lf Configuration
+
+# General options
+set hidden
+set icons
+set preview
+set previewer ~/.config/lf/preview.sh
+set cleaner ~/.config/lf/cleaner.sh
+
+# Keybindings
+map H  prevhalf
+map L  nexthalf
+map J  down
+map K  up
+map <space> toggle
+map <c-s> toggle-split
+map <c-h> push :open_with_editor<CR>
+map <c-l> push :open_with_default<CR>
+
+# Custom commands
+cmd open_with_editor %{{
+    case $(file --mime-type -b "$f") in
+        text/*) nvim "$f" ;;
+        *)      lf -remote "send $id; open $f" ;;
+    esac
+}}
+
+cmd open_with_default %{{
+    case $(file --mime-type -b "$f") in
+        text/*) nvim "$f" ;;
+        image/*) sxiv "$f" ;;
+        video/*) mpv "$f" ;;
+        application/pdf) zathura "$f" ;;
+        *)      xdg-open "$f" ;;
+    esac
+}}
+
+# Source other configuration files
+# source ~/.config/lf/colors
+# source ~/.config/lf/info
