@@ -55,43 +55,28 @@ This entire dotfiles configuration is managed by [chezmoi](https://www.chezmoi.i
 -   [Homebrew](https://brew.sh/) (for package management)
 -   `chezmoi` (will be installed by the setup script)
 
-### One-Liner Setup
+## Installation
 
-To get started, you can use the following one-liner to clone this repository and initialize `chezmoi`. This command will not apply any dotfiles, allowing you to choose which parts of the configuration you want to install.
+To get started, run the following command in your terminal. It will download and run the installation script, which will:
+
+1.  Install Homebrew (if not already installed).
+2.  Install `chezmoi` (if not already installed).
+3.  Clone this dotfiles repository to `~/.local/share/chezmoi`.
+4.  Initialize `chezmoi`.
 
 ```sh
-git clone https://github.com/asarchami/dotfiles.git ~/.local/share/chezmoi && cd ~/.local/share/chezmoi && ./install.sh && chezmoi init
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/asarchami/dotfiles/chezmoi/install.sh)"
 ```
 
-After running this command, you can inspect the dotfiles in `~/.local/share/chezmoi` and use `chezmoi apply` to apply the configurations you want. For example, to apply only the `tmux` configuration, you can run:
+After the script completes, your dotfiles will be ready to manage with `chezmoi`. You can then apply the configurations you want. For example:
 
 ```sh
+# Apply all dotfiles
+chezmoi apply
+
+# Apply only the tmux configuration
 chezmoi apply ~/.config/tmux
 ```
-
-### Manual Installation
-
-If you prefer a manual installation, you can follow these steps:
-
-1.  **Clone the repository:**
-    ```sh
-    git clone https://github.com/asarchami/dotfiles.git ~/.local/share/chezmoi
-    ```
-
-2.  **Install dependencies:**
-    ```sh
-    cd ~/.local/share/chezmoi && ./install.sh
-    ```
-
-3.  **Initialize `chezmoi`:**
-    ```sh
-    chezmoi init
-    ```
-
-4.  **Apply your desired dotfiles:**
-    ```sh
-    chezmoi apply
-    ```
 
 ### Updating Your Dotfiles
 
