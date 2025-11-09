@@ -81,6 +81,40 @@ fi
 
 # Function to install JetBrains Mono Nerd Font
 install_nerd_font() {
+    FONT_DIR="$HOME/.local/share/fonts"
+    FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
+    FONT_ZIP="JetBrainsMono.zip"
+
+    echo "Installing JetBrains Mono Nerd Font..."
+
+    mkdir -p "$FONT_DIR"
+
+    if command_exists curl; then
+        curl -L "$FONT_URL" -o "$FONT_DIR/$FONT_ZIP"
+    elif command_exists wget; then
+        wget -O "$FONT_DIR/$FONT_ZIP" "$FONT_URL"
+    else
+        echo "Neither curl nor wget found. Please install them to download the font."
+        return 1
+    fi
+
+    if ! command_exists unzip; then
+        echo "unzip not found. Please install unzip to extract the font."
+        return 1
+    fi
+
+    unzip -o "$FONT_DIR/$FONT_ZIP" -d "$FONT_DIR"
+    rm "$FONT_DIR/$FONT_ZIP"
+
+    fc-cache -fv
+    echo "JetBrains Mono Nerd Font installed."
+}
+
+# Install JetBrains Mono Nerd Font
+install_nerd_font
+
+# Function to install JetBrains Mono Nerd Font
+install_nerd_font() {
     echo "Installing JetBrains Mono Nerd Font..."
     if brew tap | grep -q "homebrew/cask-fonts"; then
         echo "homebrew/cask-fonts is already tapped."
