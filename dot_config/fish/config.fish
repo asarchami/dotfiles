@@ -74,6 +74,13 @@ function fish_prompt
         set_color normal # Reset color after git prompt
     end
 
+    # Python virtual environment indicator
+    if set -q VIRTUAL_ENV
+        set_color brgreen # Bright green for venv name
+        echo -n " " # Space before icon
+        set_color normal
+    end
+
     set_color blue
     echo -n " ➤ " # Prompt symbol
     set_color normal
