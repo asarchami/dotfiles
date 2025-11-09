@@ -1,0 +1,29 @@
+# yazi.toml
+
+[manager]
+show_hidden = true
+show_symlink = true
+sort_by = "alphabetical"
+sort_dir_first = true
+
+[preview]
+max_width = 60
+max_height = 60
+
+[opener]
+edit = [
+    { run = 'nvim "$@"', block = true },
+]
+open = [
+    { run = 'xdg-open "$@"', desc = "Open with default application" },
+]
+reveal = [
+    { run = 'xdg-open "$(dirname "$@")"', desc = "Reveal in file manager" },
+]
+
+[plugins]
+preload = [
+    "~/.config/yazi/plugins/ffmpeg.yazi",
+    "~/.config/yazi/plugins/imagemagick.yazi",
+    "~/.config/yazi/plugins/poppler.yazi",
+]

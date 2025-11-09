@@ -1,0 +1,8 @@
+-- poppler.yazi
+
+return {
+    name = "poppler",
+    version = "0.1.0",
+    author = "yazi-rs",
+    dependencies = { "poppler" },
+}

@@ -1,0 +1,8 @@
+-- imagemagick.yazi
+
+return {
+    name = "imagemagick",
+    version = "0.1.0",
+    author = "yazi-rs",
+    dependencies = { "imagemagick" },
+}
