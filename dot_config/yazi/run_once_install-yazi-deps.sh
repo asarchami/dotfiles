@@ -8,4 +8,4 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Run the main installation script
-"$SCRIPT_DIR/../../install_yazi_deps.sh"
+"$SCRIPT_DIR/../../run_once_install_yazi_deps.sh"
