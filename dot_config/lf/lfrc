@@ -3,6 +3,21 @@
 # General options
 set hidden
 set icons
+set icon "dir" ""
+set icon "file" ""
+set icon "link" ""
+set icon "exe" ""
+set icon "archive" ""
+set icon "audio" ""
+set icon "image" ""
+set icon "video" ""
+set icon "doc" ""
+set icon "pdf" ""
+set icon "conf" ""
+set icon "log" ""
+set icon "bak" ""
+set icon "tmp" ""
+set icon "default" ""
 set preview
 set previewer ~/.config/lf/preview.sh
 set cleaner ~/.config/lf/cleaner.sh
