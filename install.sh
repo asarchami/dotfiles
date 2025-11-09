@@ -1,9 +1,15 @@
 #!/bin/bash
 
-# This script installs Homebrew and chezmoi.
-# It is designed to be OS-independent (macOS and Linux).
+# This script sets up the dotfiles repository by cloning it and initializing chezmoi.
+# It is designed to be run from a remote URL.
 
 set -e
+
+# --- Configuration ---
+REPO_URL="https://github.com/asarchami/dotfiles.git"
+DEST_DIR="$HOME/.local/share/chezmoi"
+
+# --- Script ---
 
 # Function to check if a command exists
 command_exists() {
@@ -19,7 +25,6 @@ else
 fi
 
 # Add Homebrew to PATH for the current script execution
-# This is important for Linux where brew might not be in the default PATH
 if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
@@ -35,4 +40,16 @@ else
     echo "chezmoi is already installed."
 fi
 
-echo "Installation of Homebrew and chezmoi is complete."
+# Clone the dotfiles repository if it doesn't exist
+if [ ! -d "$DEST_DIR" ]; then
+    echo "Cloning dotfiles repository to $DEST_DIR..."
+    git clone "$REPO_URL" "$DEST_DIR"
+else
+    echo "Dotfiles repository already exists at $DEST_DIR."
+fi
+
+# Initialize chezmoi
+echo "Initializing chezmoi..."
+chezmoi init --source "$DEST_DIR"
+
+echo "Setup complete. You can now use 'chezmoi apply' to apply your dotfiles."
