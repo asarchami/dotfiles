@@ -6,17 +6,73 @@ set -x EDITOR nvim
 # Set default browser
 set -x BROWSER firefox
 
+# pyenv initialization
+if command -v pyenv &> /dev/null
+    pyenv init - | source
+end
+
+# Function to get the latest pyenv version
+function _get_latest_pyenv_version
+    # Get all installed versions, filter for typical Python version patterns, sort numerically, and take the last one
+    pyenv versions --bare | \
+        grep -E '^[0-9]' | \
+        sort -V | \
+        tail -n 1
+end
+
+# Set pyenv version dynamically
+set -x PYENV_VERSION (_get_latest_pyenv_version)
+
 # Path to Oh My Fish install.
 set -q OMF_PATH; or set -x OMF_PATH "$HOME/.local/share/omf"
 
+# Initialize Oh My Fish
+if test -f "$OMF_PATH/init.fish"
+    source "$OMF_PATH/init.fish"
+end
+
 # Customize the prompt
 function fish_prompt
-    set_color green
-    echo -n (prompt_pwd)
-    set_color normal
-    echo -n " "
     set_color blue
-    echo -n "\$ "
+    echo -n (string replace "$HOME" "~" (pwd))
+    set_color normal
+
+    # Git prompt
+    if test -d .git; or git rev-parse --git-dir > /dev/null 2>&1
+        set_color red
+        echo -n " " # Always a space before git info
+
+        # Check if there are any commits
+        if git rev-parse --verify HEAD >/dev/null 2>&1
+            # Git icon
+            echo -n ""
+
+            # Branch name
+            set -l branch_name (git rev-parse --abbrev-ref HEAD 2>/dev/null)
+            echo -n " $branch_name" # Space before branch name
+
+            # Git status indicator
+            if not git diff-index --quiet HEAD --
+                # Dirty
+                echo -n " " # Space before dirty indicator
+            else
+                # Clean
+                echo -n " 󱓏" # Space before clean indicator
+            end
+        else
+            # No commits yet
+            echo -n "" # Git icon
+            set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null)
+            if test -z "$branch_name"
+                set branch_name "main" # Fallback if symbolic-ref fails (e.g., detached HEAD in empty repo)
+            end
+            echo -n " $branch_name" # Branch name with a space
+        end
+        set_color normal
+    end
+
+    set_color blue
+    echo -n " ➤ " # Prompt symbol
     set_color normal
 end
 
