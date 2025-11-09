@@ -29,6 +29,7 @@ abbr gp 'git push'
 abbr gl 'git pull'
 abbr gd 'git diff'
 abbr c clear
+alias vim nvim
 
 # direnv
 direnv hook fish | source
