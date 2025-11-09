@@ -9,77 +9,80 @@ set -e
 REPO_URL="https://github.com/asarchami/dotfiles.git"
 DEST_DIR="$HOME/.local/share/chezmoi"
 
-# --- Script ---
+# --- Helper Functions ---
 
-# Function to check if a command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Install Homebrew if it's not installed
-if ! command_exists brew; then
-    echo "Homebrew not found. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-    echo "Homebrew is already installed."
-fi
+# --- Installation Functions ---
 
-# Add Homebrew to PATH and shell profile
-echo "Configuring shell for Homebrew..."
-if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then # Linux
-    BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
-elif [ -f /opt/homebrew/bin/brew ]; then # macOS
-    BREW_PATH="/opt/homebrew/bin/brew"
-else
-    BREW_PATH=""
-fi
+install_homebrew() {
+    if ! command_exists brew; then
+        echo "Homebrew not found. Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    else
+        echo "Homebrew is already installed."
+    fi
+}
 
-if [ -n "$BREW_PATH" ]; then
-    eval "$($BREW_PATH shellenv)"
-    
-    SHELL_TYPE=$(basename "$SHELL")
-    echo "Detected shell: $SHELL_TYPE"
+configure_shell_for_homebrew() {
+    echo "Configuring shell for Homebrew..."
+    if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then # Linux
+        BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
+    elif [ -f /opt/homebrew/bin/brew ]; then # macOS
+        BREW_PATH="/opt/homebrew/bin/brew"
+    else
+        BREW_PATH=""
+    fi
 
-    case "$SHELL_TYPE" in
-    bash)
-        PROFILE_FILE="$HOME/.bashrc"
-        ;;
-    zsh)
-        PROFILE_FILE="$HOME/.zshrc"
-        ;;
-    fish)
-        PROFILE_FILE="$HOME/.config/fish/config.fish"
-        ;;
-    *)
-        echo "Unsupported shell: $SHELL_TYPE. Please add Homebrew to your shell's configuration file manually."
-        PROFILE_FILE=""
-        ;;
-    esac
+    if [ -n "$BREW_PATH" ]; then
+        eval "$($BREW_PATH shellenv)"
+        
+        SHELL_TYPE=$(basename "$SHELL")
+        echo "Detected shell: $SHELL_TYPE"
 
-    if [ -n "$PROFILE_FILE" ]; then
-        if [ "$SHELL_TYPE" = "fish" ]; then
-            if ! grep -q "eval ($BREW_PATH shellenv)" "$PROFILE_FILE"; then
-                echo "Adding Homebrew to $PROFILE_FILE"
-                echo "eval ($BREW_PATH shellenv)" >> "$PROFILE_FILE"
-            fi
-        else
-            if ! grep -q 'eval "$('$BREW_PATH' shellenv)"' "$PROFILE_FILE"; then
-                echo "Adding Homebrew to $PROFILE_FILE"
-                echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
+        case "$SHELL_TYPE" in
+        bash)
+            PROFILE_FILE="$HOME/.bashrc"
+            ;;
+        zsh)
+            PROFILE_FILE="$HOME/.zshrc"
+            ;;
+        fish)
+            PROFILE_FILE="$HOME/.config/fish/config.fish"
+            ;;
+        *)
+            echo "Unsupported shell: $SHELL_TYPE. Please add Homebrew to your shell's configuration file manually."
+            PROFILE_FILE=""
+            ;;
+        esac
+
+        if [ -n "$PROFILE_FILE" ]; then
+            if [ "$SHELL_TYPE" = "fish" ]; then
+                if ! grep -q "eval ($BREW_PATH shellenv)" "$PROFILE_FILE"; then
+                    echo "Adding Homebrew to $PROFILE_FILE"
+                    echo "eval ($BREW_PATH shellenv)" >> "$PROFILE_FILE"
+                fi
+            else
+                if ! grep -q 'eval "$('$BREW_PATH' shellenv)"' "$PROFILE_FILE"; then
+                    echo "Adding Homebrew to $PROFILE_FILE"
+                    echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
+                fi
             fi
         fi
     fi
-fi
+}
 
-# Install chezmoi using Homebrew if it's not installed
-if ! command_exists chezmoi; then
-    echo "chezmoi not found. Installing chezmoi with Homebrew..."
-    brew install chezmoi
-else
-    echo "chezmoi is already installed."
-fi
+install_chezmoi() {
+    if ! command_exists chezmoi; then
+        echo "chezmoi not found. Installing chezmoi with Homebrew..."
+        brew install chezmoi
+    else
+        echo "chezmoi is already installed."
+    fi
+}
 
-# Function to install JetBrains Mono Nerd Font
 install_nerd_font() {
     FONT_DIR="$HOME/.local/share/fonts"
     FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
@@ -110,33 +113,32 @@ install_nerd_font() {
     echo "JetBrains Mono Nerd Font installed."
 }
 
-# Install JetBrains Mono Nerd Font
-install_nerd_font
-
-# Function to install JetBrains Mono Nerd Font
-install_nerd_font() {
-    echo "Installing JetBrains Mono Nerd Font..."
-    if brew tap | grep -q "homebrew/cask-fonts"; then
-        echo "homebrew/cask-fonts is already tapped."
+clone_dotfiles_repo() {
+    if [ ! -d "$DEST_DIR" ]; then
+        echo "Cloning dotfiles repository to $DEST_DIR..."
+        git clone "$REPO_URL" "$DEST_DIR"
     else
-        brew tap homebrew/cask-fonts
+        echo "Dotfiles repository already exists at $DEST_DIR."
     fi
-    brew install --cask font-jetbrains-mono-nerd-font
 }
 
-# Install JetBrains Mono Nerd Font
-install_nerd_font
+initialize_chezmoi() {
+    echo "Initializing chezmoi..."
+    chezmoi init --source "$DEST_DIR"
+}
 
-# Clone the dotfiles repository if it doesn't exist
-if [ ! -d "$DEST_DIR" ]; then
-    echo "Cloning dotfiles repository to $DEST_DIR..."
-    git clone "$REPO_URL" "$DEST_DIR"
-else
-    echo "Dotfiles repository already exists at $DEST_DIR."
-fi
+# --- Main Function ---
 
-# Initialize chezmoi
-echo "Initializing chezmoi..."
-chezmoi init --source "$DEST_DIR"
+main() {
+    install_homebrew
+    configure_shell_for_homebrew
+    install_chezmoi
+    install_nerd_font
+    clone_dotfiles_repo
+    initialize_chezmoi
+    echo "Setup complete. You can now use 'chezmoi apply' to apply your dotfiles."
+}
 
-echo "Setup complete. You can now use 'chezmoi apply' to apply your dotfiles."
+# --- Run Script ---
+
+main
