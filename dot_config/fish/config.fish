@@ -39,31 +39,28 @@ function fish_prompt
 
     # Git prompt
     if test -d .git; or git rev-parse --git-dir > /dev/null 2>&1
+        set_color red
         echo -n " " # Always a space before git info
 
         # Check if there are any commits
         if git rev-parse --verify HEAD >/dev/null 2>&1
-            # Git icon (red)
-            set_color red
+            # Git icon
             echo -n ""
 
-            # Branch name (red)
+            # Branch name
             set -l branch_name (git rev-parse --abbrev-ref HEAD 2>/dev/null)
             echo -n " $branch_name" # Space before branch name
 
             # Git status indicator
             if not git diff-index --quiet HEAD --
-                # Dirty (red)
-                set_color red
-                echo -n " " # Space before dirty indicator
+                # Dirty
+                echo -n " " # Space before dirty indicator
             else
-                # Clean (green)
-                set_color green
-                echo -n " 󱓏" # Space before clean indicator
+                # Clean
+                echo -n " " # Space before clean indicator
             end
         else
-            # No commits yet (red)
-            set_color red
+            # No commits yet
             echo -n "" # Git icon
             set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null)
             if test -z "$branch_name"
@@ -71,7 +68,7 @@ function fish_prompt
             end
             echo -n " $branch_name" # Branch name with a space
         end
-        set_color normal # Reset color after git prompt
+        set_color normal
     end
 
     set_color blue
