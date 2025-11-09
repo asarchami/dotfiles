@@ -35,7 +35,7 @@ direnv hook fish | source
 
 # chezmoi
 if command -v chezmoi &> /dev/null
-    chezmoi completions fish | source
+    chezmoi completion fish | source
 end
 
 # nvm

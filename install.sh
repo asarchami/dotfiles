@@ -83,6 +83,15 @@ install_chezmoi() {
     fi
 }
 
+install_direnv() {
+    if ! command_exists direnv; then
+        echo "direnv not found. Installing direnv with Homebrew..."
+        brew install direnv
+    else
+        echo "direnv is already installed."
+    fi
+}
+
 install_git() {
     if ! command_exists git; then
         echo "git not found. Installing git with Homebrew..."
@@ -142,6 +151,7 @@ main() {
     install_homebrew
     configure_shell_for_homebrew
     install_chezmoi
+    install_direnv
     install_git
     install_nerd_font
     clone_dotfiles_repo
