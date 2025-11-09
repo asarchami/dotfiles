@@ -86,16 +86,8 @@ function fish_prompt
     set_color normal
 end
 
-# Aliases
-abbr g git
-abbr gs 'git status'
-abbr ga 'git add'
-abbr gc 'git commit -m'
-abbr gp 'git push'
-abbr gl 'git pull'
-abbr gd 'git diff'
-abbr c clear
-alias vim nvim
+# Source aliases
+source "$HOME/.local/share/chezmoi/dot_config/fish/aliases.fish"
 
 # direnv
 direnv hook fish | source
