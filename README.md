@@ -51,27 +51,47 @@ This entire dotfiles configuration is managed by [chezmoi](https://www.chezmoi.i
 
 ### Prerequisites
 
--   `chezmoi` (install it first if you don't have it)
 -   `git`
+-   [Homebrew](https://brew.sh/) (for package management)
+-   `chezmoi` (will be installed by the setup script)
 
-### Quick Setup
+### One-Liner Setup
 
-1.  **Initialize `chezmoi` with this repository.**
+To get started, you can use the following one-liner to clone this repository and initialize `chezmoi`. This command will not apply any dotfiles, allowing you to choose which parts of the configuration you want to install.
 
-    Navigate to the directory where you cloned this repository and run the following command:
+```sh
+git clone https://github.com/asarchami/dotfiles.git ~/.local/share/chezmoi && cd ~/.local/share/chezmoi && ./install.sh && chezmoi init
+```
 
+After running this command, you can inspect the dotfiles in `~/.local/share/chezmoi` and use `chezmoi apply` to apply the configurations you want. For example, to apply only the `tmux` configuration, you can run:
+
+```sh
+chezmoi apply ~/.config/tmux
+```
+
+### Manual Installation
+
+If you prefer a manual installation, you can follow these steps:
+
+1.  **Clone the repository:**
     ```sh
-    chezmoi init --apply .
+    git clone https://github.com/asarchami/dotfiles.git ~/.local/share/chezmoi
     ```
 
-    This command will:
-    -   Configure `chezmoi` to use this directory as its source.
-    -   Run the installation script to install all the necessary applications (like Homebrew, Neovim, tmux, etc.). This script only runs once.
-    -   Create symlinks for all the configuration files, ensuring your system reflects the dotfiles.
+2.  **Install dependencies:**
+    ```sh
+    cd ~/.local/share/chezmoi && ./install.sh
+    ```
 
-2.  **Reload your shell.**
+3.  **Initialize `chezmoi`:**
+    ```sh
+    chezmoi init
+    ```
 
-    For the changes to take effect, you need to reload your shell or open a new terminal.
+4.  **Apply your desired dotfiles:**
+    ```sh
+    chezmoi apply
+    ```
 
 ### Updating Your Dotfiles
 
@@ -263,16 +283,22 @@ For complete tmux keymaps reference, see **[tmux/KEYMAPS.md](tmux/KEYMAPS.md)**.
 
 ## Dependencies
 
-The setup script automatically installs core dependencies. **Python and Go are optional** - language-specific features will only load if the respective languages are installed:
+This setup uses [Homebrew](https://brew.sh/) to install all core dependencies. The `install.sh` script will automatically install Homebrew if it's not already present on your system (both macOS and Linux are supported).
 
-### Core Dependencies (Auto-installed)
-**macOS (via Homebrew):**
-- neovim, tmux, alacritty, git, lazygit, fzf, ripgrep, fd, tree-sitter, node, npm
+**Python and Go are optional** - language-specific features will only load if the respective languages are installed.
 
-**Linux (Debian-based):**
-- Same tools installed via apt-get and direct downloads
-- Automatically installs latest Neovim AppImage
-- Alacritty installed via cargo or AppImage
+### Core Dependencies (Managed by Homebrew)
+- neovim
+- tmux
+- alacritty
+- git
+- lazygit
+- fzf
+- ripgrep
+- fd
+- tree-sitter
+- node
+- npm
 
 ### Language Dependencies (User-installed)
 **Python 3** (optional):
