@@ -24,12 +24,29 @@ else
     echo "Homebrew is already installed."
 fi
 
-# Add Homebrew to PATH for the current script execution
-if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# Add Homebrew to PATH and shell profile
+echo "Configuring shell for Homebrew..."
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then # Linux
+    BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
+    PROFILE_FILE="$HOME/.profile"
+elif [ -f /opt/homebrew/bin/brew ]; then # macOS
+    BREW_PATH="/opt/homebrew/bin/brew"
+    PROFILE_FILE="$HOME/.zprofile"
+else
+    BREW_PATH=""
 fi
-if [ -f /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+
+if [ -n "$BREW_PATH" ]; then
+    eval "$($BREW_PATH shellenv)"
+    if [ -f "$PROFILE_FILE" ]; then
+        if ! grep -q 'eval "$($BREW_PATH shellenv)"' "$PROFILE_FILE"; then
+            echo "Adding Homebrew to $PROFILE_FILE"
+            echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
+        fi
+    else
+        echo "Creating $PROFILE_FILE and adding Homebrew"
+        echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
+    fi
 fi
 
 # Install chezmoi using Homebrew if it's not installed
