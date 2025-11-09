@@ -83,6 +83,15 @@ install_chezmoi() {
     fi
 }
 
+install_git() {
+    if ! command_exists git; then
+        echo "git not found. Installing git with Homebrew..."
+        brew install git
+    else
+        echo "git is already installed."
+    fi
+}
+
 install_nerd_font() {
     FONT_DIR="$HOME/.local/share/fonts"
     FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
@@ -118,7 +127,7 @@ clone_dotfiles_repo() {
         echo "Cloning dotfiles repository to $DEST_DIR..."
         git clone "$REPO_URL" "$DEST_DIR"
     else
-        echo "Dotfiles repository already exists at $DEST_DIR."
+        echo "Dotfiles repository already exists at "$DEST_DIR"."
     fi
 }
 
@@ -133,6 +142,7 @@ main() {
     install_homebrew
     configure_shell_for_homebrew
     install_chezmoi
+    install_git
     install_nerd_font
     clone_dotfiles_repo
     initialize_chezmoi
