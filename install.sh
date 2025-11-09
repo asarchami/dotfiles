@@ -101,6 +101,38 @@ install_git() {
     fi
 }
 
+install_yazi_and_deps() {
+    packages=(
+        "yazi"
+        "ffmpeg"
+        "sevenzip"
+        "jq"
+        "poppler"
+        "fd"
+        "ripgrep"
+        "fzf"
+        "zoxide"
+        "resvg"
+        "imagemagick"
+        "font-symbols-only-nerd-font"
+    )
+
+    echo "Checking and installing yazi and its dependencies with Homebrew..."
+
+    for package in "${packages[@]}"; do
+        if brew list "$package" >/dev/null 2>&1; then
+            echo "✅ $package is already installed."
+        else
+            echo "Installing $package..."
+            if brew install "$package"; then
+                echo "✅ Successfully installed $package."
+            else
+                echo "❌ Failed to install $package. Please check Homebrew output."
+            fi
+        fi
+    done
+}
+
 install_nerd_font() {
     FONT_DIR="$HOME/.local/share/fonts"
     FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
@@ -153,6 +185,7 @@ main() {
     install_chezmoi
     install_direnv
     install_git
+    install_yazi_and_deps
     install_nerd_font
     clone_dotfiles_repo
     initialize_chezmoi
