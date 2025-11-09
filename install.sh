@@ -79,6 +79,20 @@ else
     echo "chezmoi is already installed."
 fi
 
+# Function to install JetBrains Mono Nerd Font
+install_nerd_font() {
+    echo "Installing JetBrains Mono Nerd Font..."
+    if brew tap | grep -q "homebrew/cask-fonts"; then
+        echo "homebrew/cask-fonts is already tapped."
+    else
+        brew tap homebrew/cask-fonts
+    fi
+    brew install --cask font-jetbrains-mono-nerd-font
+}
+
+# Install JetBrains Mono Nerd Font
+install_nerd_font
+
 # Clone the dotfiles repository if it doesn't exist
 if [ ! -d "$DEST_DIR" ]; then
     echo "Cloning dotfiles repository to $DEST_DIR..."
