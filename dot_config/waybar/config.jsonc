@@ -55,7 +55,7 @@
     "group/system-monitor": {
       "orientation": "horizontal",
       "drawer": {
-        "transition-duration": 300ms,
+        "transition-duration": "300",
         "transition-left-to-right": true,
         "children-class": "system-monitor-child"
       },
