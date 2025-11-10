@@ -25,14 +25,8 @@
 
     "modules-right": [
       "custom/spacer1",
-      "cpu",
-      "temperature",
-      "custom/nvidia",
-      // "group/storage",
-      "memory#ram",
-      "memory#swap",
-      "disk",
-      "network#info",
+      "custom/system-monitor-trigger",
+      "group/system-monitor",
       "custom/spacer2",
       "pulseaudio#input",
       "pulseaudio#output",
@@ -52,6 +46,28 @@
       "format": "",
       "on-click": "wofi --show drun",
       "tooltip": false
+    },
+    "custom/system-monitor-trigger": {
+      "format": "󱎴",
+      "tooltip": false,
+      "on-click": "true" // No action, just a trigger
+    },
+    "group/system-monitor": {
+      "orientation": "horizontal",
+      "drawer": {
+        "transition-duration": 300,
+        "transition-left-to-right": true,
+        "children-class": "system-monitor-child"
+      },
+      "modules": [
+        "cpu",
+        "temperature",
+        "custom/nvidia",
+        "memory#ram",
+        "memory#swap",
+        "disk",
+        "network#info"
+      ]
     },
     "disk": {
       "interval": 16,
