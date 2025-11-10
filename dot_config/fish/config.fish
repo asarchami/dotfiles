@@ -31,6 +31,11 @@ if test -f "$OMF_PATH/init.fish"
     source "$OMF_PATH/init.fish"
 end
 
+# Homebrew Setup (Linuxbrew)
+if test -f /home/linuxbrew/.linuxbrew/bin/brew
+    eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+end
+
 # Customize the prompt
 function fish_prompt
     set_color blue
