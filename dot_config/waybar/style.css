@@ -115,10 +115,30 @@
 #waybar.main #temperature,
 #waybar.main #traym,
 #waybar.main #window,
-#waybar.main #disk {
+#waybar.main #disk,
+#waybar.main #group-system-monitor {
   padding-left: 8pt;
   padding-right: 8pt;
   background: @module_bg;
+}
+
+#waybar.main #custom-system-monitor-trigger {
+  padding-left: 8pt;
+  padding-right: 8pt;
+  background: @background1;
+  color: @performance;
+}
+
+#waybar.main #group-system-monitor {
+  opacity: 0;
+  margin-left: -100%; /* Hide it off-screen to the left */
+  transition: opacity 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+}
+
+#waybar.main #custom-system-monitor-trigger:hover + #group-system-monitor,
+#waybar.main #group-system-monitor:hover {
+  opacity: 1;
+  margin-left: 0;
 }
 
 #waybar.main #custom-weather {
