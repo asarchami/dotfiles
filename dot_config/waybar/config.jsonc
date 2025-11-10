@@ -130,7 +130,7 @@
     "custom/nvidia": {
       "interval": 4,
       "return-type": "json",
-      "exec": "~/.config/hypr/themes/Mocha-Power/nvidia.sh",
+      "exec": "~/.config/waybar/scripts/nvidia.sh",
       "format": "<span size='x-large' rise='-2500'>󰢮</span>{text}",
       "tooltip": "true",
       "tooltip-format": "{alt}"
@@ -139,10 +139,10 @@
     "custom/battery": {
       "interval": 4,
       "return-type": "json",
-      "exec": "~/.config/hypr/themes/Mocha-Power/bat-pp.sh refresh",
+      "exec": "~/.config/waybar/scripts/bat-pp.sh refresh",
       "exec-on-event": true,
       "format": "{text}%",
-      "on-click": "~/.config/hypr/themes/Mocha-Power/bat-pp.sh toggle & aplay ~/.config/sounds/interact.wav",
+      "on-click": "~/.config/waybar/scripts/bat-pp.sh toggle & aplay ~/.config/sounds/interact.wav",
       "tooltip": "true",
       "tooltip-format": "{alt}"
     },
@@ -397,7 +397,7 @@
       "return-type": "json",
       "tooltip": false,
       "format": " ",
-      "exec": "~/.config/hypr/themes/Mocha-Power/bat-pp.sh bar"
+      "exec": "~/.config/waybar/scripts/bat-pp.sh bar"
     }
   }
 ]
