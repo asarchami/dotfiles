@@ -31,9 +31,18 @@ if test -f "$OMF_PATH/init.fish"
     source "$OMF_PATH/init.fish"
 end
 
-# Homebrew Setup (Linuxbrew)
-if test -f /home/linuxbrew/.linuxbrew/bin/brew
-    eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+# Homebrew Setup
+set -l brew_path
+if test -f /home/linuxbrew/.linuxbrew/bin/brew # Linuxbrew
+    set brew_path /home/linuxbrew/.linuxbrew/bin/brew
+else if test -f /opt/homebrew/bin/brew # Apple Silicon
+    set brew_path /opt/homebrew/bin/brew
+else if test -f /usr/local/bin/brew # Intel Macs
+    set brew_path /usr/local/bin/brew
+end
+
+if set -q brew_path
+    eval ($brew_path shellenv)
 end
 
 # Customize the prompt
