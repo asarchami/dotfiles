@@ -136,6 +136,7 @@ return {
         { "<leader>ci", "<cmd>LspInfo<cr>", desc = " LSP info" },
         { "<leader>cI", "<cmd>Mason<cr>", desc = " Mason installer" },
         { "<leader>cx", "<cmd>!chmod +x %<cr>", desc = " Make executable" },
+        { "<leader>cm", "<cmd>MarkdownPreviewToggle<cr>", desc = " Markdown preview" },
 
         -- ===================================================================
         -- CLIPBOARD OPERATIONS
