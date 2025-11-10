@@ -131,7 +131,7 @@
 
 #waybar.main #group-system-monitor {
   opacity: 0;
-  margin-left: -100%;
+  margin-left: -600px;
   transition: opacity 0.3s ease-in-out, margin-left 0.3s ease-in-out;
 }
 
