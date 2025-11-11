@@ -152,4 +152,27 @@ end
 # fzf_configure_bindings
 # zoxide_configure_bindings
 
+# Google Cloud SDK setup
+if command -v gcloud &> /dev/null
+    # Google Cloud SDK path setup
+    if test -f "$HOME/.local/google-cloud-sdk/path.fish.inc"
+        source "$HOME/.local/google-cloud-sdk/path.fish.inc"
+    end
+    
+    # Google Cloud SDK completion for fish
+    gcloud completion fish | source
+    
+    # gcloud auth alias
+    function gauth
+        gcloud auth login && gcloud auth application-default login
+    end
+end
+
+# Add pixi to PATH
+set -gx PATH "$HOME/.pixi/bin" $PATH
+
+# Add local bin to PATH (Fish equivalent of ~/.local/bin/env)
+if not contains "$HOME/.local/bin" $PATH
+    set -gx PATH "$HOME/.local/bin" $PATH
+end
 
