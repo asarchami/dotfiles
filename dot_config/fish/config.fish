@@ -1,5 +1,8 @@
 # Fish shell configuration
 
+# Disable welcome message
+set -g fish_greeting
+
 # Set default editor
 set -x EDITOR nvim
 
@@ -21,7 +24,9 @@ function _get_latest_pyenv_version
 end
 
 # Set pyenv version dynamically
-set -x PYENV_VERSION (_get_latest_pyenv_version)
+if command -v pyenv &> /dev/null
+    set -x PYENV_VERSION (_get_latest_pyenv_version)
+end
 
 # Path to Oh My Fish install.
 set -q OMF_PATH; or set -x OMF_PATH "$HOME/.local/share/omf"
@@ -104,7 +109,9 @@ end
 source "$HOME/.local/share/chezmoi/dot_config/fish/aliases.fish"
 
 # direnv
+if command -v direnv &> /dev/null
 direnv hook fish | source
+end
 
 # chezmoi
 if command -v chezmoi &> /dev/null
