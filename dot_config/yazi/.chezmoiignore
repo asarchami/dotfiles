@@ -1,0 +1,5 @@
+# Skip this directory if yazi is not installed
+{{ if not (lookPath "yazi") }}
+*
+{{ end }}
+

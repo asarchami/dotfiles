@@ -1,0 +1,5 @@
+# Skip this directory if waybar is not installed
+{{ if not (lookPath "waybar") }}
+*
+{{ end }}
+
