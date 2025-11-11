@@ -160,7 +160,9 @@ if command -v gcloud &> /dev/null
     end
     
     # Google Cloud SDK completion for fish
-    gcloud completion fish | source
+    if test -f "$HOME/.local/google-cloud-sdk/completion.fish.inc"
+        source "$HOME/.local/google-cloud-sdk/completion.fish.inc"
+    end
     
     # gcloud auth alias
     function gauth
@@ -175,4 +177,3 @@ set -gx PATH "$HOME/.pixi/bin" $PATH
 if not contains "$HOME/.local/bin" $PATH
     set -gx PATH "$HOME/.local/bin" $PATH
 end
-
