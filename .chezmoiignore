@@ -1,0 +1,10 @@
+# Conditional ignore patterns based on OS
+# Linux-specific configs are automatically ignored on macOS
+
+{{ if eq .chezmoi.os "darwin" }}
+# Linux-specific Wayland compositor and tools
+dot_config/hypr/**
+dot_config/waybar/**
+dot_config/wofi/**
+dot_config/foot/**
+{{ end }}
