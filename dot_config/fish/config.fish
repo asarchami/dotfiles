@@ -153,16 +153,15 @@ end
 # zoxide_configure_bindings
 
 # Google Cloud SDK setup
+# Source path first to ensure gcloud is in PATH
+if test -f "$HOME/.local/google-cloud-sdk/path.fish.inc"
+    source "$HOME/.local/google-cloud-sdk/path.fish.inc"
+end
+
+# Now check if gcloud is available and set up completion/aliases
 if command -v gcloud &> /dev/null
-    # Google Cloud SDK path setup
-    if test -f "$HOME/.local/google-cloud-sdk/path.fish.inc"
-        source "$HOME/.local/google-cloud-sdk/path.fish.inc"
-    end
-    
-    # Google Cloud SDK completion for fish
-    if test -f "$HOME/.local/google-cloud-sdk/completion.fish.inc"
-        source "$HOME/.local/google-cloud-sdk/completion.fish.inc"
-    end
+    # Google Cloud SDK completion for fish (suppress errors if not supported)
+    gcloud completion fish 2>/dev/null | source
     
     # gcloud auth alias
     function gauth
