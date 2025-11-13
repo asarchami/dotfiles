@@ -176,3 +176,8 @@ set -gx PATH "$HOME/.pixi/bin" $PATH
 if not contains "$HOME/.local/bin" $PATH
     set -gx PATH "$HOME/.local/bin" $PATH
 end
+
+# Add Go bin to PATH
+if not contains "/home/ali/go/bin" $PATH
+    set -gx PATH "/home/ali/go/bin" $PATH
+end
