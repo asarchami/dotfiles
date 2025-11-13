@@ -1,0 +1,5 @@
+# Skip this directory if foot is not installed
+{{ if not (lookPath "foot") }}
+*
+{{ end }}
+

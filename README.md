@@ -52,6 +52,20 @@ chezmoi apply
 chezmoi apply ~/.config/tmux
 ```
 
+### Conditional Configuration Application
+
+This dotfiles repository includes configurations for multiple operating systems and applications. Configurations are automatically applied only when relevant:
+
+**Automatic OS-based filtering:**
+- Linux-specific configs (Hyprland, Waybar, Wofi, Foot) are automatically ignored on macOS
+- This is handled via `.chezmoiignore` templates in the root directory
+
+**Automatic software detection:**
+- Each module directory (hypr, waybar, wofi, foot, yazi) contains a `.chezmoiignore` file
+- These files use chezmoi templates with `lookPath` to check if the software is installed
+- If the software is not installed, the entire module directory is ignored
+- No manual steps needed - just run `chezmoi apply` and it will only apply configs for installed software
+
 ### Updating Your Dotfiles
 
 To get the latest changes from this repository, simply run:

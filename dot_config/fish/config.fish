@@ -1,5 +1,8 @@
 # Fish shell configuration
 
+# Disable welcome message
+set -g fish_greeting
+
 # Set default editor
 set -x EDITOR nvim
 
@@ -21,7 +24,9 @@ function _get_latest_pyenv_version
 end
 
 # Set pyenv version dynamically
-set -x PYENV_VERSION (_get_latest_pyenv_version)
+if command -v pyenv &> /dev/null
+    set -x PYENV_VERSION (_get_latest_pyenv_version)
+end
 
 # Path to Oh My Fish install.
 set -q OMF_PATH; or set -x OMF_PATH "$HOME/.local/share/omf"
@@ -104,7 +109,9 @@ end
 source "$HOME/.local/share/chezmoi/dot_config/fish/aliases.fish"
 
 # direnv
+if command -v direnv &> /dev/null
 direnv hook fish | source
+end
 
 # chezmoi
 if command -v chezmoi &> /dev/null
@@ -145,4 +152,27 @@ end
 # fzf_configure_bindings
 # zoxide_configure_bindings
 
+# Google Cloud SDK setup
+# Source path first to ensure gcloud is in PATH
+if test -f "$HOME/.local/google-cloud-sdk/path.fish.inc"
+    source "$HOME/.local/google-cloud-sdk/path.fish.inc"
+end
 
+# Now check if gcloud is available and set up completion/aliases
+if command -v gcloud &> /dev/null
+    # Google Cloud SDK completion for fish (suppress errors if not supported)
+    gcloud completion fish 2>/dev/null | source
+    
+    # gcloud auth alias
+    function gauth
+        gcloud auth login && gcloud auth application-default login
+    end
+end
+
+# Add pixi to PATH
+set -gx PATH "$HOME/.pixi/bin" $PATH
+
+# Add local bin to PATH (Fish equivalent of ~/.local/bin/env)
+if not contains "$HOME/.local/bin" $PATH
+    set -gx PATH "$HOME/.local/bin" $PATH
+end
