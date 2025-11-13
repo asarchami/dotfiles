@@ -1,0 +1,5 @@
+# Skip this directory if wofi is not installed
+{{ if not (lookPath "wofi") }}
+*
+{{ end }}
+

@@ -1,0 +1,5 @@
+# Skip this directory if hyprland is not installed
+{{ if not (lookPath "hyprland") }}
+*
+{{ end }}
+
