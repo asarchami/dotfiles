@@ -102,7 +102,7 @@ return {
             previewer = true,
             sorting_strategy = "ascending",
             file_ignore_patterns = {},
-            dir_icon = "",
+            dir_icon = "",
             dir_icon_hl = "Default",
             display_stat = { date = true, size = true, mode = true },
             grouped = true,
