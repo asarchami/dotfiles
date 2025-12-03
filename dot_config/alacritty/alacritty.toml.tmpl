@@ -69,7 +69,11 @@ italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
 bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
 
 # Font size
+{{ if eq .chezmoi.os "darwin" }}
+size = 14.0
+{{ else }}
 size = 12.0
+{{ end }}
 
 # Offset is the extra space around each character. `offset.y` can be thought
 # of as modifying the line spacing, and `offset.x` as modifying the letter
