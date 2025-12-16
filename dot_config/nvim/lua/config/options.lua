@@ -21,3 +21,19 @@ vim.opt.updatetime = 50
 
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
+
+-- Filetype detection for bqsql files
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.bqsql", "*.bq" },
+  callback = function()
+    vim.bo.filetype = "sql"
+  end,
+})
+
+-- Filetype detection for fish files
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.fish" },
+  callback = function()
+    vim.bo.filetype = "fish"
+  end,
+})
