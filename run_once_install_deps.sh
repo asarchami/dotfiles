@@ -14,6 +14,7 @@ packages=(
     "npm"
     "luarocks"
     "lazygit"
+    "eza"
 )
 
 # --- Script ---
