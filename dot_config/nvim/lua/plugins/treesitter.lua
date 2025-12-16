@@ -26,6 +26,8 @@ return {
           "markdown",
           "markdown_inline",
           "bash",
+          "fish",
+          "sql",
           "dockerfile",
           "gitignore",
         },
