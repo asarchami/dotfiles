@@ -1,0 +1,18 @@
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
+os:
+  editCommand: nvim
+  editCommandTemplate: 'nvim -- {{filename}}'
+  openCommand: xdg-open
+notARepository: 'prompt'
+promptToReturnFromSubprocess: true
+gui:
+  nerdFontsVersion: '3'
+  borders: 'rounded'
+  filterMode: 'fuzzy'
+  authorColors:
+    '*': '#00d9ff'
+  splitDiff: 'always'
+

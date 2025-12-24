@@ -31,7 +31,7 @@ return {
         -- GIT OPERATIONS (<leader>g)
         -- ===================================================================
         { "<leader>g", group = " Git" },
-        { "<leader>gg", "<cmd>LazyGit<cr>", desc = " LazyGit" },
+        { "<leader>gg", "<cmd>Neogit kind=floating<cr>", desc = " Neogit" },
         { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = " Git status" },
         { "<leader>gb", "<cmd>Telescope git_branches<cr>", desc = " Git branches" },
         { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = " Git commits" },
