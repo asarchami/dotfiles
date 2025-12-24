@@ -38,15 +38,15 @@ This is a dotfiles configuration repository managed by [chezmoi](https://www.che
 .
 ├── dot_config/          # Application configs (chezmoi format: "dot_" prefix → hidden files)
 │   ├── alacritty/       # Terminal emulator config
-│   ├── fish/            # Shell configuration
+│   ├── fish/            # Shell configuration (not yet documented)
+│   ├── foot/            # Terminal (Linux only)
 │   ├── hypr/            # Wayland compositor (Linux only)
 │   ├── nvim/            # Neovim editor
+│   ├── pgcli/           # PostgreSQL CLI
 │   ├── tmux/            # Terminal multiplexer
 │   ├── waybar/          # Status bar (Linux only)
 │   ├── wofi/            # Application launcher (Linux only)
-│   ├── yazi/            # File manager
-│   ├── foot/            # Terminal (Linux only)
-│   └── pgcli/           # PostgreSQL CLI
+│   └── yazi/            # File manager (not yet documented)
 ├── docs/                # Application-specific documentation
 ├── install.sh           # Bootstrap script
 ├── run_once_install_deps.sh  # Dependency installer
