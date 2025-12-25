@@ -22,7 +22,12 @@
       "git commit": "ask",
       "ls": "allow",
       "pwd": "allow",
-      "*": "ask"
+      "grep": "allow",
+      "wc": "allow",
+      "tail": "allow",
+      "head": "allow",
+      "cat": "allow",
+      "*": "allow"
     }
   }
 }
