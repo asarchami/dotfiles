@@ -150,6 +150,7 @@ return {
         -- QUICK ACTIONS (Single letters)
         -- ===================================================================
         { "<leader>e", "<cmd>Telescope file_browser<cr>", desc = " File browser" },
+        { "<leader>E", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", desc = " Current directory" },
         { "<leader>l", "<cmd>Lazy<cr>", desc = " Lazy plugin manager" },
         { "<leader>h", "<cmd>nohl<cr>", desc = " Clear search highlights" },
         { "<leader>q", "<cmd>q<cr>", desc = " Quit" },
