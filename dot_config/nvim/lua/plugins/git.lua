@@ -1,5 +1,31 @@
 -- Git plugins
 return {
+  -- Diffview for viewing git diffs
+  {
+    "sindrets/diffview.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      local actions = require("diffview.actions")
+      require("diffview").setup({
+        keymaps = {
+          view = {
+            { "n", "q", actions.close, { desc = "Close diffview" } },
+            { "n", "<leader>q", actions.close, { desc = "Close diffview" } },
+          },
+          file_panel = {
+            { "n", "q", actions.close, { desc = "Close diffview" } },
+            { "n", "<leader>q", actions.close, { desc = "Close diffview" } },
+          },
+          file_history_panel = {
+            { "n", "q", actions.close, { desc = "Close diffview" } },
+            { "n", "<leader>q", actions.close, { desc = "Close diffview" } },
+          },
+        },
+      })
+    end,
+  },
   -- Neogit for git operations
   {
     "NeogitOrg/neogit",
