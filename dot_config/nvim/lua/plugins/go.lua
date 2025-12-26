@@ -22,7 +22,7 @@ return {
     config = function()
       require("go").setup({
         -- Disable default keymaps (we'll use which-key)
-        disable_defaults = false,
+        disable_defaults = true,
         
         -- Go imports
         goimports = "gopls",
