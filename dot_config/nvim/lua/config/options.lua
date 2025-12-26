@@ -22,6 +22,10 @@ vim.opt.updatetime = 50
 vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 
+-- Split windows to the right and below
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
 -- Filetype detection for bqsql files
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = { "*.bqsql", "*.bq" },
