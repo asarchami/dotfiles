@@ -31,9 +31,8 @@
       "pulseaudio#input",
       "pulseaudio#output",
       "custom/spacer3",
-      "hyprland/language",
+      "group/connectivity",
       "backlight",
-      "custom/battery",
       "custom/spacer4",
       "custom/weather",
       "clock",
@@ -59,15 +58,14 @@
         "transition-left-to-right": true,
         "children-class": "system-monitor-child"
       },
-      "modules": [
-        "cpu",
-        "temperature",
-        "custom/nvidia",
-        "memory#ram",
-        "memory#swap",
-        "disk",
-        "network#info"
-      ]
+       "modules": [
+         "cpu",
+         "temperature",
+         "memory#ram",
+         "memory#swap",
+         "disk",
+         "network#info"
+       ]
     },
     "disk": {
       "interval": 16,
@@ -120,6 +118,29 @@
       "modules": ["custom/battery", "backlight"]
     },
 
+    "group/connectivity": {
+      "orientation": "horizontal",
+      "modules": [
+        "custom/wifi",
+        "custom/bluetooth",
+        "hyprland/language"
+      ]
+    },
+
+    "custom/wifi": {
+      "format": "󰤨",
+      "tooltip": true,
+      "tooltip-format": "Click to open impala",
+      "on-click": "bash ~/.config/waybar/scripts/launch-impala.sh & aplay ~/.config/sounds/interact.wav"
+    },
+
+    "custom/bluetooth": {
+      "format": "󰂯",
+      "tooltip": true,
+      "tooltip-format": "Click to open bluetui",
+      "on-click": "bash ~/.config/waybar/scripts/launch-bluetui.sh & aplay ~/.config/sounds/interact.wav"
+    },
+
     "backlight": {
       "device": "intel_backlight",
       "format": "{icon} {percent}%",
@@ -127,39 +148,9 @@
       "scroll-step": 2
     },
 
-    "custom/nvidia": {
-      "interval": 4,
-      "return-type": "json",
-      "exec": "~/.config/waybar/scripts/nvidia.sh",
-      "format": "<span size='x-large' rise='-2500'>󰢮</span>{text}",
-      "tooltip": "true",
-      "tooltip-format": "{alt}"
-    },
-
-    "custom/battery": {
-      "interval": 4,
-      "return-type": "json",
-      "exec": "~/.config/waybar/scripts/bat-pp.sh refresh",
-      "exec-on-event": true,
-      "format": "{text}%",
-      "on-click": "~/.config/waybar/scripts/bat-pp.sh toggle & aplay ~/.config/sounds/interact.wav",
-      "tooltip": "true",
-      "tooltip-format": "{alt}"
-    },
-
-    // "custom/battery": {
-    //   "return-type": "json",
-    //   "exec": "~/.config/hypr/themes/Mocha-Power/bat-pp2.sh refresh",
-    //   "exec-on-event": true,
-    //   "format": "{text}%",
-    //   "on-click": "~/.config/hypr/themes/Mocha-Power/bat-pp2.sh toggle & aplay ~/.config/sounds/interact.wav",
-    //   "tooltip": "true",
-    //   "tooltip-format": "{alt}"
-    // },
-
     "clock": {
       "interval": 1,
-      "format": " {:%H:%M:%S    %a %d.%m}",
+      "format": " {:%H:%M:%S    %a %d.%m}",
       "tooltip-format": "{calendar}",
       "calendar": {
         "weeks-pos": "right",
@@ -384,20 +375,12 @@
     "reload_style_on_change": true,
     // "output": "eDP-1",
 
-    "height": 30,
+    "height": 0,
 
     "margin-top": -29,
     // "margin-left": 10,
     "margin-right": 24,
 
-    "modules-right": ["custom/batteryindicator"],
-
-    "custom/batteryindicator": {
-      "interval": 4,
-      "return-type": "json",
-      "tooltip": false,
-      "format": " ",
-      "exec": "~/.config/waybar/scripts/bat-pp.sh bar"
-    }
+    "modules-right": []
   }
 ]

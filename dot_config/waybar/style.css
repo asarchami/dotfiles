@@ -97,10 +97,8 @@
 
 /* Main bar modules */
 /* {{{ */
-#waybar.main #custom-nvidia,
 #waybar.main #custom-weather,
 #waybar.main #custom-weather,
-#waybar.main #custom-battery,
 #waybar.main #keyboard-state,
 #waybar.main #network,
 #waybar.main #battery,
@@ -150,7 +148,7 @@
   margin-bottom: -4px;
 }
 
-#custom-archicon {
+#waybar.main #custom-archicon {
   font-size: 20px;
   color: #89B4FA;
   background: #161320;
@@ -158,11 +156,22 @@
   padding-left: 17px;
 }
 
+#waybar.main #group-connectivity {
+  padding-left: 8pt;
+  padding-right: 8pt;
+  background: @background1;
+}
+
+#waybar.main #custom-wifi,
+#waybar.main #custom-bluetooth {
+  padding-left: 6pt;
+  padding-right: 6pt;
+}
+
 /* }}} */
 
 /* Module colors */
 /* {{{ */
-#waybar.main #custom-nvidia,
 #waybar.main #cpu,
 #waybar.main #temperature,
 #waybar.main #memory.ram,
@@ -181,7 +190,9 @@
 #waybar.main #custom-battery,
 #waybar.main #language,
 #waybar.main #backlight,
-#waybar.main #battery {
+#waybar.main #battery,
+#waybar.main #custom-wifi,
+#waybar.main #custom-bluetooth {
   color: @misc;
   background: @background1;
 }
@@ -247,7 +258,6 @@
 
 /* Main bar criticals */
 /* {{{ */
-#waybar.main #custom-nvidia.critical,
 /* #waybar.main #custom-battery.critical, */
 #waybar.main #memory.swap.critical,
 #waybar.main #memory.ram.critical,
@@ -283,24 +293,6 @@
 #waybar.main #pulseaudio.output.muted,
 #waybar.main #pulseaudio.input.source-muted {
   color: @sepepator;
-}
-
-#waybar.main #custom-battery.warning,
-#waybar.main #custom-battery.critical {
-  color: @warning;
-}
-
-/* }}} */
-
-/* Battery chargin */
-/* {{{ */
-#waybar.main #custom-battery.charging {
-  color: @misc;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-modifier-text;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
 }
 
 /* }}} */
@@ -510,129 +502,6 @@ tooltip {
   background: @background1;
   border: 3px solid @caution;
   border-radius: 8px;
-}
-
-/* }}} */
-
-/* Indicator bar keyframes */
-/* {{{ */
-@keyframes blink-critical-battery {
-  to {
-    border-color: @warning;
-    box-shadow:
-      inset 0px 3px 4px -5px @warning,
-      inset 0px -3px 4px -5px @warning;
-  }
-}
-
-@keyframes blink-warning-battery {
-  to {
-    border-color: @warning;
-    box-shadow:
-      inset 0px 3px 4px -5px @warning,
-      inset 0px -3px 4px -5px @warning;
-  }
-}
-
-@keyframes blink-discharging-battery {
-  to {
-    border-color: @warning;
-    box-shadow:
-      inset 0px 3px 4px -5px @warning,
-      inset 0px -3px 4px -5px @warning;
-  }
-}
-
-@keyframes blink-charging-battery {
-  to {
-    border-color: @misc;
-    box-shadow:
-      inset 0px 3px 4px -5px @misc,
-      inset 0px -3px 4px -5px @misc;
-  }
-}
-
-@keyframes blink-full-battery {
-  to {
-    border-color: @misc;
-    box-shadow:
-      inset 0px 3px 4px -5px @misc,
-      inset 0px -3px 4px -5px @misc;
-  }
-}
-
-/* }}} */
-
-/* indicator bar battery module */
-/* {{{ */
-
-/* Set defaults for indicator bar */
-#waybar.indicator {
-  font-size: 10px;
-  /* This makes indicator thicker */
-  color: rgba(0, 0, 0, 0);
-  background: rgba(0, 0, 0, 0);
-}
-
-/* Set "battery bar" style */
-#waybar.indicator #custom-batteryindicator {
-  border: 2.5px solid @sepepator;
-  background: transparent;
-  box-shadow:
-    inset 0px 4px 4px -5px rgba(0, 0, 0, 0.5),
-    inset 0px -4px 4px -5px rgba(0, 0, 0, 0.5);
-
-
-  border-radius: 7px;
-  padding-left: 2502px;
-  /* Use this for padding:  */
-  /* (H_rez / scaling) - L_margin -R_margin - 2 * border - (font-size / 2)*/
-  /* For example: (2880px / 1.25) - 24 - 24 - 2 * 2.5 - (27 / 2) = 2237.5px */
-}
-
-/* Blink red when battery is very low */
-#waybar.indicator #custom-batteryindicator.critical {
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-critical-battery;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink red twice when battry is low battery */
-#waybar.indicator #custom-batteryindicator.warning {
-  animation-iteration-count: 4;
-  animation-direction: alternate;
-  animation-name: blink-warning-battery;
-  animation-duration: 0.2s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink once red when disconnected from AC */
-#waybar.indicator #custom-batteryindicator.discharging {
-  animation-iteration-count: 2;
-  animation-direction: alternate;
-  animation-name: blink-discharging-battery;
-  animation-duration: 0.3s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink once cyan when plugged to AC */
-#waybar.indicator #custom-batteryindicator.charging {
-  animation-iteration-count: 2;
-  animation-direction: alternate;
-  animation-name: blink-charging-battery;
-  animation-duration: 0.3s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink cyan twice when battery is full */
-#waybar.indicator #custom-batteryindicator.full {
-  animation-iteration-count: 4;
-  animation-direction: alternate;
-  animation-name: blink-full-battery;
-  animation-duration: 0.2s;
-  animation-timing-function: steps(15);
 }
 
 /* }}} */
