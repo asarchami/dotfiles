@@ -5,17 +5,17 @@
 }
   
 #window {
-    background: rgba(41, 46, 66, 0.5);
+    background: rgba(41, 46, 66, 1.0);
     margin: auto;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 5px solid #33ccff;
 }
 
 #input {
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 15px;
+    border-radius: 5px;
 }
 
 #outer-box {
@@ -28,7 +28,7 @@
 
 #entry {
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 5px;
 }
 
 #entry:selected {

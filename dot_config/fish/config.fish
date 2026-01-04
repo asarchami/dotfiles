@@ -105,6 +105,11 @@ function fish_prompt
     set_color normal
 end
 
+function hyprshot-gui
+    # Use 'env' to override PATH just for this execution
+    env PATH="/usr/bin:/bin" /usr/bin/python3 /usr/bin/hyprshot-gui $argv
+end
+
 # Source aliases
 source "$HOME/.local/share/chezmoi/dot_config/fish/aliases.fish"
 
