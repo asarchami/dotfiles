@@ -72,6 +72,14 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   end,
 })
 
+-- SSH config file detection (for ~/.ssh/config and similar files)
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "**/.ssh/config", "**/ssh_config", "**/.ssh/known_hosts" },
+  callback = function()
+    vim.bo.filetype = "sshconfig"
+  end,
+})
+
 -- Auto-reload buffers when files change externally
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
