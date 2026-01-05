@@ -128,6 +128,18 @@ return {
         })
       })
 
+      -- Ensure Lua files have proper completion sources
+      cmp.setup.filetype("lua", {
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },     -- LSP
+          { name = "nvim_lua" },     -- Neovim Lua API
+          { name = "luasnip" },      -- Snippets
+        }, {
+          { name = "buffer" },       -- Buffer text
+          { name = "path" },         -- File paths
+        })
+      })
+
       -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
