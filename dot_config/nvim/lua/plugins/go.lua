@@ -87,7 +87,7 @@ return {
         verbose = false,
       })
     end,
-    event = {"CmdlineEnter"},
+    -- Only load for Go filetypes, not on command line entry
     ft = {"go", "gomod"},
     build = ':lua require("go.install").update_all_sync()'
   },
