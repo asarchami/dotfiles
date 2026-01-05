@@ -64,6 +64,14 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   end,
 })
 
+-- Explicit Lua filetype detection (ensures proper syntax highlighting)
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.lua" },
+  callback = function()
+    vim.bo.filetype = "lua"
+  end,
+})
+
 -- Auto-reload buffers when files change externally
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
