@@ -23,22 +23,20 @@
       "hyprland/window"
     ],
 
-    "modules-right": [
-      "custom/spacer1",
-      "custom/system-monitor-trigger",
-      "group/system-monitor",
-      "custom/spacer2",
-      "pulseaudio#input",
-      "pulseaudio#output",
-      "custom/spacer3",
-      "group/connectivity",
-      "backlight",
-      "custom/spacer4",
-      "custom/weather",
-      "clock",
-      "custom/spacer3",
-      "custom/power"
-    ],
+     "modules-right": [
+       "custom/spacer1",
+       "custom/system-monitor-trigger",
+       "group/system-monitor",
+       "custom/spacer2",
+       "pulseaudio#input",
+       "pulseaudio#output",
+       "custom/spacer3",
+       "group/connectivity",
+       "custom/spacer4",
+       "clock",
+       "custom/spacer3",
+       "custom/power"
+     ],
 
     // Modules
     "custom/archicon": {
@@ -79,13 +77,6 @@
       }
     },
 
-    "custom/weather": {
-      "format": "{}° Oulu",
-      "tooltip": true,
-      "interval": 60,
-      "exec": "wttrbar --nerd --location Oulu",
-      "return-type": "json"
-    },
 
     "group/traym": {
       "orientation": "horizontal",
@@ -131,22 +122,16 @@
       "format": "󰤨",
       "tooltip": true,
       "tooltip-format": "Click to open impala",
-      "on-click": "bash ~/.config/waybar/scripts/launch-impala.sh & aplay ~/.config/sounds/interact.wav"
+      "on-click": "foot --app-id impala -e impala & aplay ~/.config/sounds/interact.wav"
     },
 
     "custom/bluetooth": {
       "format": "󰂯",
       "tooltip": true,
       "tooltip-format": "Click to open bluetui",
-      "on-click": "bash ~/.config/waybar/scripts/launch-bluetui.sh & aplay ~/.config/sounds/interact.wav"
+      "on-click": "foot --app-id bluetui -e bluetui & aplay ~/.config/sounds/interact.wav"
     },
 
-    "backlight": {
-      "device": "intel_backlight",
-      "format": "{icon} {percent}%",
-      "format-icons": ["󱩎", "󱩑", "󱩓", "󱩕", "󰛨"],
-      "scroll-step": 2
-    },
 
     "clock": {
       "interval": 1,
@@ -163,7 +148,7 @@
           "today": "<span color='#f5e0dc'><b><u>{}</u></b></span>"
         }
       },
-      "on-click": "chromium --app=https://calendar.google.com & aplay ~/.config/sounds/interact.wav"
+       "on-click": "/opt/brave-bin/brave --profile-directory=Default --app-id=kjbdgfilnfhdoflbpgamdcdgpehopbep & aplay ~/.config/sounds/interact.wav"
     },
 
     "cpu": {
