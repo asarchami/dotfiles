@@ -42,6 +42,28 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   end,
 })
 
+-- Ensure filetype detection and syntax highlighting are enabled
+vim.cmd('filetype on')
+vim.cmd('filetype plugin on')
+vim.cmd('filetype indent on')
+vim.cmd('syntax on')
+
+-- Explicit markdown filetype detection (backup in case auto-detection fails)
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.md", "*.markdown", "*.mkd", "*.mkdn", "*.mdwn" },
+  callback = function()
+    vim.bo.filetype = "markdown"
+  end,
+})
+
+-- Explicit shell/bash filetype detection
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.sh", "*.bash", "*.zsh", "*.csh", "*.ksh" },
+  callback = function()
+    vim.bo.filetype = "sh"
+  end,
+})
+
 -- Auto-reload buffers when files change externally
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
