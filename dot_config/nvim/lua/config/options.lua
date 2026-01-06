@@ -4,3 +4,10 @@
 
 -- Disable tabline at the top
 vim.opt.showtabline = 0
+
+-- Treat .bqsql files as SQL files
+vim.filetype.add({
+  extension = {
+    bqsql = "sql",
+  },
+})
