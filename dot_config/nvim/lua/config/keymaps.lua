@@ -6,5 +6,5 @@
 -- vim.keymap.del("n", "<leader>wk")
 -- vim.keymap.del("n", "<leader>wj")
 
-local map = vim.keymap.set
-map("n", "<leader>wh", "<cmd>split<cr>", { desc = "Split window horizontally" })
+-- local map = vim.keymap.set
+-- map("n", "<leader>wh", "<cmd>split<cr>", { desc = "Split window horizontally" })
