@@ -1,66 +1,157 @@
 #!/bin/bash
 
-# This script installs dependencies for the Neovim configuration using Homebrew.
-# It checks for each package and only installs it if it's not already present.
+# Universal dependency installation script for core development tools
+# Supports: macOS (Homebrew), Arch Linux (yay/pacman), other Linux (Linuxbrew)
+#
+# NOTE: Individual application configs have their own dependency installers:
+#   - dot_config/tmux/run_once_install_tmux_deps.sh
+#   - dot_config/yazi/run_once_install-yazi-deps.sh
+#   - dot_config/hypr/run_once_install_hyprland_deps.sh (Linux Arch only)
+#   - dot_config/fish/run_once_install_omf.sh
+#
+# This script installs only the core tools needed for Neovim development.
 
-# --- Configuration ---
-# List of packages to ensure are installed.
-packages=(
-    "neovim"
-    "fzf"
-    "ripgrep"
-    "fd"
-    "node"
-    "npm"
-    "luarocks"
-    "lazygit"
-    "eza"
-)
+set -e
 
-# --- Script ---
+# --- Helper Functions ---
 
-# Function to check if a command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Check for Homebrew
-if ! command_exists brew; then
-    echo "Homebrew not found. Please install Homebrew to continue."
-    echo "See https://brew.sh/ for installation instructions."
-    exit 1
-fi
+install_yay() {
+    echo "📦 Installing yay AUR helper..."
+    sudo pacman -S --needed --noconfirm git base-devel
+    cd /tmp
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm
+    cd ~
+    rm -rf /tmp/yay
+}
 
-echo "Checking and installing Neovim dependencies with Homebrew..."
-
-for package in "${packages[@]}"; do
-    # Determine the command to check for. Usually the same as the package name.
-    cmd_to_check="$package"
-    if [ "$package" = "ripgrep" ]; then
-        cmd_to_check="rg"
-    elif [ "$package" = "neovim" ]; then
-        cmd_to_check="nvim"
+install_linuxbrew() {
+    echo "📦 Installing Linuxbrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    # Add Homebrew to PATH for this session
+    if [ -d "/home/linuxbrew/.linuxbrew" ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     fi
+}
 
-    if command_exists "$cmd_to_check"; then
-        echo "✅ $package ($cmd_to_check) is already installed."
+# Detect OS and package manager
+detect_package_manager() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "macos"
+    elif command_exists yay; then
+        echo "arch-yay"
+    elif command_exists pacman && [ -f /etc/arch-release ]; then
+        echo "arch-pacman"
+    elif command_exists brew; then
+        echo "linuxbrew"
     else
-        echo "Installing $package..."
-        if brew install "$package"; then
-            echo "✅ Successfully installed $package."
-        else
-            echo "❌ Failed to install $package. Please check Homebrew output."
-            # Optional: exit on failure
-            # exit 1
-        fi
+        echo "other-linux"
     fi
-done
+}
 
-echo "All specified Neovim dependencies have been checked."
+# Install a single package based on package manager
+install_package() {
+    local pkg_manager="$1"
+    local brew_name="$2"
+    local arch_name="$3"
+    local cmd_check="$4"
+    
+    # Check if already installed
+    if [ -n "$cmd_check" ] && command_exists "$cmd_check"; then
+        echo "✅ $brew_name is already installed."
+        return 0
+    fi
+    
+    case "$pkg_manager" in
+        macos|linuxbrew)
+            echo "Installing $brew_name..."
+            brew install "$brew_name" || echo "⚠️  Failed to install $brew_name"
+            ;;
+        arch-yay)
+            echo "Installing $arch_name..."
+            yay -S --needed --noconfirm "$arch_name" || echo "⚠️  Failed to install $arch_name"
+            ;;
+        arch-pacman)
+            echo "Installing $arch_name..."
+            sudo pacman -S --needed --noconfirm "$arch_name" || echo "⚠️  Failed to install $arch_name"
+            ;;
+    esac
+}
 
-# Special post-install instructions if any
-# For example, fzf requires a post-install step
-if command_exists fzf; then
-    echo "Note: fzf may require a post-installation step. If you haven't done so, you might need to run:"
-    echo "$(brew --prefix)/opt/fzf/install"
+# --- Main Script ---
+
+echo "🚀 Starting core development tools installation..."
+echo ""
+
+PKG_MANAGER=$(detect_package_manager)
+echo "📋 Detected system: $PKG_MANAGER"
+echo ""
+
+# Setup package manager if needed
+case "$PKG_MANAGER" in
+    arch-pacman)
+        echo "⚙️  Setting up yay AUR helper..."
+        install_yay
+        PKG_MANAGER="arch-yay"
+        ;;
+    other-linux)
+        echo "⚙️  Setting up Linuxbrew..."
+        install_linuxbrew
+        PKG_MANAGER="linuxbrew"
+        ;;
+esac
+
+echo ""
+echo "📦 Installing core development tools..."
+echo ""
+
+# Package definitions: brew_name, arch_name, command_to_check
+# Format: install_package "$PKG_MANAGER" "brew_name" "arch_name" "cmd_check"
+
+# Core development tools (Neovim dependencies)
+install_package "$PKG_MANAGER" "neovim" "neovim" "nvim"
+install_package "$PKG_MANAGER" "fzf" "fzf" "fzf"
+install_package "$PKG_MANAGER" "ripgrep" "ripgrep" "rg"
+install_package "$PKG_MANAGER" "fd" "fd" "fd"
+install_package "$PKG_MANAGER" "eza" "eza" "eza"
+install_package "$PKG_MANAGER" "lazygit" "lazygit" "lazygit"
+
+# Node.js and npm (for Neovim LSP)
+if [[ "$PKG_MANAGER" == "arch-yay" ]]; then
+    install_package "$PKG_MANAGER" "node" "nodejs" "node"
+    install_package "$PKG_MANAGER" "npm" "npm" "npm"
+else
+    install_package "$PKG_MANAGER" "node" "node" "node"
+    # npm comes with node in Homebrew
 fi
+
+# Lua and LuaRocks (for Neovim plugins)
+install_package "$PKG_MANAGER" "lua" "lua" "lua"
+install_package "$PKG_MANAGER" "luarocks" "luarocks" "luarocks"
+
+# Fonts (for terminal)
+if [[ "$PKG_MANAGER" == "macos" || "$PKG_MANAGER" == "linuxbrew" ]]; then
+    install_package "$PKG_MANAGER" "font-jetbrains-mono-nerd-font" "" ""
+elif [[ "$PKG_MANAGER" == "arch-yay" ]]; then
+    install_package "$PKG_MANAGER" "" "ttf-jetbrains-mono-nerd" ""
+fi
+
+echo ""
+echo "✅ Core development dependencies installed!"
+echo "📝 Note: Individual app configs have their own installers that run automatically"
+echo ""
+
+# Post-installation notes
+if command_exists fzf && [[ "$PKG_MANAGER" == "macos" || "$PKG_MANAGER" == "linuxbrew" ]]; then
+    echo "📝 Note: fzf may require a post-installation step:"
+    echo "   $(brew --prefix 2>/dev/null || echo '/home/linuxbrew/.linuxbrew')/opt/fzf/install"
+    echo ""
+fi
+
+echo "🎉 Installation complete!"
