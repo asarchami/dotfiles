@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# This script sets up the dotfiles repository by cloning it and initializing chezmoi.
-# It is designed to be run from a remote URL.
+# Bootstrap script for dotfiles setup
+# Works on macOS, Arch Linux, and other Linux distros
+# Installs chezmoi and clones the dotfiles repository
 
 set -e
 
@@ -15,148 +16,171 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Detect OS and package manager
+detect_system() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "macos"
+    elif command_exists pacman && [ -f /etc/arch-release ]; then
+        echo "arch"
+    else
+        echo "linux-other"
+    fi
+}
+
 # --- Installation Functions ---
 
 install_homebrew() {
     if ! command_exists brew; then
-        echo "Homebrew not found. Installing Homebrew..."
+        echo "📦 Installing Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        
+        # Configure Homebrew in current session
+        if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        elif [ -f /opt/homebrew/bin/brew ]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
     else
-        echo "Homebrew is already installed."
+        echo "✅ Homebrew is already installed."
     fi
 }
 
-configure_shell_for_homebrew() {
-    echo "Configuring shell for Homebrew..."
-    if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then # Linux
-        BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
-    elif [ -f /opt/homebrew/bin/brew ]; then # macOS
-        BREW_PATH="/opt/homebrew/bin/brew"
-    else
-        BREW_PATH=""
+install_yay() {
+    if command_exists yay; then
+        echo "✅ yay is already installed."
+        return 0
     fi
-
-    if [ -n "$BREW_PATH" ]; then
-        eval "$($BREW_PATH shellenv)"
-        
-        SHELL_TYPE=$(basename "$SHELL")
-        echo "Detected shell: $SHELL_TYPE"
-
-        case "$SHELL_TYPE" in
-        bash)
-            PROFILE_FILE="$HOME/.bashrc"
-            ;;
-        zsh)
-            PROFILE_FILE="$HOME/.zshrc"
-            ;;
-        fish)
-            PROFILE_FILE="$HOME/.config/fish/config.fish"
-            ;;
-        *)
-            echo "Unsupported shell: $SHELL_TYPE. Please add Homebrew to your shell's configuration file manually."
-            PROFILE_FILE=""
-            ;;
-        esac
-
-        if [ -n "$PROFILE_FILE" ]; then
-            if [ "$SHELL_TYPE" = "fish" ]; then
-                if ! grep -q "eval ($BREW_PATH shellenv)" "$PROFILE_FILE"; then
-                    echo "Adding Homebrew to $PROFILE_FILE"
-                    echo "eval ($BREW_PATH shellenv)" >> "$PROFILE_FILE"
-                fi
-            else
-                if ! grep -q 'eval "$('$BREW_PATH' shellenv)"' "$PROFILE_FILE"; then
-                    echo "Adding Homebrew to $PROFILE_FILE"
-                    echo 'eval "$('$BREW_PATH' shellenv)"' >> "$PROFILE_FILE"
-                fi
-            fi
-        fi
+    
+    echo "📦 Installing yay AUR helper..."
+    
+    # Check if we can install dependencies
+    if ! command_exists pacman; then
+        echo "❌ Error: pacman not found. Cannot install yay."
+        exit 1
     fi
+    
+    # Install base-devel and git if needed
+    echo "Installing yay dependencies..."
+    sudo pacman -S --needed --noconfirm git base-devel
+    
+    # Clone and build yay
+    cd /tmp
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm
+    cd ~
+    rm -rf /tmp/yay
+    
+    echo "✅ yay installed successfully."
 }
 
 install_chezmoi() {
-    if ! command_exists chezmoi; then
-        echo "chezmoi not found. Installing chezmoi with Homebrew..."
-        brew install chezmoi
-    else
-        echo "chezmoi is already installed."
+    if command_exists chezmoi; then
+        echo "✅ chezmoi is already installed."
+        return 0
     fi
-}
-
-install_direnv() {
-    if ! command_exists direnv; then
-        echo "direnv not found. Installing direnv with Homebrew..."
-        brew install direnv
-    else
-        echo "direnv is already installed."
-    fi
+    
+    local system=$(detect_system)
+    
+    case "$system" in
+        macos)
+            echo "📦 Installing chezmoi via Homebrew..."
+            brew install chezmoi
+            ;;
+        arch)
+            echo "📦 Installing chezmoi via yay..."
+            if ! command_exists yay; then
+                install_yay
+            fi
+            yay -S --needed --noconfirm chezmoi
+            ;;
+        linux-other)
+            echo "📦 Installing chezmoi via Homebrew (Linuxbrew)..."
+            install_homebrew
+            brew install chezmoi
+            ;;
+    esac
 }
 
 install_git() {
-    if ! command_exists git; then
-        echo "git not found. Installing git with Homebrew..."
-        brew install git
-    else
-        echo "git is already installed."
+    if command_exists git; then
+        echo "✅ git is already installed."
+        return 0
     fi
-}
-
-install_nerd_font() {
-    FONT_DIR="$HOME/.local/share/fonts"
-    FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip"
-    FONT_ZIP="JetBrainsMono.zip"
-
-    echo "Installing JetBrains Mono Nerd Font..."
-
-    mkdir -p "$FONT_DIR"
-
-    if command_exists curl; then
-        curl -L "$FONT_URL" -o "$FONT_DIR/$FONT_ZIP"
-    elif command_exists wget; then
-        wget -O "$FONT_DIR/$FONT_ZIP" "$FONT_URL"
-    else
-        echo "Neither curl nor wget found. Please install them to download the font."
-        return 1
-    fi
-
-    if ! command_exists unzip; then
-        echo "unzip not found. Please install unzip to extract the font."
-        return 1
-    fi
-
-    unzip -o "$FONT_DIR/$FONT_ZIP" -d "$FONT_DIR"
-    rm "$FONT_DIR/$FONT_ZIP"
-
-    fc-cache -fv
-    echo "JetBrains Mono Nerd Font installed."
+    
+    local system=$(detect_system)
+    
+    case "$system" in
+        macos)
+            echo "📦 Installing git via Homebrew..."
+            brew install git
+            ;;
+        arch)
+            echo "📦 Installing git via pacman..."
+            if ! command_exists pacman; then
+                echo "❌ Error: pacman not found. Please install git manually."
+                exit 1
+            fi
+            sudo pacman -S --needed --noconfirm git
+            ;;
+        linux-other)
+            echo "📦 Installing git via Homebrew (Linuxbrew)..."
+            install_homebrew
+            brew install git
+            ;;
+    esac
 }
 
 clone_dotfiles_repo() {
-    if [ ! -d "$DEST_DIR" ]; then
-        echo "Cloning dotfiles repository to $DEST_DIR..."
-        git clone "$REPO_URL" "$DEST_DIR"
-    else
-        echo "Dotfiles repository already exists at "$DEST_DIR"."
+    if [ -d "$DEST_DIR" ]; then
+        echo "✅ Dotfiles repository already exists at $DEST_DIR"
+        return 0
     fi
+    
+    echo "📦 Cloning dotfiles repository to $DEST_DIR..."
+    git clone "$REPO_URL" "$DEST_DIR"
 }
 
 initialize_chezmoi() {
-    echo "Initializing chezmoi..."
+    echo "⚙️  Initializing chezmoi..."
     chezmoi init --source "$DEST_DIR"
 }
 
 # --- Main Function ---
 
 main() {
-    install_homebrew
-    configure_shell_for_homebrew
-    install_chezmoi
-    install_direnv
+    echo "🚀 Starting dotfiles setup..."
+    echo ""
+    
+    local system=$(detect_system)
+    echo "📋 Detected system: $system"
+    echo ""
+    
+    # Install prerequisites based on system
+    case "$system" in
+        macos)
+            install_homebrew
+            ;;
+        arch)
+            # For Arch, we'll install yay if needed when installing chezmoi
+            ;;
+        linux-other)
+            install_homebrew
+            ;;
+    esac
+    
     install_git
-    install_nerd_font
+    install_chezmoi
     clone_dotfiles_repo
     initialize_chezmoi
-    echo "Setup complete. You can now use 'chezmoi apply' to apply your dotfiles."
+    
+    echo ""
+    echo "✅ Setup complete!"
+    echo ""
+    echo "📝 Next steps:"
+    echo "   1. Run 'chezmoi apply' to apply your dotfiles"
+    echo "   2. Dependencies will be installed automatically via run_once_* scripts"
+    echo "   3. See ~/.local/share/chezmoi/README.md for more information"
 }
 
 # --- Run Script ---
