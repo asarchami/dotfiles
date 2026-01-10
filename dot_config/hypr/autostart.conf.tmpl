@@ -14,3 +14,8 @@ exec-once = /usr/lib/polkit-kde-authentication-agent-1
 exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec-once = hypridle
+
+{{- if eq .chezmoi.hostname "cachyos-laptop" }}
+# Laptop-specific: Start kanshi for dynamic monitor management
+exec-once = kanshi &
+{{- end }}

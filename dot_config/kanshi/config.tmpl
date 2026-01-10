@@ -1,0 +1,23 @@
+{{- if eq .chezmoi.hostname "cachyos-laptop" -}}
+# Kanshi configuration for laptop
+# Automatically switches between docked and undocked profiles
+
+# Profile: Docked with 3 external monitors (laptop screen off)
+profile docked {
+    output eDP-1 disable
+    output DP-2 enable mode 2560x1440@59.95Hz position 0,0 transform 90
+    output DP-3 enable mode 2560x1440@59.95Hz position 1440,0 transform 270
+    output DP-5 enable mode 3840x2160@60Hz position 2880,0 scale 1.0
+}
+
+# Profile: Laptop only (undocked)
+profile laptop {
+    output eDP-1 enable mode 1920x1200@120.02Hz position 0,0 scale 1.0
+}
+
+# Profile: Laptop + single external monitor
+profile laptop-external {
+    output eDP-1 enable mode 1920x1200@120.02Hz position 0,0 scale 1.0
+    output DP-2 enable mode 2560x1440@59.95Hz position 1920,0 scale 1.0
+}
+{{- end -}}

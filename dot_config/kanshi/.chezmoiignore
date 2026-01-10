@@ -1,0 +1,4 @@
+# Only apply kanshi config on laptop (not PC or macOS)
+{{ if ne .chezmoi.hostname "cachyos-laptop" }}
+*
+{{ end }}
