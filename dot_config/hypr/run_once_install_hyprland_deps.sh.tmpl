@@ -9,14 +9,12 @@ if [[ "$OSTYPE" != "linux-gnu"* ]]; then
     exit 0
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CHEZMOI_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-
-# Source helper functions
-if [ -f "$CHEZMOI_DIR/.install-helpers.sh" ]; then
-    source "$CHEZMOI_DIR/.install-helpers.sh"
+# Source helper functions from chezmoi source directory
+HELPERS_PATH="{{ .chezmoi.sourceDir }}/.install-helpers.sh"
+if [ -f "$HELPERS_PATH" ]; then
+    source "$HELPERS_PATH"
 else
-    echo "Error: Helper functions not found at $CHEZMOI_DIR/.install-helpers.sh"
+    echo "Error: Helper functions not found at $HELPERS_PATH"
     exit 1
 fi
 

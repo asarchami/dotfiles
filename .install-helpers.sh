@@ -34,16 +34,32 @@ detect_package_manager() {
 }
 
 # Install a single package based on package manager
-# Usage: install_package "brew_name" "arch_name" "cmd_check"
+# Usage: install_package "brew_name" "arch_name" "debian_name" "cmd_check"
+#   OR: install_package "brew_name" "arch_name" "cmd_check" (backward compatible)
 # Note: For Debian/Ubuntu and other Linux, we use Homebrew (linuxbrew) for simplicity
 install_package() {
     local brew_name="$1"
     local arch_name="$2"
-    local cmd_check="$3"
+    local param3="$3"
+    local param4="$4"
+    
+    # Determine if using 3 or 4 parameter format
+    local debian_name=""
+    local cmd_check=""
+    
+    if [ -n "$param4" ]; then
+        # 4 parameter format: brew, arch, debian, cmd
+        debian_name="$param3"
+        cmd_check="$param4"
+    else
+        # 3 parameter format: brew, arch, cmd (backward compatible)
+        cmd_check="$param3"
+    fi
     
     # Check if already installed
     if [ -n "$cmd_check" ] && command_exists "$cmd_check"; then
-        echo "✅ $brew_name is already installed."
+        local display_name="${brew_name:-$arch_name}"
+        echo "✅ $display_name is already installed."
         return 0
     fi
     
