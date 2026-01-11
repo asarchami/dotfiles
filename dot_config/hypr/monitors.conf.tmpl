@@ -25,14 +25,28 @@ workspace=DP-1,11
 
 {{- else if eq .chezmoi.hostname "cachyos-laptop" }}
 # Laptop Configuration
-# Monitor management is handled by kanshi for dynamic switching
-# This is a fallback configuration if kanshi is not running
+# Primary config for docked setup (most common use case)
+# Kanshi handles dynamic switching when monitors are hotplugged
+# Super+Shift+M can manually fix monitor configuration if needed
 
-# Fallback: Enable laptop screen by default
-monitor=eDP-1,1920x1200@120.02,0x0,1.0
+# Docked configuration: 3 external monitors
+monitor=DP-2,2560x1440@59.95,0x0,1.0,transform,1
+monitor=DP-5,3840x2160@60,1440x0,1.0
+monitor=DP-3,2560x1440@59.95,5280x0,1.0,transform,3
 
-# Auto-detect and configure any connected external monitors
-monitor=,preferred,auto,1.0
+# Laptop screen - will be enabled/disabled by lid monitor service
+monitor=eDP-1,disable
+
+# Workspace assignments for docked setup
+workspace=DP-5,1
+workspace=DP-5,2
+workspace=DP-5,3
+workspace=DP-2,4
+workspace=DP-2,5
+workspace=DP-2,6
+workspace=DP-3,7
+workspace=DP-3,8
+workspace=DP-3,9
 
 {{- else }}
 # Unknown machine - use auto-detection
