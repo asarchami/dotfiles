@@ -18,4 +18,7 @@ exec-once = hypridle
 {{- if eq .chezmoi.hostname "cachyos-laptop" }}
 # Laptop-specific: Start kanshi for dynamic monitor management
 exec-once = kanshi &
+
+# Laptop-specific: Enable and start lid monitor service
+exec-once = systemctl --user enable --now lid-monitor.service
 {{- end }}
