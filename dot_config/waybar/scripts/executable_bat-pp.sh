@@ -35,17 +35,31 @@ if [[ $MODE == "refresh" ]]; then
     TOOLTIP=$"-$RATE"
   fi
 
-  # Simple battery icon based on percentage
-  if [[ $PERCENT -lt 10 ]]; then
-    ICON=""
-  elif [[ $PERCENT -lt 25 ]]; then
-    ICON=""
+  # Battery icon based on state and percentage
+  if [[ $STATE == "charging" ]]; then
+    ICON="󰂄"  # Charging icon
+  elif [[ $PERCENT -lt 10 ]]; then
+    ICON="󰂎"  # Empty
+  elif [[ $PERCENT -lt 20 ]]; then
+    ICON="󰁺"  # 10%
+  elif [[ $PERCENT -lt 30 ]]; then
+    ICON="󰁻"  # 20%
+  elif [[ $PERCENT -lt 40 ]]; then
+    ICON="󰁼"  # 30%
   elif [[ $PERCENT -lt 50 ]]; then
-    ICON=""
-  elif [[ $PERCENT -lt 75 ]]; then
-    ICON=""
+    ICON="󰁽"  # 40%
+  elif [[ $PERCENT -lt 60 ]]; then
+    ICON="󰁾"  # 50%
+  elif [[ $PERCENT -lt 70 ]]; then
+    ICON="󰁿"  # 60%
+  elif [[ $PERCENT -lt 80 ]]; then
+    ICON="󰂀"  # 70%
+  elif [[ $PERCENT -lt 90 ]]; then
+    ICON="󰂁"  # 80%
+  elif [[ $PERCENT -lt 100 ]]; then
+    ICON="󰂂"  # 90%
   else
-    ICON=""
+    ICON="󰁹"  # Full
   fi
 
   # Export as json.
