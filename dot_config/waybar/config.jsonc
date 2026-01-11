@@ -122,15 +122,15 @@
     "custom/wifi": {
       "format": "󰤨",
       "tooltip": true,
-      "tooltip-format": "Click to open impala",
-      "on-click": "foot --app-id impala -e impala & aplay ~/.config/sounds/interact.wav"
+      "tooltip-format": "Click to toggle impala",
+      "on-click": "~/.config/hypr/scripts/toggle_window.sh impala"
     },
 
     "custom/bluetooth": {
       "format": "󰂯",
       "tooltip": true,
-      "tooltip-format": "Click to open bluetui",
-      "on-click": "foot --app-id bluetui -e bluetui & aplay ~/.config/sounds/interact.wav"
+      "tooltip-format": "Click to toggle bluetui",
+      "on-click": "~/.config/hypr/scripts/toggle_window.sh bluetui"
     },
 
     "custom/battery": {
