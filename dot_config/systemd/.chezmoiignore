@@ -1,0 +1,4 @@
+# Only apply systemd services on laptop (not PC or macOS)
+{{ if ne .chezmoi.hostname "cachyos-laptop" }}
+*
+{{ end }}
