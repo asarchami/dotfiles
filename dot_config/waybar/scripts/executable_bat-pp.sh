@@ -8,6 +8,12 @@ if [[ $MODE == "refresh" ]]; then
 
   # Get battery information.
   BATTERY=$(upower -e | grep 'BAT')
+  
+  # Exit silently if no battery is found (desktop PCs)
+  if [[ -z "$BATTERY" ]]; then
+    exit 0
+  fi
+  
   PERCENT=$(upower -i "$BATTERY" | awk '/percentage/ {print $2}' | tr -d '%')
   STATE=$(upower -i "$BATTERY" | awk '/state/ {print $2}' | tr -d '%')
   RATE=$(upower -i "$BATTERY" | awk '/energy-rate/ {print $2}' | tr -d '%')
@@ -69,6 +75,12 @@ fi
 # Indicator bar
 if [[ $MODE == "bar" ]]; then
   BATTERY=$(upower -e | grep 'BAT')
+  
+  # Exit silently if no battery is found (desktop PCs)
+  if [[ -z "$BATTERY" ]]; then
+    exit 0
+  fi
+  
   PERCENT=$(upower -i "$BATTERY" | awk '/percentage/ {print $2}' | tr -d '%')
   STATE=$(upower -i "$BATTERY" | awk '/state/ {print $2}' | tr -d '%')
 
