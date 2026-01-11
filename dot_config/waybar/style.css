@@ -101,7 +101,6 @@
 #waybar.main #custom-weather,
 #waybar.main #keyboard-state,
 #waybar.main #network,
-#waybar.main #battery,
 #waybar.main #backlight,
 #waybar.main #clock,
 #waybar.main #cpu,
@@ -163,7 +162,8 @@
 }
 
 #waybar.main #custom-wifi,
-#waybar.main #custom-bluetooth {
+#waybar.main #custom-bluetooth,
+#waybar.main #custom-battery {
   padding-left: 6pt;
   padding-right: 6pt;
 }
@@ -190,7 +190,6 @@
 #waybar.main #custom-battery,
 #waybar.main #language,
 #waybar.main #backlight,
-#waybar.main #battery,
 #waybar.main #custom-wifi,
 #waybar.main #custom-bluetooth {
   color: @misc;
@@ -258,7 +257,7 @@
 
 /* Main bar criticals */
 /* {{{ */
-/* #waybar.main #custom-battery.critical, */
+#waybar.main #custom-battery.critical,
 #waybar.main #memory.swap.critical,
 #waybar.main #memory.ram.critical,
 #waybar.main #cpu.critical,
@@ -290,6 +289,14 @@
 
 /* Main bar warnings */
 /* {{{ */
+#waybar.main #custom-battery.warning {
+  color: #f9e2af;
+}
+
+#waybar.main #custom-battery.charging {
+  color: @date;
+}
+
 #waybar.main #pulseaudio.output.muted,
 #waybar.main #pulseaudio.input.source-muted {
   color: @sepepator;

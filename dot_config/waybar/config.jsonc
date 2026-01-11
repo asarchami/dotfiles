@@ -114,7 +114,8 @@
       "modules": [
         "custom/wifi",
         "custom/bluetooth",
-        "hyprland/language"
+        "hyprland/language",
+        "custom/battery"
       ]
     },
 
@@ -132,6 +133,13 @@
       "on-click": "foot --app-id bluetui -e bluetui & aplay ~/.config/sounds/interact.wav"
     },
 
+    "custom/battery": {
+      "exec": "~/.config/waybar/scripts/bat-pp.sh refresh",
+      "interval": 10,
+      "format": "{}",
+      "tooltip": true,
+      "return-type": "json"
+    },
 
     "clock": {
       "interval": 1,
