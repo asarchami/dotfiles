@@ -273,7 +273,7 @@
         "default": ["", ""]
       },
       "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-      "on-click-right": "pwvucontrol & aplay ~/.config/sounds/interact.wav",
+      "on-click-right": "pavucontrol & aplay ~/.config/sounds/interact.wav",
       "tooltip": true,
       "scroll-step": 2
     },
@@ -286,7 +286,7 @@
       "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -2%",
       "max-volume": "100",
       "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-      "on-click-right": "pwvucontrol & aplay ~/.config/sounds/interact.wav",
+      "on-click-right": "pavucontrol & aplay ~/.config/sounds/interact.wav",
       "tooltip-format": "{source_desc}"
     },
 
