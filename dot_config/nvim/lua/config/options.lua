@@ -8,6 +8,9 @@ vim.opt.showtabline = 0
 -- Use system clipboard for all operations
 vim.opt.clipboard = "unnamedplus"
 
+-- Auto-reload files when they change outside of Neovim
+vim.opt.autoread = true
+
 -- Treat .bqsql files as SQL files
 vim.filetype.add({
   extension = {
