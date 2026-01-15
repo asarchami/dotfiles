@@ -5,6 +5,9 @@
 -- Disable tabline at the top
 vim.opt.showtabline = 0
 
+-- Use system clipboard for all operations
+vim.opt.clipboard = "unnamedplus"
+
 -- Treat .bqsql files as SQL files
 vim.filetype.add({
   extension = {
