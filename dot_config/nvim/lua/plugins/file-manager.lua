@@ -10,7 +10,7 @@ return {
       desc = "Open yazi at the current file",
     },
     {
-      "<leader>cw",
+      "<leader>E",
       "<cmd>Yazi cwd<cr>",
       desc = "Open yazi in the current working directory",
     },
