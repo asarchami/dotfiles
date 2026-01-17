@@ -6,12 +6,14 @@ return {
     "akinsho/bufferline.nvim",
     enabled = false,
   },
-  -- Snacks explorer: Change Ctrl+h to open file in horizontal split (replacing Ctrl+s)
+  -- Disable Snacks explorer since we're using yazi.nvim
   {
     "folke/snacks.nvim",
     ---@type snacks.Config
     opts = {
-      explorer = {},
+      explorer = {
+        enabled = false,
+      },
       picker = {
         sources = {
           explorer = {
