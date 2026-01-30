@@ -3,6 +3,9 @@
 # Disable welcome message
 set -g fish_greeting
 
+# Fish theme configuration (local or remote)
+set -gx FISH_THEME local
+
 # Set default editor
 set -x EDITOR nvim
 
@@ -43,7 +46,15 @@ end
 
 # Customize the prompt
 function fish_prompt
-    set_color blue
+    # Determine colors based on FISH_THEME
+    set -l primary_color blue
+    set -l accent_color red
+    if test "$FISH_THEME" = "remote"
+        set primary_color magenta
+        set accent_color cyan
+    end
+
+    set_color $primary_color
     echo -n (string replace "$HOME" "~" (pwd))
     set_color normal
 
@@ -53,28 +64,28 @@ function fish_prompt
 
         # Check if there are any commits
         if git rev-parse --verify HEAD >/dev/null 2>&1
-            # Git icon (red)
-            set_color red
-            echo -n ""
+            # Git icon
+            set_color $accent_color
+            echo -n ""
 
-            # Branch name (red)
+            # Branch name
             set -l branch_name (git rev-parse --abbrev-ref HEAD 2>/dev/null)
             echo -n " $branch_name" # Space before branch name
 
             # Git status indicator
             if not git diff-index --quiet HEAD --
-                # Dirty (red)
-                set_color red
-                echo -n " " # Space before dirty indicator
+                # Dirty
+                set_color $accent_color
+                echo -n " " # Space before dirty indicator
             else
-                # Clean (green)
+                # Clean (green for both themes)
                 set_color green
-                echo -n " " # Space before clean indicator
+                echo -n " " # Space before clean indicator
             end
         else
-            # No commits yet (red)
-            set_color red
-            echo -n "" # Git icon
+            # No commits yet
+            set_color $accent_color
+            echo -n "" # Git icon
             set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null)
             if test -z "$branch_name"
                 set branch_name "main" # Fallback if symbolic-ref fails (e.g., detached HEAD in empty repo)
@@ -87,11 +98,11 @@ function fish_prompt
     # Python virtual environment indicator
     if set -q VIRTUAL_ENV
         set_color brgreen # Bright green for venv name
-        echo -n " " # Space before icon
+        echo -n " " # Space before icon
         set_color normal
     end
 
-    set_color blue
+    set_color $primary_color
     echo -n " ➤ " # Prompt symbol
     set_color normal
 end

@@ -6,3 +6,15 @@ function y
 	end
 	rm -f -- "$tmp"
 end
+
+function set_local_prompt
+    echo "Setting theme to local..."
+    set -gx FISH_THEME local
+    echo "Local theme activated (blue)"
+end
+
+function set_remote_prompt
+    echo "Setting theme to remote..."
+    set -gx FISH_THEME remote
+    echo "Remote theme activated (magenta/cyan)"
+end
