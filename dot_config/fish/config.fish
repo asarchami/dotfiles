@@ -4,7 +4,10 @@
 set -g fish_greeting
 
 # Fish theme configuration (local or remote)
-set -gx FISH_THEME local
+# Fish theme configuration (local or remote)
+if not set -q FISH_THEME
+    set -gx FISH_THEME local
+end
 
 # Set default editor
 set -x EDITOR nvim
