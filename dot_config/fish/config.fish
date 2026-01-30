@@ -95,7 +95,7 @@ function fish_prompt
     # Python virtual environment indicator
     if set -q VIRTUAL_ENV
         set_color brgreen # Bright green for venv name
-        echo -n " " # Space before icon
+        echo -n " " # Space before icon
         set_color normal
     end
 
@@ -103,7 +103,7 @@ function fish_prompt
     if test "$FISH_THEME" = remote
         set -l current_time (date +%H:%M:%S)
         set -l hostname_str (hostname)
-        echo ""  # New line for better visibility
+        echo "" # New line for better visibility
         set_color $primary_color
         echo -n "$current_time ($hostname_str)"
         set_color normal
