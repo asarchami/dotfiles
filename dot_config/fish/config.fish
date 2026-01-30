@@ -101,7 +101,7 @@ function fish_prompt
     # Python virtual environment indicator
     if set -q VIRTUAL_ENV
         set_color brgreen # Bright green for venv name
-        echo -n " " # Space before icon
+        echo -n " " # Space before icon
         set_color normal
     end
 
@@ -109,7 +109,6 @@ function fish_prompt
     echo -n " ➤ " # Prompt symbol
     set_color normal
 end
-
 
 function hyprshot-gui
     # Use 'env' to override PATH just for this execution
