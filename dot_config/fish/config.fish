@@ -46,9 +46,15 @@ function fish_prompt
     # Determine colors based on FISH_THEME
     set -l primary_color blue
     set -l accent_color red
+    set -l hostname_color yellow
     if test "$FISH_THEME" = remote
         set primary_color magenta
         set accent_color cyan
+        set hostname_color yellow
+        # Show hostname at the beginning for remote theme
+        set_color $hostname_color
+        echo -n "($(hostname)) "
+        set_color normal
     end
 
     set_color $primary_color
@@ -63,7 +69,7 @@ function fish_prompt
         if git rev-parse --verify HEAD >/dev/null 2>&1
             # Git icon
             set_color $accent_color
-            echo -n ""
+            echo -n ""
 
             # Branch name
             set -l branch_name (git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -73,16 +79,16 @@ function fish_prompt
             if not git diff-index --quiet HEAD --
                 # Dirty
                 set_color $accent_color
-                echo -n " " # Space before dirty indicator
+                echo -n " " # Space before dirty indicator
             else
                 # Clean (green for both themes)
                 set_color green
-                echo -n " " # Space before clean indicator
+                echo -n " " # Space before clean indicator
             end
         else
             # No commits yet
             set_color $accent_color
-            echo -n "" # Git icon
+            echo -n "" # Git icon
             set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null)
             if test -z "$branch_name"
                 set branch_name main # Fallback if symbolic-ref fails (e.g., detached HEAD in empty repo)
@@ -95,17 +101,7 @@ function fish_prompt
     # Python virtual environment indicator
     if set -q VIRTUAL_ENV
         set_color brgreen # Bright green for venv name
-        echo -n " " # Space before icon
-        set_color normal
-    end
-
-    # Remote theme: show hostname with timestamp on the right
-    if test "$FISH_THEME" = remote
-        set -l current_time (date +%H:%M:%S)
-        set -l hostname_str (hostname)
-        echo "" # New line for better visibility
-        set_color $primary_color
-        echo -n "$current_time ($hostname_str)"
+        echo -n " " # Space before icon
         set_color normal
     end
 
