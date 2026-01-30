@@ -13,21 +13,18 @@ set -x EDITOR nvim
 set -x BROWSER firefox
 
 # pyenv initialization
-if command -v pyenv &> /dev/null
+if command -v pyenv &>/dev/null
     pyenv init - | source
 end
 
 # Function to get the latest pyenv version
 function _get_latest_pyenv_version
     # Get all installed versions, filter for typical Python version patterns, sort numerically, and take the last one
-    pyenv versions --bare | \
-        grep -E '^[0-9]' | \
-        sort -V | \
-        tail -n 1
+    pyenv versions --bare | grep -E '^[0-9]' | sort -V | tail -n 1
 end
 
 # Set pyenv version dynamically
-if command -v pyenv &> /dev/null
+if command -v pyenv &>/dev/null
     set -x PYENV_VERSION (_get_latest_pyenv_version)
 end
 
@@ -40,7 +37,7 @@ if test -f "$OMF_PATH/init.fish"
 end
 
 # Homebrew Setup (cross-platform)
-if command -v brew &> /dev/null
+if command -v brew &>/dev/null
     eval (brew shellenv)
 end
 
@@ -49,7 +46,7 @@ function fish_prompt
     # Determine colors based on FISH_THEME
     set -l primary_color blue
     set -l accent_color red
-    if test "$FISH_THEME" = "remote"
+    if test "$FISH_THEME" = remote
         set primary_color magenta
         set accent_color cyan
     end
@@ -59,14 +56,14 @@ function fish_prompt
     set_color normal
 
     # Git prompt
-    if test -d .git; or git rev-parse --git-dir > /dev/null 2>&1
+    if test -d .git; or git rev-parse --git-dir >/dev/null 2>&1
         echo -n " " # Always a space before git info
 
         # Check if there are any commits
         if git rev-parse --verify HEAD >/dev/null 2>&1
             # Git icon
             set_color $accent_color
-            echo -n ""
+            echo -n ""
 
             # Branch name
             set -l branch_name (git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -76,19 +73,19 @@ function fish_prompt
             if not git diff-index --quiet HEAD --
                 # Dirty
                 set_color $accent_color
-                echo -n " " # Space before dirty indicator
+                echo -n " " # Space before dirty indicator
             else
                 # Clean (green for both themes)
                 set_color green
-                echo -n " " # Space before clean indicator
+                echo -n " " # Space before clean indicator
             end
         else
             # No commits yet
             set_color $accent_color
-            echo -n "" # Git icon
+            echo -n "" # Git icon
             set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null)
             if test -z "$branch_name"
-                set branch_name "main" # Fallback if symbolic-ref fails (e.g., detached HEAD in empty repo)
+                set branch_name main # Fallback if symbolic-ref fails (e.g., detached HEAD in empty repo)
             end
             echo -n " $branch_name" # Branch name with a space
         end
@@ -98,7 +95,7 @@ function fish_prompt
     # Python virtual environment indicator
     if set -q VIRTUAL_ENV
         set_color brgreen # Bright green for venv name
-        echo -n " " # Space before icon
+        echo -n " " # Space before icon
         set_color normal
     end
 
@@ -116,12 +113,12 @@ end
 source "$HOME/.local/share/chezmoi/dot_config/fish/aliases.fish"
 
 # direnv
-if command -v direnv &> /dev/null
-direnv hook fish | source
+if command -v direnv &>/dev/null
+    direnv hook fish | source
 end
 
 # chezmoi
-if command -v chezmoi &> /dev/null
+if command -v chezmoi &>/dev/null
     chezmoi completion fish | source
 end
 
@@ -131,27 +128,27 @@ if test -d "$HOME/.nvm"
 end
 
 # pnpm
-if command -v pnpm &> /dev/null
+if command -v pnpm &>/dev/null
     pnpm setup --shell fish | source
 end
 
 # starship prompt
-if command -v starship &> /dev/null
+if command -v starship &>/dev/null
     starship init fish | source
 end
 
 # thefuck
-if command -v thefuck &> /dev/null
+if command -v thefuck &>/dev/null
     eval (thefuck --alias)
 end
 
 # zoxide
-if command -v zoxide &> /dev/null
+if command -v zoxide &>/dev/null
     zoxide init fish | source
 end
 
 # fzf
-if command -v fzf &> /dev/null
+if command -v fzf &>/dev/null
     fzf --fish | source
 end
 
@@ -166,10 +163,10 @@ if test -f "$HOME/.local/google-cloud-sdk/path.fish.inc"
 end
 
 # Now check if gcloud is available and set up completion/aliases
-if command -v gcloud &> /dev/null
+if command -v gcloud &>/dev/null
     # Google Cloud SDK completion for fish (suppress errors if not supported)
     gcloud completion fish 2>/dev/null | source
-    
+
     # gcloud auth alias
     function gauth
         gcloud auth login && gcloud auth application-default login
@@ -185,6 +182,6 @@ if not contains "$HOME/.local/bin" $PATH
 end
 
 # Add Go bin to PATH
-if not contains "/home/ali/go/bin" $PATH
-    set -gx PATH "/home/ali/go/bin" $PATH
+if not contains /home/ali/go/bin $PATH
+    set -gx PATH /home/ali/go/bin $PATH
 end
