@@ -1,0 +1,216 @@
+# Fish shell configuration
+
+# Disable welcome message
+set -g fish_greeting
+
+# Fish theme configuration (local or remote)
+if not set -q FISH_THEME
+    set -gx FISH_THEME local
+end
+
+# Disable default venv prompt modification (we handle it in fish_prompt)
+set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+
+# Set default editor
+set -x EDITOR nvim
+
+# Set default browser
+set -x BROWSER firefox
+
+# Path to Oh My Fish install.
+set -q OMF_PATH; or set -x OMF_PATH "$HOME/.local/share/omf"
+
+# Initialize Oh My Fish
+if test -f "$OMF_PATH/init.fish"
+    source "$OMF_PATH/init.fish"
+end
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# Homebrew Setup (macOS Apple Silicon)
+eval (/opt/homebrew/bin/brew shellenv)
+{{- else if eq .chezmoi.os "linux" }}
+
+# Homebrew Setup (Linux - optional)
+if test -x /home/linuxbrew/.linuxbrew/bin/brew
+    eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+else if test -x "$HOME/.linuxbrew/bin/brew"
+    eval ("$HOME/.linuxbrew/bin/brew" shellenv)
+end
+{{- end }}
+
+# Lazy pyenv initialization - only init when python/pyenv is actually called
+if test -d "$HOME/.pyenv"
+    set -gx PYENV_ROOT "$HOME/.pyenv"
+    set -gx PATH "$PYENV_ROOT/bin" $PATH
+    
+    function pyenv
+        functions -e pyenv
+        command pyenv init - | source
+        command pyenv $argv
+    end
+    
+    function python
+        functions -e python pyenv
+        command pyenv init - | source
+        command python $argv
+    end
+end
+
+# Customize the prompt - optimized for speed with inline git/venv display
+function fish_prompt
+    set -l primary_color blue
+    set -l accent_color red
+    set -l hostname_color yellow
+    if test "$FISH_THEME" = remote
+        set primary_color magenta
+        set accent_color cyan
+        set hostname_color yellow
+        set_color $hostname_color
+        echo -n "($(hostname)) "
+        set_color normal
+    end
+
+    set_color $primary_color
+    echo -n (string replace "$HOME" "~" (pwd))
+    set_color normal
+
+    # Git prompt - optimized with filesystem check first
+    set -l git_dir (pwd)
+    set -l in_git_repo 0
+    while test "$git_dir" != /
+        if test -d "$git_dir/.git"
+            set in_git_repo 1
+            break
+        end
+        set git_dir (dirname "$git_dir")
+    end
+
+    if test $in_git_repo -eq 1
+        # Get branch name
+        set -l branch (command git symbolic-ref --short HEAD 2>/dev/null)
+        if test -z "$branch"
+            set branch (command git describe --tags --exact-match HEAD 2>/dev/null)
+            test -z "$branch"; and set branch (command git rev-parse --short HEAD 2>/dev/null)
+        end
+
+        if test -n "$branch"
+            echo -n " "
+            set_color $accent_color
+            echo -n " $branch"
+
+            # Fast dirty check - ignore untracked files for speed
+            set -l dirty (command git diff-index --quiet HEAD -- 2>/dev/null; or echo "dirty")
+            if test -n "$dirty"
+                set_color $accent_color
+                echo -n " "
+            else
+                set_color green
+                echo -n " "
+            end
+            set_color normal
+        end
+    end
+
+    # Python virtual environment indicator
+    if set -q VIRTUAL_ENV
+        set_color brgreen
+        echo -n " "
+        set_color normal
+    end
+
+    set_color $primary_color
+    echo -n " ➤ "
+    set_color normal
+end
+
+{{- if eq .chezmoi.os "linux" }}
+
+# Hyprland screenshot GUI (Linux only)
+function hyprshot-gui
+    env PATH="/usr/bin:/bin" /usr/bin/python3 /usr/bin/hyprshot-gui $argv
+end
+{{- end }}
+
+# Source aliases
+source "$HOME/.local/share/chezmoi/dot_config/fish/aliases.fish"
+
+# direnv (fast, keep synchronous)
+if command -v direnv &> /dev/null
+    direnv hook fish | source
+end
+
+# chezmoi - lazy load completion only when needed
+# Run `chezmoi completion fish > ~/.config/fish/completions/chezmoi.fish` once to cache
+
+# nvm - lazy load (nvm.sh is for bash, use fish-nvm or lazy load)
+if test -d "$HOME/.nvm"
+    set -gx NVM_DIR "$HOME/.nvm"
+    # Lazy load nvm - only initialize when node/npm/nvm is called
+    function nvm
+        functions -e nvm node npm npx
+        bass source "$NVM_DIR/nvm.sh"
+        nvm $argv
+    end
+    function node
+        functions -e nvm node npm npx
+        bass source "$NVM_DIR/nvm.sh"
+        command node $argv
+    end
+    function npm
+        functions -e nvm node npm npx
+        bass source "$NVM_DIR/nvm.sh"
+        command npm $argv
+    end
+end
+
+# pnpm - just add to PATH, don't run setup every time
+set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+if not contains "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
+end
+
+# starship prompt (disabled - using custom fish_prompt instead)
+# if command -v starship &> /dev/null
+#     starship init fish | source
+# end
+
+# thefuck - DISABLED (adds 200-500ms startup time)
+# To use thefuck, type `fuck` manually or use: eval (thefuck --alias)
+# Or cache it: thefuck --alias > ~/.config/fish/conf.d/thefuck.fish
+
+# zoxide (fast, keep synchronous)
+if command -v zoxide &> /dev/null
+    zoxide init fish | source
+end
+
+# fzf (fast, keep synchronous)
+if command -v fzf &> /dev/null
+    fzf --fish | source
+end
+
+# Google Cloud SDK setup
+if test -f "$HOME/.local/google-cloud-sdk/path.fish.inc"
+    source "$HOME/.local/google-cloud-sdk/path.fish.inc"
+end
+
+# gcloud alias
+function gauth
+    gcloud auth login && gcloud auth application-default login
+end
+
+# Add pixi to PATH
+set -gx PATH "$HOME/.pixi/bin" $PATH
+
+# Add local bin to PATH
+if not contains "$HOME/.local/bin" $PATH
+    set -gx PATH "$HOME/.local/bin" $PATH
+end
+
+{{- if eq .chezmoi.os "linux" }}
+
+# Add Go bin to PATH (Linux)
+if not contains "$HOME/go/bin" $PATH
+    set -gx PATH "$HOME/go/bin" $PATH
+end
+{{- end }}
