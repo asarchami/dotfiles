@@ -1,6 +1,7 @@
-# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+#:schema https://yazi-rs.github.io/schemas/keymap.json
+# Taplo (https://taplo.tamasfe.dev/) uses the #:schema directive for validation.
+# Yazi rejects a TOML "$schema" key (keys must be kebab-case); use this comment instead.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 [mgr]
 
