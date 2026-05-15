@@ -3,6 +3,7 @@
 # Yazi rejects a TOML "$schema" key (keys must be kebab-case); use this comment instead.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 
+
 [mgr]
 
 keymap = [
