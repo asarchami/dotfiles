@@ -3,7 +3,7 @@
   // Theme configuration
   "theme": "opencode",
   "model": "github.copilot",
-  "autoupdate": true,
+  // "autoupdate": true,
   // Load project-specific instructions like GitHub CLI does
   "instructions": [
     ".github/instructions/**/*.instructions.md",
