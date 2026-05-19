@@ -2,9 +2,21 @@
 description: Explore the codebase, compare against the PRD's deep module design, and propose deepening opportunities using the improve-architecture skill
 ---
 
+## 0. Detect project language and frameworks
+
+Same language detection procedure as `sp.implement` (step 0). Probe for config files (`go.mod`, `package.json`, `pyproject.toml`) to determine language, confirm with user, and load companion skills as available.
+
+**HTMX detection (after language detection):**
+Same probes as `sp.implement` step 0 — check for `templates/` or `views/` directory, `package.json` with `htmx` dependency, or `.html` files with `hx-` attributes. If detected, set `htmx_detected = true`.
+
+**Frontend detection (after HTMX detection):**
+Same probes as `sp.implement` step 0 — check for `templates/`, `views/`, `static/`, or `assets/` directories, `.html`/`.css` files in the project, or `package.json` with `tailwindcss`/`postcss`/`alpinejs` dependencies. If detected, set `frontend_detected = true`.
+
 ## 1. Load PRD design intent
 
-Read `spec/prd.md`. Extract every **Module sketch & deep module design** subsection and build a reference map of intended module depth:
+Read `spec/prd.md`. Extract every **Module sketch & deep module design** subsection and build a reference map of intended module depth.
+
+For a Go project, the module map might look like:
 
 | Package | PRD classification | Intended interface | Intended implementation |
 |---------|-------------------|-------------------|------------------------|
@@ -17,6 +29,8 @@ Read `spec/prd.md`. Extract every **Module sketch & deep module design** subsect
 | `cmd/trading/` | Thin binary | compose deep modules | read-evaluate-execute loop |
 | `cmd/backtest/` | Thin binary | compose deep modules | time-range iteration |
 | `cmd/web-ui/` | Thin binary | compose deep modules | template rendering + HTMX |
+
+Adjust the module paths and structural patterns to match the project's actual language conventions (e.g. Python uses `src/`, Go uses `cmd/` and `internal/`, etc.).
 
 ## 2. Load issues context
 
@@ -43,9 +57,24 @@ For each module, classify the delta:
 | Thin binary | Still thin | No action |
 | Thin binary | Accumulated logic | **Candidate**: extract deep module out of the binary |
 
-## 5. Load the skill
+## 5. Load the skill(s)
 
 Use the `skill` tool to load the `improve-architecture` skill. This injects LANGUAGE.md, INTERFACE-DESIGN.md, and DEEPENING.md into context.
+
+Then load companion skills for the detected language from step 0, same as `sp.implement`. For Go: `go-code-style`, `go-naming`, `go-structs-interfaces`, `go-design-patterns`. For Python: `python-code-quality`, `python-api-design`, `python-tighten-types`. These provide the language-specific vocabulary for expressing deepening candidates (e.g., "this should be a deep module behind a narrow interface" in Go idioms, or "this needs a Pydantic model with validation" in Python idioms).
+
+If HTMX was detected in step 0, also load:
+```
+skill tool → load htmx-spa-conventions  (HTMX production patterns, rules, and reference files)
+skill tool → load frontend-design       (visual design direction, typography, color, motion)
+skill tool → load interface-design      (deep interface craft for dashboards and tools)
+```
+
+If only `frontend_detected` is true (no HTMX), load:
+```
+skill tool → load frontend-design       (visual design direction, typography, color, motion)
+skill tool → load interface-design      (deep interface craft for dashboards and tools)
+```
 
 ## 6. Present candidates
 
