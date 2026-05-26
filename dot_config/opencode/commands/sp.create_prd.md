@@ -1,62 +1,71 @@
 ---
-description: Diff spec/requirements.md against spec/prd.md, interview the delta, then update spec/prd.md
+description: Diff spec/requirements.md vs spec/prd.md, interview delta, update both
 ---
 
-## 1. Load existing PRD
+## 1. Load PRD
 
-Read `spec/prd.md` if it exists. Extract every `### <title>` section as a reference list of *already-documented* requirements. For each section, note the 12 dimensions that are filled in and the out-of-scope items. Store the full document — you'll amend it later.
+Read `spec/prd.md`. Store `###` sections + 12-dimension checkboxes.
 
-## 2. Load current requirements
+## 2. Load requirements
 
-Read `spec/requirements.md`. Extract every `## <section>` title and its constituent checkbox requirements (`- [ ]` or `- [x]`).
+Read `spec/requirements.md`. Extract `##` sections + `- [...]` items.
 
 ## 3. Load to-prd skill
 
-Use the `skill` tool to load the `to-prd` skill. This injects the 12-dimension framework, deep module design guidance, and PRD section template into the conversation context.
+`skill` → `to-prd`.
 
-## 4. Diff against existing PRD
+## 4. Diff
 
-Compare the current requirements (step 2) against the already-documented PRD sections (step 1). Identify:
+### 4a. One-time migration
 
-- **New sections** — requirement sections in requirements.md that have no corresponding `###` section in prd.md
-- **Changed sections** — sections that exist in both but whose checkbox requirements differ (new requirements added, old ones removed, or intent changed)
-- **Already covered** — sections whose checkbox requirements match the PRD content and need no update (skip these)
+PRD prose bullets → `- [x]`. Dimensions: acceptance criteria, NFR, edge cases, out of scope.
 
-If there are no new or changed sections at all, confirm to me that the PRD is up-to-date and exit.
+### 4b. Classify
 
-## 5. Assess impact on existing PRD sections
+| Req state | Action |
+|---|---|
+| `[x]` + PRD match | Skip |
+| `[x]` no PRD | Interview (rare) |
+| `[ ]` | Interview |
+| `[~]` | Interview |
 
-For each new or changed requirement from step 4, reason about which existing PRD `###` sections it affects:
+No items → confirm up-to-date, exit.
 
-- **Direct conflicts** — the new/changed requirement contradicts or supersedes content in an existing PRD section (e.g. adding Docker means Architecture's "Out of scope: Containerization" is now wrong)
-- **Implied changes** — the new/changed requirement logically forces a change in another PRD section's dimensions (user stories, acceptance criteria, edge cases, out of scope, etc.)
-- **Dependencies** — existing PRD sections whose acceptance criteria must be true for the new requirement to work
-- **Unaffected** — skip these; no need to re-interview
+## 5. Impact
 
-Compile a consolidated list of **items to discuss**: the new/changed sections plus any impacted existing PRD sections with the specific fields that need updating.
+Per item, classify affected PRD sections:
 
-## 6. Interview (using to-prd dimensions)
+| Type | Meaning |
+|---|---|
+| Direct conflict | Suppresses PRD |
+| Implied change | Forces other dimension changes |
+| Dependency | PRD must be true |
+| Unaffected | Skip |
 
-Follow the `to-prd` skill's interview guidance. Interview me about the consolidated list only. Walk down each branch of the decision tree, resolving dependencies between decisions one by one. For each question, provide your recommended answer.
+Compile discussion list.
 
-Ask questions **one at a time**. Do not batch questions.
+## 6. Interview
 
-Start with the most foundational / high-impact questions first (new sections, then cross-cutting implied changes) before drilling into specifics.
+to-prd dimensions. One question at a time. Foundation first.
 
-For each new section, extract and clarify all 12 dimensions from the `to-prd` skill.
+- **New sections** → clarify 12 dimensions
+- **Superseded** → confirm replace, mark old `[~]`, assess ripple, add `[ ]`
+- **Impacted** → only changed dimensions
 
-For impacted existing sections, interview only about the specific dimensions that need updating — do not re-interview the entire section.
+Codebase answers → explore. Provide recommendation per question.
 
-If a question can be answered by exploring the codebase, explore the codebase instead.
+## 7. Update
 
-## 7. Update spec/prd.md (using to-prd template)
+### 7a. spec/prd.md
 
-Once all branches are resolved — no more meaningful questions remain — update `spec/prd.md` using the PRD section template from the `to-prd` skill:
+- Preserve sections. Update changed fields.
+- Add new `###` with 12 dimensions.
+- Checkbox: `[x]` pre-existing spec, `[ ]` spec'd in this pass (needs issue breakdown), `[~]` superseded.
+- For superseded old items: keep them in the file as `[~]` so the diff with `spec/issues.md` can catch them.
+- Tracked: acceptance criteria, NFR, edge cases, out of scope.
+- Update `## Open Questions`. Metadata: source + status.
+- No extra commentary. Overwrite.
 
-- Preserve existing `###` sections and their 12 dimensions (update fields where decisions changed)
-- Add new `### <title>` sections for new requirement sections from requirements.md, with all 12 dimensions
-- For impacted existing sections, update only the fields that changed (do not rewrite the entire section)
-- Update the `## Open Questions` section — remove resolved items, add new unresolved ones
-- Update the metadata line: `**Source:** spec/requirements.md` and `**Status:** Draft — all sections discussed, open questions documented`
-- Do not add commentary or explanation beyond the structured fields
-- Write the result to `spec/prd.md` (overwrite if exists)
+### 7b. spec/requirements.md
+
+- `[ ]`→`[x]` for promoted items.

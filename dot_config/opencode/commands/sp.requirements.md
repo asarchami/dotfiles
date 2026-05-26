@@ -1,77 +1,84 @@
 ---
-description: Interview the user about spec/user_requirements.md to produce a thorough spec/requirements.md
+description: Process [ ] items in spec/user_requirements.md → update spec/requirements.md
 ---
 
 ## 1. Load existing spec
 
-Read `spec/requirements.md` if it exists. Extract every checkbox requirement (`- [ ]` or `- [x]`) into a reference list of *already-specified* requirements. Store the full document — you'll amend it later rather than rewriting from scratch.
+Read `spec/requirements.md`. Extract all `- [...]` items. Store full doc for amendment.
 
 ## 2. Load user requirements
 
-Read `spec/user_requirements.md`. Parse the raw notes and extract every distinct requirement statement, normalizing bullets/paragraphs/lists into flat statements.
+Read `spec/user_requirements.md`. Per line checkbox prefix:
 
-## 3. Load existing glossary
+| Prefix | Action |
+|--------|--------|
+| `[x]`/`[~]` | Skip — frozen |
+| `[ ]` → already in requirements.md | Add to `already_covered` |
+| `[ ]` → genuinely new | Add to `candidates` |
 
-Read `spec/glossary.md` if it exists. Extract every **<Term>** definition into a reference of *already-defined* domain terms. Note their definitions and flagged ambiguities. Store the full document — you'll amend it as terms are resolved during the interview.
+If both lists empty → confirm up-to-date, exit.
 
-## 4. Diff against existing spec
+## 3. Load glossary
 
-Compare the user requirements (step 2) against the already-specified requirements (step 1). Identify:
+Read `spec/glossary.md`. Extract terms for interview.
 
-- **New** — topics or statements in user_requirements.md that have no corresponding checkbox in the existing spec
-- **Changed** — topics whose intent, nuance, or constraint differs between the two
-- **Already covered** — topics fully represented in the existing spec (skip these)
+## 4. Diff
 
-If there are no new or changed items at all, confirm to me that the spec is up-to-date and exit.
+Compare candidates against existing requirements:
 
-## 5. Assess impact on existing requirements
+- **New** — no matching checkbox in spec
+- **Already covered** → move to `already_covered`
+- **Conflicts** — contradicts/supersedes existing req
 
-For each new or changed item, reason about which existing requirements it affects:
+No candidates → confirm up-to-date, exit.
 
-- **Direct conflicts** — the new item contradicts or supersedes an existing requirement
-- **Implied changes** — the new item logically forces a change in another requirement (e.g. adding Docker means deployment, networking, and config requirements may need updating)
-- **Dependencies** — existing requirements that must be true for the new item to work
-- **Unaffected** — skip these; no need to re-interview
+### 4b. Cross-reference triage.md
 
-Compile a consolidated list of **items to discuss**: the new/changed items plus any impacted existing requirements.
+Read `spec/triage.md`. Parse all `### <N>. <Title>` entries in `## Fixed`. For each candidate in `candidates`, compare title/description against triage-fixed entries:
 
-## 6. Interview + sharpen terminology
+- **Exact or clear match** → move candidate to `already_covered` with annotation: `(done via triage #N)`
+- **Ambiguous/partial overlap** → keep in `candidates` but add an interview note: `CANDIDATE NOTE: may overlap with triage #N <Title> — verify during interview`
+- **No match** → leave as is
 
-Interview me about the consolidated list only. Walk down each branch of the decision tree, resolving dependencies between decisions one by one. For each question, provide your recommended answer.
+## 5. Impact
 
-Ask questions **one at a time**. Do not batch questions.
+Per candidate, classify affected requirements:
 
-Start with the most foundational / high-impact questions first (architecture, data model, service boundaries) before drilling into specifics.
+| Classification | Meaning |
+|---|---|
+| Direct conflict | Supersedes existing req |
+| Implied change | Forces changes in other areas (e.g. Docker → deployment, networking, config) |
+| Dependency | Existing req must be true |
+| Unaffected | Skip |
 
-If a question can be answered by exploring the codebase, explore the codebase instead.
+Compile discussion list.
 
-### Sharpen fuzzy language
+## 6. Interview
 
-During the interview, watch for vague or overloaded terms. When you spot one:
+Use the `skill` tool to load `grill-with-docs`. Follow its interview methodology (one question at a time, sharpen terms, update glossary inline, offer ADRs sparingly).
 
-- Cross-reference against existing terms in `spec/glossary.md` (loaded in step 3). If a term conflicts with an existing definition, call it out immediately.
-- If no glossary exists yet, propose a precise canonical term when the user uses a vague one.
-- Stress-test domain relationships with concrete scenarios that probe edge cases.
-- When a term is resolved, **update `spec/glossary.md` inline** — do not batch. Create the file lazily if it doesn't exist. Use the format from the grill-with-docs skill's [CONTEXT-FORMAT.md](../skills/grill-with-docs/CONTEXT-FORMAT.md).
+**Superseding:** If candidate conflicts with existing req in `requirements.md` → confirm, mark existing `[~]`, add replacement `[ ]`. Keep old text.
 
-### Offer ADRs sparingly
+## 7. Update files
 
-When an architectural decision is made during the interview that is (a) hard to reverse, (b) surprising without context, and (c) the result of a real trade-off, offer to record it as an ADR in `spec/adr/`. Use the format from [ADR-FORMAT.md](../skills/grill-with-docs/ADR-FORMAT.md).
+### 7a. requirements.md
 
-Do not offer ADRs for decisions that are easy to reverse, obvious, or had no real alternative.
+- Preserve sections. Update `[ ]`↔`[x]`↔`[~]` per convention
+- New reqs: `- [ ] <desc>` (1-3 sentences) in logical section (or new `##`)
+  ⚠️ New reqs = `[ ]` always. `[x]` = consumed by prior pass, not "implemented". Next step scans `[ ]` only.
+- Superseded reqs: `[~]` with original text
+- Check for contradictions/duplicates. Flag vague ones.
+- Scan `triage.md` `## Fixed` for enhancement entries not yet listed in `## Features from Triage`. Append any missing entries (prefixed `[x]`) to keep the triage section up to date.
+- Overwrite file.
 
-## 7. Update spec/requirements.md
+### 7b. user_requirements.md
 
-Once all branches are resolved — no more meaningful questions remain — update `spec/requirements.md`:
+Never touch existing `[x]` or `[~]`:
 
-- Preserve existing sections and checkbox items (update `[ ]` ↔ `[x]` as appropriate)
-- Add new requirements in their logical section, or create new `##` sections if needed
-- Each requirement is a checkbox item: `- [ ] <description>`
-- `[ ]` means not yet implemented. `[x]` means implemented.
-- Each requirement is 1-3 short sentences
-- Start with `# Requirements` and a brief header explaining the checkbox convention
-- Do not add commentary or explanation beyond the requirements
-- Include every distinct requirement that was agreed upon — do not merge or drop
-- Check for contradictions and duplicates before writing; ask me to resolve any you find
-- Flag any remaining vague requirements and ask me to clarify before finalizing
-- Write the result to `spec/requirements.md` (overwrite if exists)
+| Item | Action |
+|------|--------|
+| Already covered | `[x]` |
+| Agreed after interview | Update text if clarified, `[x]` |
+| Pruned | `[~] <reason>` |
+
+Overwrite file.

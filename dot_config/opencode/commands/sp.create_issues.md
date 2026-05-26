@@ -1,56 +1,58 @@
 ---
-description: Diff spec/prd.md against spec/issues.md, interview the delta, then update spec/issues.md
+description: Diff spec/prd.md vs spec/issues.md, interview delta, update both
 ---
 
-## 1. Load existing issues
+## 1. Load inputs
 
-Read `spec/issues.md` if it exists. Extract every `### <number>. <Title>` section as a reference list of *already-documented* slices. For each slice note: title, type (HITL/AFK), blocked-by, user stories covered, description, and acceptance criteria. Store the full document — you'll amend it later.
+Read `spec/issues.md` (if exists), `spec/prd.md`. Store slices + PRD sections.
 
-## 2. Load current PRD
+## 2. Load to-issues skill
 
-Read `spec/prd.md`. Extract every `### <title>` section and its constituent content — especially user stories, acceptance criteria, dependencies, and out-of-scope items.
+`skill` → `to-issues`. Provides: deep module guidance, quiz flow, publish format.
 
-From the **Architecture** section and each PRD section's **Module sketch & deep module design** subsection, extract the deep/shallow/thin classification for every package using the guidance in the `to-issues` skill's **Deep Module Design** section. Store this classification — it will guide the slice decomposition.
+## 3. Diff
 
-## 3. Load to-issues skill
+Compare PRD sections against issues slices:
 
-Use the `skill` tool to load the `to-issues` skill. This injects the vertical-slice decomposition methodology, deep module design guidance, quiz flow, and publish format into the conversation context.
+| PRD state | Action |
+|---|---|
+| All `[x]` matching slices | Skip |
+| `[ ]` present | Interview — new criteria need decomposition |
+| `[~]` present | Interview — superseded may affect slices |
+| New `###` section | Interview — new slices needed |
 
-## 4. Diff against existing issues
+No items → confirm up-to-date, exit.
+No issues.md → treat all sections as new, proceed.
 
-Compare the current PRD sections (step 2) against the already-documented slices (step 1). Identify:
+## 4. Assess impact
 
-- **New sections** — PRD sections that have no corresponding slice in issues.md
-- **Changed sections** — PRD sections whose content has meaningfully changed (user stories, acceptance criteria, dependencies, out-of-scope, or architecture decisions that affect the slice breakdown)
-- **Already covered** — PRD sections whose content is fully captured by existing slices (skip these)
+Classify each delta item:
 
-If there are no new or changed sections at all, confirm to me that the issues doc is up-to-date and exit.
+- **Direct conflict** — superseded PRD invalidates slice ACs → mark `[~]`
+- **Implied change** — new items force other slice changes
+- **Dependency** — blocked-by updates
+- **Unaffected** — skip
 
-If issues.md does not exist, treat all PRD sections as **new** and proceed to create the initial breakdown.
+Consolidate discussion list.
 
-## 5. Assess impact on existing slices
+## 5. Interview (to-issues quiz flow)
 
-For each new or changed PRD section from step 4, reason about how it affects the existing or planned slices:
+Follow `to-issues` quiz flow. One question at a time. Foundation first.
 
-- **Direct conflicts** — the new/changed content contradicts or supersedes an existing slice's scope or acceptance criteria
-- **Implied changes** — the new content forces changes in other slices (new dependencies, reordering, merging, splitting)
-- **Dependencies** — existing slices whose blocked-by relationships must be updated
-- **Unaffected** — skip these; no need to re-interview
+Per new slice: title, scope, HITL/AFK, blocked-by, user stories, ACs.
+Per impacted slice: only changed fields. Provide recommendation each question.
 
-Compile a consolidated list of **items to discuss**: which existing slices need updating, which new slices need to be added, and any structural changes (merge/split/reorder).
+## 6. Update
 
-## 6. Interview (using to-issues quiz flow)
+### 6a. spec/prd.md
 
-Follow the `to-issues` skill's quiz flow. Interview me about the consolidated list only. Walk down each branch of the decision tree, resolving dependencies one by one.
+- `[ ]` → `[x]` with `(Issues: N, M)` annotation, e.g. `- [x] No WebSocket — REST-only for POC (Issues: 5, 6)`
+- Modified during decomposition → `[~]` old, `[ ]` new
 
-## 7. Update spec/issues.md (using to-issues publish format)
+### 6b. spec/issues.md (to-issues publish format)
 
-Once all branches are resolved — no more meaningful questions remain — update `spec/issues.md` using the publish format from the `to-issues` skill:
-
-- Preserve existing `### <number>. <Title>` sections (update fields where decisions changed)
-- Add new `### <number>. <Title>` sections for new slices (renumber sequentially)
-- For impacted existing slices, update only the fields that changed
-- Include metadata: date, source document (`spec/prd.md`), status
-- Include the `## Dependency Graph` section with Mermaid flowchart
-- Do not add commentary or explanation beyond the structured fields
-- Write the result to `spec/issues.md` (overwrite if exists)
+- Preserve existing slices, update changed fields
+- Add new slices, renumber sequentially
+- Metadata: date, source (`spec/prd.md`), status
+- `## Dependency Graph` with Mermaid flowchart
+- No extra commentary. Overwrite.

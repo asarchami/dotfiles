@@ -35,7 +35,7 @@ This document provides a glossary of the files in this dotfiles repository.
 -   `environment.conf`: Configuration for environment variables in Hyprland.
 -   `foot.ini`: Configuration for the foot terminal emulator.
 -   `foot.ini.chezmoi.yaml`: chezmoi configuration for the foot terminal emulator.
--   `hypridle.conf`: Configuration for the Hyprland idle daemon.
+-   `swayidle.sh`: Script to start the swayidle idle daemon.
 -   `hyprland.conf`: Main configuration file for the Hyprland window manager.
 -   `hyprlock.conf`: Configuration for the Hyprland screen locker.
 -   `keybinds.conf`: Configuration for key bindings in Hyprland.
