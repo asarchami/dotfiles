@@ -10,11 +10,15 @@ You are initializing the specification directory for this project.
 ```
 # User Requirements
 
-This is a high-level brain dump of what the user wants to achieve with this project.
-Write freely — this is not a formal specification. List features, goals, constraints,
-and any ideas in whatever format feels natural (bullets, paragraphs, notes, etc.).
+> **How to use this file:**
+> - Add new requirements as `- [ ] <description>`
+> - `[x]` = already processed by `sp.requirements` — **do not modify**
+> - `[~]` = pruned during discovery — **do not modify**
+> - To change an existing requirement, add a new `- [ ]` item describing the new preference
 
-This file will be processed by `/sp.requirements` to produce a structured spec.
+Write freely below. List features, goals, constraints, and any ideas in whatever format feels natural.
+
+- [ ] example: paper trading support for crypto
 ```
 
 3. If `spec/triage.md` does not exist, create it with:

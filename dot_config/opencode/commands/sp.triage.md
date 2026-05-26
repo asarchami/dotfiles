@@ -31,44 +31,33 @@ Ask the user any missing information needed for the template:
 
 Use today's date for **Reported:**. Default severity to **medium** if unsure.
 
+Write all descriptions and summaries in **caveman style** — drop filler words/articles, keep full technical accuracy, 1 sentence max. Aim for ~70% token reduction vs natural language.
+
 ### 3. Read triage.md
 
 Read `spec/triage.md`. Parse all `### <N>. <Title>` entries under both `## Open` and `## Fixed` to determine the next issue number (`max N + 1`).
 
 ### 4. Create the entry
 
-Append the new entry at the end of the `## Open` section, just before the template comment, using this format:
+Append the new entry at the end of the `## Open` section using this format:
 
 **Bug template:**
 ```markdown
 ### <N>. <Title>
-**Type:** bug
-**Severity:** <severity>
-**Reported:** YYYY-MM-DD
-**Status:** open
-**Description:**
-<description>
+bug | <severity> | YYYY-MM-DD | open
+<1-line caveman description>
 
-**Steps to reproduce:**
+**Steps:**
 1. <step 1>
-2. <step 2>
-
-**Expected behavior:**
-<expected>
-
-**Actual behavior:**
-<actual>
+**Expected:** <expected>
+**Actual:** <actual>
 ```
 
 **Enhancement template:**
 ```markdown
 ### <N>. <Title>
-**Type:** enhancement
-**Severity:** <severity>
-**Reported:** YYYY-MM-DD
-**Status:** open
-**Description:**
-<description>
+enhancement | <severity> | YYYY-MM-DD | open
+<1-line caveman description>
 ```
 
 Write the updated file back.
@@ -84,10 +73,16 @@ Now resolve the entry you just created:
 5. Present the diff and test results to the user.
 6. **Wait for user confirmation.** Do NOT mark as fixed without it.
 7. On confirmation, move the entry from `## Open` to `## Fixed` in `spec/triage.md`:
-   - Change `**Status:** open` to `**Status:** fixed`
-   - Add `**Fixed on:** YYYY-MM-DD` (today)
-   - Add a `**Remedy:**` section with 1-3 bullet points describing the fix
-   - Preserve all other fields
+   - Change `open` → `fixed` in the metadata line
+   - Add `**Fix:** <caveman summary, 1-3 comma-separated items>`
+   - Remove verbose sections (**Steps:**, **Expected:**, **Actual:**) if present
+   - Keep **Description** line as-is
+
+8. **Sync enhancement to requirements.md.** If the resolved entry's **Type** is `enhancement`:
+   - Read `spec/requirements.md`
+   - Find or create `## Features from Triage` section (append before EOF if missing)
+   - Append: `- [x] #<N>. <Title>` (if not already present)
+   - Write back
 
 ---
 
@@ -168,10 +163,19 @@ Can you confirm this resolves the issue? (y/n)
 On user confirmation:
 
 - Move the entry from `## Open` to `## Fixed`
-- Change `**Status:** open` to `**Status:** fixed`
-- Add `**Fixed on:** YYYY-MM-DD` (today)
-- Add a `**Remedy:**` section with 1-3 bullet points describing the fix
-- Preserve all original fields
+- Change `open` → `fixed` in the metadata line
+- Add `**Fix:** <caveman summary, 1-3 comma-separated items>`
+- Remove verbose sections (**Steps:**, **Expected:**, **Actual:**) if present
+- Keep **Description** line as-is
+
+### 10b. Sync enhancement to requirements.md
+
+If the resolved entry's **Type** is `enhancement`:
+
+1. Read `spec/requirements.md`
+2. Find or create `## Features from Triage` section (append before EOF if missing)
+3. If an entry `#<N>.` with the same issue number is not already present, append: `- [x] #<N>. <Title>`
+4. Write back
 
 ### 11. Loop
 

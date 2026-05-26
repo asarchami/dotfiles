@@ -25,7 +25,7 @@ For a Go project, the module map might look like:
 | `internal/db/` | Potentially deep | connection mgmt, query helpers | hypertables, compression, backoff |
 | `internal/symbol/` | Shallow | CRUD Store | straightforward DB access |
 | `internal/config/` | Shallow | env-var loading | trivial |
-| `cmd/ticker/` | Thin binary | compose deep modules | polling loop orchestration |
+| `cmd/bars/` | Thin binary | compose deep modules | polling loop orchestration |
 | `cmd/trading/` | Thin binary | compose deep modules | read-evaluate-execute loop |
 | `cmd/backtest/` | Thin binary | compose deep modules | time-range iteration |
 | `cmd/web-ui/` | Thin binary | compose deep modules | template rendering + HTMX |
