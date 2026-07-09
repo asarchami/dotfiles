@@ -1,16 +1,14 @@
 [
-    {
+  {
     // MAIN BAR //
     "layer": "top",
     "position": "top",
     "name": "main",
     "height": 28,
     "reload_style_on_change": true,
-
     "margin-top": 0,
     "margin-left": 0,
     "margin-right": 0,
-
     "modules-left": [
       "custom/archicon",
       // "group/traym",
@@ -21,22 +19,20 @@
       "hyprland/submap",
       "hyprland/window"
     ],
-
-     "modules-right": [
-       "custom/spacer1",
-       "custom/system-monitor-trigger",
-       "group/system-monitor",
-       "custom/spacer2",
-       "pulseaudio#input",
-       "pulseaudio#output",
-       "custom/spacer3",
-       "group/connectivity",
-       "custom/spacer4",
-       "clock",
-       "custom/spacer3",
-       "custom/power"
-     ],
-
+    "modules-right": [
+      "custom/spacer1",
+      "custom/system-monitor-trigger",
+      "group/system-monitor",
+      "custom/spacer2",
+      "pulseaudio#input",
+      "pulseaudio#output",
+      "custom/spacer3",
+      "group/connectivity",
+      "custom/spacer4",
+      "clock",
+      "custom/spacer3",
+      "custom/power"
+    ],
     // Modules
     "custom/archicon": {
       "format": "",
@@ -55,14 +51,14 @@
         "transition-left-to-right": true,
         "children-class": "system-monitor-child"
       },
-       "modules": [
-         "cpu",
-         "temperature",
-         "memory#ram",
-         "memory#swap",
-         "disk",
-         "network#info"
-       ]
+      "modules": [
+        "cpu",
+        "temperature",
+        "memory#ram",
+        "memory#swap",
+        "disk",
+        "network#info"
+      ]
     },
     "disk": {
       "interval": 16,
@@ -75,14 +71,14 @@
         "critical": 95
       }
     },
-
-
     "group/traym": {
       "orientation": "horizontal",
       "drawer": {},
-      "modules": ["custom/trayicon", "tray"]
+      "modules": [
+        "custom/trayicon",
+        "tray"
+      ]
     },
-
     "group/storage": {
       "orientation": "horizontal",
       "drawer": {
@@ -91,12 +87,12 @@
         "children-class": "drawer-child"
         //"click-to-reveal": "false"
       },
-      "modules": ["memory#ram", 
-        "memory#swap" 
+      "modules": [
+        "memory#ram",
+        "memory#swap"
         // "disk"
       ]
     },
-
     "group/power": {
       "orientation": "horizontal",
       "drawer": {
@@ -105,9 +101,11 @@
         "children-class": "drawer-child"
         //"click-to-reveal": "false"
       },
-      "modules": ["custom/battery", "backlight"]
+      "modules": [
+        "custom/battery",
+        "backlight"
+      ]
     },
-
     "group/connectivity": {
       "orientation": "horizontal",
       "modules": [
@@ -117,21 +115,18 @@
         "custom/battery"
       ]
     },
-
     "custom/wifi": {
       "format": "󰤨",
       "tooltip": true,
       "tooltip-format": "Click to toggle impala",
       "on-click": "~/.config/hypr/scripts/toggle_window.sh impala"
     },
-
     "custom/bluetooth": {
       "format": "󰂯",
       "tooltip": true,
       "tooltip-format": "Click to toggle bluetui",
       "on-click": "~/.config/hypr/scripts/toggle_window.sh bluetui"
     },
-
     "custom/battery": {
       "exec": "~/.config/waybar/scripts/bat-pp.sh refresh",
       "interval": 10,
@@ -139,7 +134,6 @@
       "tooltip": true,
       "return-type": "json"
     },
-
     "clock": {
       "interval": 1,
       "format": " {:%H:%M:%S    %a %d.%m}",
@@ -155,9 +149,8 @@
           "today": "<span color='#f5e0dc'><b><u>{}</u></b></span>"
         }
       },
-       "on-click": "/opt/brave-bin/brave --profile-directory=Default --app-id=kjbdgfilnfhdoflbpgamdcdgpehopbep & aplay ~/.config/sounds/interact.wav"
+      "on-click": "/opt/brave-bin/brave --profile-directory=Default --app-id=kjbdgfilnfhdoflbpgamdcdgpehopbep & aplay ~/.config/sounds/interact.wav"
     },
-
     "cpu": {
       "interval": 4,
       "format": " {usage}%",
@@ -166,17 +159,15 @@
         "critical": 95
       }
     },
-
     "hyprland/language": {
       "format": " {}",
       "format-fi": "Vittu",
-      "format-ru": "Блять",
+      "format-ir": "Fa",
       "min-length": 8,
       "on-click": "hyprctl switchxkblayout current next & aplay ~/.config/sounds/interact.wav",
       "tooltip": false,
       "class": "language"
     },
-
     "memory#ram": {
       "interval": 4,
       "format": " {percentage}%",
@@ -187,14 +178,12 @@
       "tooltip": "{}",
       "tooltip-format": "{used}/{total} GiB"
     },
-
     "memory#swap": {
       "interval": 16,
       "format": "󰾵 {swapPercentage}%",
       "tooltip": "{}",
       "tooltip-format": "{swapUsed}/{swapTotal}GiB"
     },
-
     "network#info": {
       "interval": 2,
       "format": "󱘖  Offline",
@@ -205,12 +194,17 @@
       "tooltip-format-wifi": "{ifname}\n{essid}\n{signalStrength}% \n{frequency} GHz\n󰇚 {bandwidthDownBits}\n󰕒 {bandwidthUpBits}",
       "tooltip-format-ethernet": "{ifname}\n󰇚 {bandwidthDownBits} \n󰕒 {bandwidthUpBits}",
       "on-click": "iwgtk& aplay ~/.config/sounds/interact.wav",
-      "format-icons": ["󰤫", "󰤟", "󰤢", "󰤥", "󰤨"],
+      "format-icons": [
+        "󰤫",
+        "󰤟",
+        "󰤢",
+        "󰤥",
+        "󰤨"
+      ],
       "states": {
         "normal": 25
       }
     },
-
     "network#up": {
       "interval": 4,
       "format": " ",
@@ -219,7 +213,6 @@
       "format-disconnected": " ",
       "min-length": 11
     },
-
     "network#down": {
       "interval": 4,
       "format": "󰇚 {bandwidthDownBits}",
@@ -227,7 +220,6 @@
       "format-ethernet": "󰇚 {bandwidthDownBits}",
       "min-length": 11
     },
-
     "hyprland/submap": {
       "always-on": true,
       "default-submap": "",
@@ -235,7 +227,6 @@
       "format-RESIZE": "{}lol",
       "tooltip": false
     },
-
     "hyprland/window": {
       "format": "{title}",
       "max-length": 48,
@@ -244,7 +235,6 @@
       "icon-size": 18,
       "tooltip": true
     },
-
     "hyprland/workspaces": {
       "disable-scroll-wraparound": true,
       "smooth-scrolling-threshold": 4,
@@ -258,7 +248,6 @@
         "lock": ""
       }
     },
-
     "pulseaudio#output": {
       "format": "{icon} {volume}%",
       "format-bluetooth": "{icon} {volume}%",
@@ -270,14 +259,16 @@
         "phone": "",
         "portable": "",
         "car": "",
-        "default": ["", ""]
+        "default": [
+          "",
+          ""
+        ]
       },
       "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
       "on-click-right": "pavucontrol & aplay ~/.config/sounds/interact.wav",
       "tooltip": true,
       "scroll-step": 2
     },
-
     "pulseaudio#input": {
       "format": " {format_source}%",
       "format-source": "{volume}",
@@ -289,55 +280,51 @@
       "on-click-right": "pavucontrol & aplay ~/.config/sounds/interact.wav",
       "tooltip-format": "{source_desc}"
     },
-
     "temperature": {
       "critical-threshold": 90,
       "interval": 4,
       "format": "{icon} {temperatureC}°",
-      "format-icons": ["", "", "", "", ""],
+      "format-icons": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
       "tooltip": false
     },
-
     "tray": {
       "icon-size": 18,
       "spacing": 8
     },
-
     "custom/spacer": {
       "format": " ",
       "tooltip": false
     },
-
     "custom/spacer1": {
       "format": "",
       "tooltip": false
     },
-
     "custom/spacer2": {
       "format": "",
       "tooltip": false
     },
-
     "custom/spacer3": {
       "format": "",
       "tooltip": false
     },
-
     "custom/spacer4": {
       "format": "",
       "tooltip": false
     },
-
     "custom/spacer5": {
       "format": "",
       "tooltip": false
     },
-
     "custom/spacer6": {
       "format": "",
       "tooltip": false
     },
-
     "custom/trayicon": {
       // "format": " ",
       // "format": "Zäni",
@@ -349,7 +336,6 @@
       "on-scroll-up": "",
       "on-scroll-down": "",
     },
-
     "custom/power": {
       "format": "⏻",
       "tooltip": true,
@@ -357,7 +343,6 @@
       "on-click": "wlogout"
     }
   },
-
   {
     // INDICATOR BAR //
     "layer": "top",
@@ -366,13 +351,10 @@
     "passthrough": true,
     "reload_style_on_change": true,
     // "output": "eDP-1",
-
     "height": 0,
-
     "margin-top": -29,
     // "margin-left": 10,
     "margin-right": 24,
-
     "modules-right": []
   }
 ]
