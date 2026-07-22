@@ -40,6 +40,7 @@ All tmux commands start with the prefix key `Ctrl-a`, followed by the command ke
 | `Ctrl-a + x` | Kill pane | Kill current pane |
 | `Ctrl-a + +` | Zoom pane | Toggle pane zoom (maximize/restore) |
 | `Ctrl-a + o` | Rotate panes | Rotate panes in current window |
+| `Ctrl-a + g` | 3-pane layout | If window has one pane, split into bottom (20% height), top-left, top-right (30% width), all in current path |
 
 ### Pane Navigation
 | Key Binding | Action | Description |
