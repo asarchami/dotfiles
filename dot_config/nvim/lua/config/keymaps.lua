@@ -4,3 +4,8 @@
 --
 -- local map = vim.keymap.set
 -- map("n", "<leader>wh", "<cmd>split<cr>", { desc = "Split window horizontally" })
+
+local map = vim.keymap.set
+map("n", "<leader>by", function()
+  vim.fn.setreg("+", vim.fn.expand("%"))
+end, { desc = "Copy relative path to clipboard" })
