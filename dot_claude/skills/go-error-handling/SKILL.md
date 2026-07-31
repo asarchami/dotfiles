@@ -71,7 +71,7 @@ When auditing error handling across a large codebase, use up to 5 parallel sub-a
 - → See `go-samber-oops` for full samber/oops API, builder patterns, and logger integration
 - → See `go-observability` for structured logging setup, log levels, and request logging middleware
 - → See `go-safety` for nil interface trap and nil error comparison pitfalls
-- → See `go-naming` for error naming conventions (ErrNotFound, PathError)
+- → See `go-code-style` for error naming conventions (ErrNotFound, PathError)
 - → See `go-continuous-integration` skill for automated AI-driven code review in CI using these guidelines
 
 ## References

@@ -20,7 +20,7 @@ metadata:
 
 # Go Data Structures
 
-Built-in and standard library data structures: internals, correct usage, and selection guidance. For safety pitfalls (nil maps, append aliasing, defensive copies) see `go-safety` skill. For channels and sync primitives see `go-concurrency` skill. For string/byte/rune choice see `go-design-patterns` skill.
+Built-in and standard library data structures: internals, correct usage, and selection guidance. For safety pitfalls (nil maps, append aliasing, defensive copies) see `go-safety` skill. For channels and sync primitives see `go-concurrency` skill. For string/byte/rune choice see `go-code-style` skill.
 
 ## Best Practices Summary
 
@@ -162,8 +162,7 @@ When using third-party libraries, refer to their official documentation and code
 - → See `go-performance` skill for struct field alignment, memory layout optimization, and cache locality
 - → See `go-safety` skill for nil map/slice pitfalls, append aliasing, defensive copying, `slices.Clone`/`Equal`
 - → See `go-concurrency` skill for channels, `sync.Map`, `sync.Pool`, and all sync primitives
-- → See `go-design-patterns` skill for `string` vs `[]byte` vs `[]rune`, iterators, streaming
-- → See `go-structs-interfaces` skill for struct composition, embedding, and generics vs `any`
+- → See `go-code-style` skill for `string` vs `[]byte` vs `[]rune`, iterators, streaming, struct composition, embedding, and generics vs `any`
 - → See `go-code-style` skill for slice/map initialization style
 
 ## Common Mistakes

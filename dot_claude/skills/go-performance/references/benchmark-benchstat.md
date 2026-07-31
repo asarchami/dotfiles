@@ -386,4 +386,4 @@ Shows median and confidence interval for each benchmark. Use to:
 
 ## benchstat in CI
 
-See [CI Regression Detection](./ci-regression.md) for integrating benchstat comparisons into CI pipelines with benchdiff, cob, and gobenchdata.
+See [CI Regression Detection](./benchmark-ci-regression.md) for integrating benchstat comparisons into CI pipelines with benchdiff, cob, and gobenchdata.

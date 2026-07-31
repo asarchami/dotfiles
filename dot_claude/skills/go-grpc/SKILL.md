@@ -208,7 +208,7 @@ Most services do not need connection pooling — profile before adding complexit
 
 ## Cross-References
 
-- → See `go-context` skill for deadline and cancellation patterns
+- → See `go-concurrency` skill for deadline and cancellation patterns
 - → See `go-error-handling` skill for gRPC error to Go error mapping
 - → See `go-observability` skill for gRPC interceptors (logging, tracing, metrics)
 - → See `go-testing` skill for gRPC testing with bufconn

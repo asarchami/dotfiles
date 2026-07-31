@@ -1,12 +1,12 @@
 ---
 name: go-concurrency
-description: "Golang concurrency patterns. Use when writing or reviewing concurrent Go code involving goroutines, channels, select, locks, sync primitives, errgroup, singleflight, worker pools, or fan-out/fan-in pipelines. Also triggers when you detect goroutine leaks, race conditions, channel ownership issues, or need to choose between channels and mutexes."
+description: "Golang concurrency patterns and context.Context usage. Use when writing or reviewing concurrent Go code involving goroutines, channels, select, locks, sync primitives, errgroup, singleflight, worker pools, or fan-out/fan-in pipelines. Also covers idiomatic context.Context creation, propagation, cancellation, timeouts, deadlines, context values, and cross-service tracing. Triggers when you detect goroutine leaks, race conditions, channel ownership issues, missing context propagation, or need to choose between channels and mutexes."
 user-invocable: true
 license: MIT
 compatibility: Designed for Claude Code or similar AI coding agents, and for projects using Golang.
 metadata:
   author: samber
-  version: "1.1.3"
+  version: "1.2.0"
   openclaw:
     emoji: "⚡"
     homepage: https://github.com/samber/cc-skills-golang
@@ -20,7 +20,7 @@ metadata:
 
 **Modes:**
 
-- **Write mode** — implement concurrent code (goroutines, channels, sync primitives, worker pools, pipelines). Follow the sequential instructions below.
+- **Write mode** — implement concurrent code (goroutines, channels, sync primitives, worker pools, pipelines, context propagation). Follow the sequential instructions below.
 - **Review mode** — reviewing a PR's concurrent code changes. Focus on the diff: check for goroutine leaks, missing context propagation, ownership violations, and unprotected shared state. Sequential.
 - **Audit mode** — auditing existing concurrent code across a codebase. Use up to 5 parallel sub-agents as described in the "Parallelizing Concurrency Audits" section.
 
@@ -94,6 +94,58 @@ Before spawning a goroutine, answer:
 
 For pipeline patterns (fan-out/fan-in, bounded workers, generator chains, Go 1.23+ iterators, `samber/ro`), see [Pipelines and Worker Pools](references/pipelines.md).
 
+## context.Context
+
+`context.Context` is Go's mechanism for propagating cancellation signals, deadlines, and request-scoped values across API boundaries and between goroutines. Think of it as the "session" of a request — it ties together every operation that belongs to the same unit of work, and it's the primary way goroutines learn they should stop (principle 7 above).
+
+### Best Practices Summary
+
+1. The same context MUST be propagated through the entire request lifecycle: HTTP handler → service → DB → external APIs
+2. `ctx` MUST be the first parameter, named `ctx context.Context`
+3. NEVER store context in a struct — pass explicitly through function parameters
+4. NEVER pass `nil` context — use `context.TODO()` if unsure
+5. `cancel()` MUST always be deferred immediately after `WithCancel`/`WithTimeout`/`WithDeadline`
+6. `context.Background()` MUST only be used at the top level (main, init, tests)
+7. **Use `context.TODO()`** as a placeholder when you know a context is needed but don't have one yet
+8. NEVER create a new `context.Background()` in the middle of a request path
+9. Context value keys MUST be unexported types to prevent collisions
+10. Context values MUST only carry request-scoped metadata — NEVER function parameters
+11. **Use `context.WithoutCancel`** (Go 1.21+) when spawning background work that must outlive the parent request
+
+### Creating Contexts
+
+| Situation | Use |
+| --- | --- |
+| Entry point (main, init, test) | `context.Background()` |
+| Function needs context but caller doesn't provide one yet | `context.TODO()` |
+| Inside an HTTP handler | `r.Context()` |
+| Need cancellation control | `context.WithCancel(parentCtx)` |
+| Need a deadline/timeout | `context.WithTimeout(parentCtx, duration)` |
+
+### Context Propagation: The Core Principle
+
+The most important rule: **propagate the same context through the entire call chain**. When you propagate correctly, cancelling the parent context cancels all downstream work automatically.
+
+```go
+// ✗ Bad — creates a new context, breaking the chain
+func (s *OrderService) Create(ctx context.Context, order Order) error {
+    return s.db.ExecContext(context.Background(), "INSERT INTO orders ...", order.ID)
+}
+
+// ✓ Good — propagates the caller's context
+func (s *OrderService) Create(ctx context.Context, order Order) error {
+    return s.db.ExecContext(ctx, "INSERT INTO orders ...", order.ID)
+}
+```
+
+### Context Deep Dives
+
+- **[Cancellation, Timeouts & Deadlines](references/context-cancellation.md)** — How cancellation propagates: `WithCancel` for manual cancellation, `WithTimeout` for automatic cancellation after a duration, `WithDeadline` for absolute time deadlines. Patterns for listening (`<-ctx.Done()`) in concurrent code, `AfterFunc` callbacks, and `WithoutCancel` for operations that must outlive their parent request (e.g., audit logs).
+- **[Context Values & Cross-Service Tracing](references/context-values-tracing.md)** — Safe context value patterns: unexported key types to prevent namespace collisions, when to use context values (request ID, user ID) vs function parameters. Trace context propagation: OpenTelemetry trace headers, correlation IDs for log aggregation, and marshaling/unmarshaling context across service boundaries.
+- **[Context in HTTP Servers & Service Calls](references/context-http-services.md)** — HTTP handler context: `r.Context()` for request-scoped cancellation, middleware integration, and propagating to services. HTTP client patterns: `NewRequestWithContext`, client timeouts, and retries with context awareness. Database operations: always use `*Context` variants (`QueryContext`, `ExecContext`) to respect deadlines.
+
+Many context pitfalls are caught automatically by linters: `govet`, `staticcheck`. → See the `go-lint` skill for configuration and usage.
+
 ## Parallelizing Concurrency Audits
 
 When auditing concurrency across a large codebase, use up to 5 parallel sub-agents (Agent tool):
@@ -121,10 +173,11 @@ When auditing concurrency across a large codebase, use up to 5 parallel sub-agen
 ## Cross-References
 
 - -> See `go-performance` skill for false sharing, cache-line padding, `sync.Pool` hot-path patterns
-- -> See `go-context` skill for cancellation propagation and timeout patterns
 - -> See `go-safety` skill for concurrent map access and race condition prevention
 - -> See `go-troubleshooting` skill for debugging goroutine leaks and deadlocks
-- -> See `go-design-patterns` skill for graceful shutdown patterns
+- -> See `go-code-style` skill for graceful shutdown and timeout/resilience patterns
+- -> See `go-database` skill for context-aware database operations (QueryContext, ExecContext)
+- -> See `go-observability` skill for trace context propagation with OpenTelemetry
 - -> See `go-continuous-integration` skill for automated AI-driven code review in CI using these guidelines
 
 ## References

@@ -24,7 +24,7 @@ metadata:
 
 When starting a new project, **ask the developer** what software architecture they prefer (clean architecture, hexagonal, DDD, flat structure, etc.). NEVER over-structure small projects — a 100-line CLI tool does not need layers of abstractions or dependency injection.
 
-→ See `go-design-patterns` skill for detailed architecture guides with file trees and code examples.
+→ See `go-code-style` skill for detailed architecture guides with file trees and code examples.
 
 ## Dependency Injection: Ask Next
 
@@ -70,7 +70,7 @@ module utils
 
 ### Package Naming
 
-Packages MUST be lowercase, singular, and match their directory name. → See `go-naming` skill for complete package naming conventions and examples.
+Packages MUST be lowercase, singular, and match their directory name. → See `go-code-style` skill for complete package naming conventions and examples.
 
 ## Directory Layout
 
@@ -116,4 +116,4 @@ When starting a new Go project:
 
 ## Related Skills
 
-→ See `go-cli` skill for CLI tool structure and Cobra/Viper patterns. → See `go-dependency-injection` skill for DI approach comparison and wiring. → See `go-lint` skill for golangci-lint configuration. → See `go-continuous-integration` skill for CI/CD pipeline setup. → See `go-design-patterns` skill for architectural patterns.
+→ See `go-cli` skill for CLI tool structure and Cobra/Viper patterns. → See `go-dependency-injection` skill for DI approach comparison and wiring. → See `go-lint` skill for golangci-lint configuration. → See `go-continuous-integration` skill for CI/CD pipeline setup. → See `go-code-style` skill for architectural patterns.

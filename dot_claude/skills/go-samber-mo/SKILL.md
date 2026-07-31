@@ -270,4 +270,4 @@ If you encounter a bug or unexpected behavior in samber/mo, open an issue at <ht
 - -> See `go-error-handling` skill for idiomatic Go error handling patterns
 - -> See `go-safety` skill for nil-safety and defensive Go coding
 - -> See `go-database` skill for database access patterns
-- -> See `go-design-patterns` skill for functional options and other Go patterns
+- -> See `go-code-style` skill for functional options and other Go patterns

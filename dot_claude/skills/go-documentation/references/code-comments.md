@@ -1,6 +1,6 @@
 # Code Comments
 
-→ See `go-naming` skill for naming conventions that reduce the need for comments.
+→ See `go-code-style` skill for naming conventions that reduce the need for comments.
 
 ## Function & Method Doc Comments
 

@@ -191,4 +191,4 @@ slices.EqualFunc(a, b, func(x, y Item) bool {
 })
 ```
 
-→ See `go-modernize` skill for Go 1.22+ loop variable semantics.
+→ See `go-lint` skill for Go 1.22+ loop variable semantics.

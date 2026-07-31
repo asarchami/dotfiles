@@ -31,7 +31,7 @@ Write documentation that serves both humans and AI agents. Good documentation ma
 
 ## Cross-References
 
-See `go-naming` skill for naming conventions in doc comments. See `go-testing` skill for Example test functions. See `go-project-layout` skill for where documentation files belong.
+See `go-code-style` skill for naming conventions in doc comments. See `go-testing` skill for Example test functions. See `go-project-layout` skill for where documentation files belong.
 
 ## Step 1: Detect Project Type
 

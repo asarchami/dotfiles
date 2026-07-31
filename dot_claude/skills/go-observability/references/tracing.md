@@ -1,6 +1,6 @@
 # Distributed Tracing with OpenTelemetry
 
-→ See `go-context` skill for propagating context across service boundaries. → See `go-samber-oops` skill for structured errors with stack traces in spans.
+→ See `go-concurrency` skill for propagating context across service boundaries. → See `go-samber-oops` skill for structured errors with stack traces in spans.
 
 When using the OpenTelemetry Go SDK, refer to the library's official documentation for up-to-date API signatures and examples.
 

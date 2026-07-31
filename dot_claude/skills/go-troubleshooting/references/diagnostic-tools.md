@@ -111,4 +111,4 @@ stack                # show stack trace
 
 ## Advanced Analysis
 
-→ See `go-benchmark` skill (compiler-analysis.md) for detailed guides on escape analysis interpretation, assembly inspection, and compiler diagnostics (SSA dump, inlining decisions). See also trace.md for execution tracer analysis.
+→ See `go-performance` skill (references/benchmark-compiler-analysis.md) for detailed guides on escape analysis interpretation, assembly inspection, and compiler diagnostics (SSA dump, inlining decisions). See also references/benchmark-trace.md for execution tracer analysis.

@@ -96,7 +96,7 @@ curl http://localhost:6060/debug/pprof/block > block.prof
 
 ## Analyzing and Interpreting Profiles
 
-→ See `go-benchmark` skill (pprof.md) for interpreting profiles: `top`, `list`, `peek`, common profile patterns (flat vs cum, GC churn, memory leaks), and compiler diagnostics. See also compiler-analysis.md for escape analysis and inlining decisions.
+→ See `go-performance` skill (references/benchmark-pprof.md) for interpreting profiles: `top`, `list`, `peek`, common profile patterns (flat vs cum, GC churn, memory leaks), and compiler diagnostics. See also references/benchmark-compiler-analysis.md for escape analysis and inlining decisions.
 
 **Quick start:**
 
@@ -114,4 +114,4 @@ For production servers, replace `localhost:6060` with your server address and us
 
 ---
 
-→ See `go-observability` skill for continuous profiling with Pyroscope. → See `go-benchmark` skill for investigation session setup and Prometheus-based performance tracking.
+→ See `go-observability` skill for continuous profiling with Pyroscope. → See `go-performance` skill (references/benchmark-investigation-session.md) for investigation session setup and Prometheus-based performance tracking.
