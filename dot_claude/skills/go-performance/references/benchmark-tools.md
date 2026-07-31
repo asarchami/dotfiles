@@ -4,10 +4,10 @@ Use these tools to validate the root cause of a slowdown BEFORE applying any opt
 
 For detailed usage of each tool, see the dedicated reference files:
 
-- [pprof Reference](./pprof.md) — profiling (CPU, heap, goroutine, mutex, block)
-- [benchstat Reference](./benchstat.md) — statistical benchmark comparison
-- [Trace Reference](./trace.md) — execution tracer
-- [Compiler Analysis](./compiler-analysis.md) — escape analysis, inlining, SSA, assembly
+- [pprof Reference](./benchmark-pprof.md) — profiling (CPU, heap, goroutine, mutex, block)
+- [benchstat Reference](./benchmark-benchstat.md) — statistical benchmark comparison
+- [Trace Reference](./benchmark-trace.md) — execution tracer
+- [Compiler Analysis](./benchmark-compiler-analysis.md) — escape analysis, inlining, SSA, assembly
 
 ## GC and Runtime Diagnostics
 

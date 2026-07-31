@@ -229,7 +229,7 @@ The workflow runs parallel jobs, each scoped to a set of review areas and priori
 | `security` | Security, Dependencies | Blocking-first |
 | `quality-depth` | Tests, Performance, Observability, Modernize | Mixed |
 
-Depending on your project, also load: `go-cli`, `go-context`, `go-data-structures`, `go-database`, `go-dependency-injection`, or any library-specific skill.
+Depending on your project, also load: `go-cli`, `go-concurrency`, `go-data-structures`, `go-database`, `go-dependency-injection`, or any library-specific skill.
 
 Run `/install-github-app` in Claude Code to connect to the Claude API and configure the required secrets.
 
@@ -260,4 +260,4 @@ ln -s .agents .copilot
 
 ## Related Skills
 
-See `go-lint`, `go-security`, `go-testing`, `go-dependency-management`, `go-modernize` skills.
+See `go-lint`, `go-security`, `go-testing`, `go-dependency-management` skills.

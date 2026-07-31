@@ -253,7 +253,7 @@ For graph-gophers: `graphql.MaxDepth(10)` and `graphql.MaxParallelism(10)` optio
 
 ## Cross-References
 
-- → See `go-context` skill for context propagation in resolvers and subscriptions
+- → See `go-concurrency` skill for context propagation in resolvers and subscriptions
 - → See `go-error-handling` skill for error wrapping and sentinel patterns
 - → See `go-testing` skill for table-driven and integration test patterns
 - → See `go-observability` skill for tracing and metrics in resolvers

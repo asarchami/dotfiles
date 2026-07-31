@@ -235,7 +235,7 @@ func (db *DB) connection() *sql.DB {
 
 ### init() function pitfalls
 
-→ See `go-design-patterns` for why init() should be avoided in favor of explicit constructors.
+→ See `go-code-style` for why init() should be avoided in favor of explicit constructors.
 
 ## Enforce with Linters
 
@@ -262,7 +262,7 @@ Many safety pitfalls are caught automatically by linters: `errcheck`, `forcetype
 | Comparing floats with `==` | IEEE 754 representation is not exact (`0.1+0.2 != 0.3`). Use `math.Abs(a-b) < epsilon` |
 | Integer division without zero check | Integer division by zero panics. Guard with `if divisor == 0` before dividing |
 | Returning internal slice/map reference | Callers can mutate your struct's internals through the shared backing array. Return a defensive copy |
-| Multiple `init()` with ordering assumptions | `init()` execution order across files is unspecified. → See `go-design-patterns` — use explicit constructors |
+| Multiple `init()` with ordering assumptions | `init()` execution order across files is unspecified. → See `go-code-style` — use explicit constructors |
 | Blocking forever on nil channel | Nil channels block on both send and receive. Always initialize before use |
 
 ## Cross-References

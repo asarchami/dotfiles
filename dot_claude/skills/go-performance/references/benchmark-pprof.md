@@ -787,7 +787,7 @@ go tool pprof -http=:8080 cpu-before.prof
 go tool pprof -http=:8081 cpu-after.prof
 ```
 
-For statistical comparison of benchmark numbers (not profiles), use [benchstat](./benchstat.md) instead.
+For statistical comparison of benchmark numbers (not profiles), use [benchstat](./benchmark-benchstat.md) instead.
 
 ## Common Patterns
 
@@ -803,7 +803,7 @@ The function calls slow things but does little work itself. It's a coordinator o
 
 ### `alloc_objects` high, `inuse_space` low
 
-Short-lived allocations creating GC churn. Objects are allocated and freed rapidly — each one is cheap individually but the aggregate volume triggers frequent GC cycles. Common sources: `fmt.Errorf` in hot paths (allocates every call), interface boxing (`any` arguments), string-to-byte conversions, slice growth without preallocation. → See `go-performance` skill for allocation reduction patterns.
+Short-lived allocations creating GC churn. Objects are allocated and freed rapidly — each one is cheap individually but the aggregate volume triggers frequent GC cycles. Common sources: `fmt.Errorf` in hot paths (allocates every call), interface boxing (`any` arguments), string-to-byte conversions, slice growth without preallocation. → See [Memory Optimization](./memory.md) in the main `go-performance` SKILL.md for allocation reduction patterns.
 
 ### `inuse_space` growing over time
 
@@ -819,7 +819,7 @@ Serialization bottleneck. All work funnels through a single point. The throughpu
 
 ### `runtime.mallocgc` dominates CPU profile
 
-Allocation rate is the bottleneck, not computation. The Go runtime is spending more time allocating and collecting garbage than running your code. Switch to the `alloc_objects` heap profile to find which functions allocate the most, then → See `go-performance` skill for reduction patterns.
+Allocation rate is the bottleneck, not computation. The Go runtime is spending more time allocating and collecting garbage than running your code. Switch to the `alloc_objects` heap profile to find which functions allocate the most, then → See [Memory Optimization](./memory.md) in the main `go-performance` SKILL.md for reduction patterns.
 
 ### `runtime.memmove` high in CPU profile
 
@@ -840,5 +840,5 @@ GC pointer scanning. The heap contains many pointers that the GC must trace. Red
 | Lock contention | Mutex | `pprof/mutex` (enable `SetMutexProfileFraction` first) |
 | Goroutines blocked on sync | Block | `pprof/block` (enable `SetBlockProfileRate` first) |
 | Too many goroutines / leak | Goroutine | `pprof/goroutine` |
-| High latency but low CPU | Goroutine + Block + Trace | Scheduling delays, I/O waits — see [Trace Reference](./trace.md) |
+| High latency but low CPU | Goroutine + Block + Trace | Scheduling delays, I/O waits — see [Trace Reference](./benchmark-trace.md) |
 | Excessive thread creation | Threadcreate | `pprof/threadcreate` |

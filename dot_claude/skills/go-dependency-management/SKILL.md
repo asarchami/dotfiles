@@ -1,12 +1,12 @@
 ---
 name: go-dependency-management
-description: "Provides dependency management strategies for Golang projects including go.mod management, installing/upgrading packages, semantic versioning, Minimal Version Selection, vulnerability scanning, outdated dependency tracking, dependency size analysis, automated updates with Dependabot/Renovate, conflict resolution, and dependency graph visualization. Use this skill whenever adding, removing, updating, or auditing Go dependencies, resolving version conflicts, setting up automated dependency updates, analyzing binary size, or working with go.work workspaces."
+description: "Provides dependency management strategies and library recommendations for Golang projects including go.mod management, installing/upgrading packages, semantic versioning, Minimal Version Selection, vulnerability scanning, outdated dependency tracking, dependency size analysis, automated updates with Dependabot/Renovate, conflict resolution, dependency graph visualization, and recommending production-ready libraries and frameworks. Use this skill whenever adding, removing, updating, or auditing Go dependencies, resolving version conflicts, setting up automated dependency updates, analyzing binary size, working with go.work workspaces, or choosing between library alternatives for a task."
 user-invocable: true
 license: MIT
 compatibility: Designed for Claude Code or similar AI coding agents, and for projects using Golang.
 metadata:
   author: samber
-  version: "1.1.3"
+  version: "1.2.0"
   openclaw:
     emoji: "📦"
     homepage: https://github.com/samber/cc-skills-golang
@@ -35,7 +35,7 @@ Before proposing a dependency, evaluate:
 - Are there well-known alternatives?
 - What it does and why it's needed?
 
-The `go-popular-libraries` skill contains a curated list of vetted, production-ready libraries. Prefer recommending packages from that list. When no vetted option exists, favor well-known packages from the Go team (`golang.org/x/...`) or established organizations over obscure alternatives.
+The [Library Recommendations](#library-recommendations) section below contains a curated list of vetted, production-ready libraries. Prefer recommending packages from that list. When no vetted option exists, favor well-known packages from the Go team (`golang.org/x/...`) or established organizations over obscure alternatives.
 
 ## Key Rules
 
@@ -129,11 +129,53 @@ The build constraint ensures this file is never compiled. The blank imports keep
 
 - **[Visualizing the Dependency Graph](./references/visualization.md)** — `go mod graph` to inspect the full dependency tree, `modgraphviz` to visualize it, and interactive tools to find which dependency chains cause bloat.
 
+## Library Recommendations
+
+Beyond managing existing dependencies, this skill also recommends which library to reach for in the first place.
+
+### Core Philosophy
+
+When recommending libraries, prioritize:
+
+1. **Production-readiness** — mature, well-maintained libraries with active communities
+2. **Simplicity** — Go's philosophy favors simple, idiomatic solutions
+3. **Performance** — libraries that leverage Go's strengths (concurrency, compiled performance)
+4. **Standard Library First** — SHOULD prefer stdlib when it covers the use case; only recommend external libs when they provide clear value
+
+Remember: the best library is often no library at all. Go's standard library is excellent and sufficient for many use cases.
+
+### Reference Catalogs
+
+- [Standard Library — New & Experimental](references/libraries-stdlib.md) — v2 packages, promoted x/exp packages, golang.org/x extensions
+- [Libraries by Category](references/libraries-catalog.md) — vetted third-party libraries for web, database, testing, logging, messaging, and more
+- [Development Tools](references/libraries-tools.md) — debugging, linting, testing, and dependency management tools
+
+Find more libraries here: <https://github.com/avelino/awesome-go>. These catalogs are not exhaustive — refer to library documentation and code examples for more information.
+
+### General Guidelines
+
+1. **Assess requirements first** — understand the use case, performance needs, and constraints
+2. **Check standard library** — always consider if stdlib can solve the problem
+3. **Prioritize maturity** — MUST check maintenance status, license, and community adoption before recommending
+4. **Consider complexity** — simpler solutions are usually better in Go
+5. **Think about dependencies** — more dependencies = more attack surface and maintenance burden
+
+### Anti-Patterns to Avoid
+
+- Over-engineering simple problems with complex libraries
+- Using libraries that wrap standard library functionality without adding value
+- Abandoned or unmaintained libraries: ask the developer before recommending these
+- Suggesting libraries with large dependency footprints for simple needs
+- Ignoring standard library alternatives
+
 ## Cross-References
 
 - → See `go-continuous-integration` skill for Dependabot/Renovate CI setup
 - → See `go-security` skill for vulnerability scanning with govulncheck
-- → See `go-popular-libraries` skill for vetted library recommendations
+- → See `go-dependency-injection` skill for samber/do dependency injection details
+- → See `go-samber-oops` skill for samber/oops error handling details
+- → See `go-testing` skill for testify testing details
+- → See `go-grpc` skill for gRPC implementation details
 
 ## Quick Reference
 

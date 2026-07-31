@@ -183,7 +183,7 @@ db.Query("SELECT ...")
 db.QueryContext(ctx, "SELECT ...")
 ```
 
-For context patterns in depth, see the `go-context` skill.
+For context patterns in depth, see the `go-concurrency` skill.
 
 ## Transactions, Isolation Levels, and Locking
 
@@ -230,7 +230,7 @@ Do not rely on triggers, views, materialized views, stored procedures, or row-le
 ## Cross-References
 
 - → See `go-security` skill for SQL injection prevention patterns
-- → See `go-context` skill for context propagation to database operations
+- → See `go-concurrency` skill for context propagation to database operations
 - → See `go-error-handling` skill for database error wrapping patterns
 - → See `go-testing` skill for database integration test patterns
 

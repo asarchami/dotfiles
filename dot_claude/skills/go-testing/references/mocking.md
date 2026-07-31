@@ -4,7 +4,7 @@
 
 Create interfaces for your dependencies, then mock them.
 
-> For the full testify/mock API (argument matchers, call modifiers, verification), see the `go-stretchr-testify` skill.
+> For the full testify/mock API (argument matchers, call modifiers, verification), see [testify-mock.md](testify-mock.md) or the "testify/mock" section in the main `go-testing` SKILL.md.
 
 ```go
 // Define the interface

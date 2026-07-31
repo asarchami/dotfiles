@@ -1,12 +1,12 @@
 ---
 name: go-testing
-description: "Provides a comprehensive guide for writing production-ready Golang tests. Covers table-driven tests, test suites with testify, mocks, unit tests, integration tests, benchmarks, code coverage, parallel tests, fuzzing, fixtures, goroutine leak detection with goleak, snapshot testing, memory leaks, CI with GitHub Actions, and idiomatic naming conventions. Use this whenever writing tests, asking about testing patterns or setting up CI for Go projects. Essential for ANY test-related conversation in Go."
+description: "Provides a comprehensive guide for writing production-ready Golang tests. Covers table-driven tests, unit tests, integration tests, benchmarks, code coverage, parallel tests, fuzzing, fixtures, goroutine leak detection with goleak, snapshot testing, memory leaks, CI with GitHub Actions, and idiomatic naming conventions. Also covers stretchr/testify in depth — assert vs require, core and advanced assertions, testify/mock (argument matchers, call modifiers, verification), and testify/suite (lifecycle, shared setup/teardown). Use this whenever writing tests, creating mocks, setting up test suites, choosing between assert and require, or setting up CI for Go projects. Essential for ANY test-related conversation in Go, including any test file importing testify."
 user-invocable: true
 license: MIT
 compatibility: Designed for Claude Code or similar AI coding agents, and for projects using Golang.
 metadata:
   author: samber
-  version: "1.1.3"
+  version: "1.2.0"
   openclaw:
     emoji: "🧪"
     homepage: https://github.com/samber/cc-skills-golang
@@ -28,7 +28,7 @@ metadata:
 
 - **Write mode** — generating new tests for existing or new code. Work sequentially through the code under test; use `gotests` to scaffold table-driven tests, then enrich with edge cases and error paths.
 - **Review mode** — reviewing a PR's test changes. Focus on the diff: check coverage of new behaviour, assertion quality, table-driven structure, and absence of flakiness patterns. Sequential.
-- **Audit mode** — auditing an existing test suite for gaps, flakiness, or bad patterns (order-dependent tests, missing `t.Parallel()`, implementation-detail coupling). Launch up to 3 parallel sub-agents split by concern: (1) unit test quality and coverage gaps, (2) integration test isolation and build tags, (3) goroutine leaks and race conditions.
+- **Audit mode** — auditing an existing test suite for gaps, flakiness, or bad patterns (order-dependent tests, missing `t.Parallel()`, implementation-detail coupling, testify misuse). Launch up to 3 parallel sub-agents split by concern: (1) unit test quality and coverage gaps, (2) integration test isolation and build tags, (3) goroutine leaks and race conditions.
 - **Debug mode** — a test is failing or flaky. Work sequentially: reproduce reliably, isolate the failing assertion, trace the root cause in production code or test setup.
 
 > **Community default.** A company skill that explicitly supersedes `go-testing` skill takes precedence.
@@ -212,7 +212,7 @@ For tests that may hang, use a timeout helper that panics with caller location. 
 
 ## Benchmarks
 
-→ See `go-benchmark` skill for advanced benchmarking: `b.Loop()` (Go 1.24+), `benchstat`, profiling from benchmarks, and CI regression detection.
+→ See `go-performance` skill for advanced benchmarking: `b.Loop()` (Go 1.24+), `benchstat`, profiling from benchmarks, and CI regression detection.
 
 Write benchmarks to measure performance and detect regressions:
 
@@ -367,13 +367,172 @@ Mock interfaces, not concrete types. Define interfaces where consumed, then crea
 
 For mock patterns, test fixtures, and time mocking, see [Mocking](./references/mocking.md).
 
+---
+
+## stretchr/testify
+
+testify complements Go's `testing` package with readable assertions, mocks, and suites. It does not replace `testing` — always use `*testing.T` as the entry point. Use testify as helpers, not a replacement for standard library assertions where a plain `if` is clearer.
+
+This section is not exhaustive. Refer to library documentation and code examples for more information.
+
+### assert vs require
+
+Both offer identical assertions. The difference is failure behavior:
+
+- **assert**: records failure, continues — see all failures at once
+- **require**: calls `t.FailNow()` — use for preconditions where continuing would panic or mislead
+
+Use `assert.New(t)` / `require.New(t)` for readability. Name them `is` and `must`:
+
+```go
+func TestParseConfig(t *testing.T) {
+    is := assert.New(t)
+    must := require.New(t)
+
+    cfg, err := ParseConfig("testdata/valid.yaml")
+    must.NoError(err)    // stop if parsing fails — cfg would be nil
+    must.NotNil(cfg)
+
+    is.Equal("production", cfg.Environment)
+    is.Equal(8080, cfg.Port)
+    is.True(cfg.TLS.Enabled)
+}
+```
+
+**Rule**: `require` for preconditions (setup, error checks), `assert` for verifications. Never mix randomly.
+
+### Core Assertions
+
+```go
+is := assert.New(t)
+
+// Equality
+is.Equal(expected, actual)              // DeepEqual + exact type
+is.NotEqual(unexpected, actual)
+is.EqualValues(expected, actual)        // converts to common type first
+is.EqualExportedValues(expected, actual)
+
+// Nil / Bool / Emptiness
+is.Nil(obj)                  is.NotNil(obj)
+is.True(cond)                is.False(cond)
+is.Empty(collection)         is.NotEmpty(collection)
+is.Len(collection, n)
+
+// Contains (strings, slices, map keys)
+is.Contains("hello world", "world")
+is.Contains([]int{1, 2, 3}, 2)
+is.Contains(map[string]int{"a": 1}, "a")
+
+// Comparison
+is.Greater(actual, threshold)     is.Less(actual, ceiling)
+is.Positive(val)                  is.Negative(val)
+is.Zero(val)
+
+// Errors
+is.Error(err)                     is.NoError(err)
+is.ErrorIs(err, ErrNotFound)      // walks error chain
+is.ErrorAs(err, &target)
+is.ErrorContains(err, "not found")
+
+// Type
+is.IsType(&User{}, obj)
+is.Implements((*io.Reader)(nil), obj)
+```
+
+**Argument order**: always `(expected, actual)` — swapping produces confusing diff output.
+
+### Advanced Assertions
+
+```go
+is.ElementsMatch([]string{"b", "a", "c"}, result)             // unordered comparison
+is.InDelta(3.14, computedPi, 0.01)                            // float tolerance
+is.JSONEq(`{"name":"alice"}`, `{"name": "alice"}`)             // ignores whitespace/key order
+is.WithinDuration(expected, actual, 5*time.Second)
+is.Regexp(`^user-[a-f0-9]+$`, userID)
+
+// Async polling
+is.Eventually(func() bool {
+    status, _ := client.GetJobStatus(jobID)
+    return status == "completed"
+}, 5*time.Second, 100*time.Millisecond)
+
+// Async polling with rich assertions
+is.EventuallyWithT(func(c *assert.CollectT) {
+    resp, err := client.GetOrder(orderID)
+    assert.NoError(c, err)
+    assert.Equal(c, "shipped", resp.Status)
+}, 10*time.Second, 500*time.Millisecond)
+```
+
+### testify/mock
+
+Mock interfaces to isolate the unit under test. Embed `mock.Mock`, implement methods with `m.Called()`, always verify with `AssertExpectations(t)`.
+
+Key matchers: `mock.Anything`, `mock.AnythingOfType("T")`, `mock.MatchedBy(func)`. Call modifiers: `.Once()`, `.Times(n)`, `.Maybe()`, `.Run(func)`.
+
+For defining mocks, argument matchers, call modifiers, return sequences, and verification, see [testify-mock.md](references/testify-mock.md).
+
+### testify/suite
+
+Suites group related tests with shared setup/teardown.
+
+**Lifecycle:**
+
+```
+SetupSuite()    → once before all tests
+  SetupTest()   → before each test
+    TestXxx()
+  TearDownTest() → after each test
+TearDownSuite() → once after all tests
+```
+
+**Example:**
+
+```go
+type TokenServiceSuite struct {
+    suite.Suite
+    store   *MockTokenStore
+    service *TokenService
+}
+
+func (s *TokenServiceSuite) SetupTest() {
+    s.store = new(MockTokenStore)
+    s.service = NewTokenService(s.store)
+}
+
+func (s *TokenServiceSuite) TestGenerate_ReturnsValidToken() {
+    s.store.On("Save", mock.Anything, mock.Anything).Return(nil)
+    token, err := s.service.Generate("user-42")
+    s.NoError(err)
+    s.NotEmpty(token)
+    s.store.AssertExpectations(s.T())
+}
+
+// Required launcher
+func TestTokenServiceSuite(t *testing.T) {
+    suite.Run(t, new(TokenServiceSuite))
+}
+```
+
+Suite methods like `s.Equal()` behave like `assert`. For require: `s.Require().NotNil(obj)`.
+
+### testify Common Mistakes
+
+| Mistake | Fix |
+| --- | --- |
+| Forgetting `AssertExpectations(t)` | Mock expectations silently pass without verification — always call it |
+| `is.Equal(ErrNotFound, err)` | Fails on wrapped errors. Use `is.ErrorIs` to walk the chain |
+| Swapped argument order | testify assumes `(expected, actual)`. Swapping produces backwards diffs |
+| `assert` for guards | Test continues after failure and panics on nil dereference. Use `require` |
+| Missing `suite.Run()` | Without the launcher function, zero tests execute silently |
+| Comparing pointers | `is.Equal(ptr1, ptr2)` compares addresses. Dereference or use `EqualExportedValues` |
+
 ## Enforce with Linters
 
 Many test best practices are enforced automatically by linters: `thelper`, `paralleltest`, `testifylint`. See the `go-lint` skill for configuration and usage.
 
 ## Cross-References
 
-- -> See `go-stretchr-testify` skill for detailed testify API (assert, require, mock, suite)
 - -> See `go-database` skill (testing.md) for database integration test patterns
 - -> See `go-concurrency` skill for goroutine leak detection with goleak
 - -> See `go-continuous-integration` skill for CI test configuration and GitHub Actions workflows
