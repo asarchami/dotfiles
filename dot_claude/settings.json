@@ -14,11 +14,8 @@
   "permissions": {
     "allow": [
       "Edit(**)",
-      "Write(**)",
-      "NotebookEdit(**)",
       "Edit(//tmp/**)",
-      "Write(//tmp/**)",
-      "NotebookEdit(//tmp/**)"
+      "Bash(curl:*)"
     ]
   },
   "statusLine": {

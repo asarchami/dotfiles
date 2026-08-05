@@ -16,13 +16,13 @@ abbr vim nvim
 
 # eza aliases (modern ls replacement)
 if command -v eza > /dev/null
-    alias ls 'eza --icons'
-    alias ll 'eza --long --icons'
-    alias la 'eza --all --icons'
-    alias lla 'eza --long --all --icons'
-    alias lt 'eza --tree --icons'
-    alias lta 'eza --tree --all --icons'
-    alias ltl 'eza --tree --long --icons'
+    alias ls 'eza --icons=auto'
+    alias ll 'eza --long --icons=auto'
+    alias la 'eza --all --icons=auto'
+    alias lla 'eza --long --all --icons=auto'
+    alias lt 'eza --tree --icons=auto'
+    alias lta 'eza --tree --all --icons=auto'
+    alias ltl 'eza --tree --long --icons=auto'
 end
 
 # Common directory navigation aliases
