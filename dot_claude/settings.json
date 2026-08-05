@@ -1,0 +1,30 @@
+{
+  "apiKeyHelper": "node ~/.claude/mdc-api-key-helper.mjs prd",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://models.moodys.ai/anthropic",
+    "CLAUDE_CODE_API_KEY_HELPER_TTL_MS": "36000000",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
+    "CLAUDE_CODE_USE_BEDROCK": "0",
+    "HTTPS_PROXY": "http://127.0.0.1:3636",
+    "NODE_EXTRA_CA_CERTS": "/Users/Shared/.prompt_security/.certs/mitmproxy-ca-cert.pem",
+    "OTEL_RESOURCE_ATTRIBUTES": "user.email=Ali.Sarchami%40moodys.com,user.name=Ali%20Sarchami%20%28Moody%27s%29"
+  },
+  "fileCheckpointingEnabled": false,
+  "model": "sonnet",
+  "permissions": {
+    "allow": [
+      "Edit(**)",
+      "Write(**)",
+      "NotebookEdit(**)",
+      "Edit(//tmp/**)",
+      "Write(//tmp/**)",
+      "NotebookEdit(//tmp/**)"
+    ]
+  },
+  "statusLine": {
+    "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); dir=${cwd/#$HOME/\\~}; blue=$(printf '\\033[34m'); red=$(printf '\\033[31m'); green=$(printf '\\033[32m'); reset=$(printf '\\033[0m'); out=\"${blue}${dir}${reset}\"; if git -C \"$cwd\" --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>&1; then branch=$(git -C \"$cwd\" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null); if [ -z \"$branch\" ]; then branch=$(git -C \"$cwd\" --no-optional-locks describe --tags --exact-match HEAD 2>/dev/null); fi; if [ -z \"$branch\" ]; then branch=$(git -C \"$cwd\" --no-optional-locks rev-parse --short HEAD 2>/dev/null); fi; if [ -n \"$branch\" ]; then out=\"${out} ${red} ${branch}\"; if git -C \"$cwd\" --no-optional-locks diff-index --quiet HEAD -- 2>/dev/null; then out=\"${out} ${green}✓${reset}\"; else out=\"${out} ${red}●${reset}\"; fi; fi; fi; out=\"${out} ${blue}➤${reset} \"; printf '%s' \"$out\"",
+    "type": "command"
+  },
+  "theme": "dark",
+  "tui": "fullscreen"
+}
