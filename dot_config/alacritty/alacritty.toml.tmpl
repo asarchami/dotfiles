@@ -23,7 +23,11 @@ padding = { x = 2, y = 2 }
 dynamic_padding = false
 
 # Window decorations
+{{ if eq .chezmoi.os "darwin" }}
+decorations = "full"
+{{ else }}
 decorations = "none"
+{{ end }}
 
 # Background opacity (1.0 = no transparency, avoids compositing lag on macOS)
 opacity = 1.0
@@ -134,10 +138,21 @@ thickness = 0.15
 # Controls the OSC 52 behavior for clipboard interactions
 osc52 = "CopyPaste"
 
+{{- $herdr := lookPath "herdr" }}
+{{- $tmux := lookPath "tmux" }}
+{{- if $herdr }}
 # Shell configuration (updated format)
 [terminal.shell]
-program = "{{ (output "which" "tmux") | trim }}"
-args = ["new-session", "-A", "-D", "-s", "🏡 Home"]
+program = "{{ $herdr }}"
+args = ["--session", "home"]
+{{- else if $tmux }}
+# Shell configuration (updated format)
+[terminal.shell]
+program = "{{ $tmux }}"
+{{- else }}
+# Shell configuration (updated format)
+# Neither herdr nor tmux found; using default shell.
+{{- end }}
 
 [mouse]
 # If this is `true`, the cursor is temporarily hidden when typing
