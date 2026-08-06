@@ -27,7 +27,7 @@
 | `XF86MonBrightnessUp` | `exec,brightnessctl s +5%` | Increases brightness 5% |
 | `XF86MonBrightnessDown` | `exec,brightnessctl s 5%-` | Decreases brightness 5% |
 | `$mainMod + L` | `exec,swaylock-fancy -e -K -p 10 -f Hack-Regular` | Lock the screen |
-| `$mainMod + O` | `exec,killall -SIGUSR2 waybar` | Reload/restarts Waybar |
+| `$mainMod + O` | `exec,killall -SIGUSR2 waybar` | Shows Waybar (SIGUSR2 used by the auto-hide script) |
 | `$mainMod + mouse:272` | `movewindow` | Move the window towards a direction |
 | `$mainMod SHIFT + left` | `movewindow,l` | Move active window to the left |
 | `$mainMod SHIFT + right` | `movewindow,r` | Move active window to the right |
