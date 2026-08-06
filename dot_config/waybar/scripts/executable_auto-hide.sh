@@ -71,7 +71,18 @@ trap cleanup EXIT
 launch_bars
 LAST_MONITORS=$(monitor_list)
 
+# Re-assert the desired state periodically. A signal sent to a freshly
+# started waybar can be dropped before its bars are registered; this
+# guarantees the bars eventually match the cursor's position.
+RESYNC=50
+COUNT=0
+
 while true; do
+  if [ $((COUNT % RESYNC)) -eq 0 ]; then
+    ACTIVE="__UNSET__"
+  fi
+  COUNT=$((COUNT + 1))
+
   CURRENT_MONITORS=$(monitor_list)
 
   if [ "$CURRENT_MONITORS" != "$LAST_MONITORS" ]; then
