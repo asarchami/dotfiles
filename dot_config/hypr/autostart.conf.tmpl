@@ -8,7 +8,8 @@
 # exec-once = command
 
 # Example:
-exec-once = waybar &
+# Launches one waybar per monitor and auto-hides it
+exec-once = ~/.config/waybar/scripts/auto-hide.sh &
 exec-once = mako &
 exec-once = /usr/lib/polkit-kde-authentication-agent-1
 exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
