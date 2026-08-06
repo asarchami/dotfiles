@@ -7,7 +7,7 @@ description: Disciplined diagnosis loop for hard bugs and performance regression
 
 A discipline for hard bugs. Skip phases only when explicitly justified.
 
-When exploring the codebase, use the project's domain vocabulary from `spec/prd.md` and review the relevant slice in `spec/issues.md` to understand the affected module boundaries.
+When exploring the codebase, use the project's domain vocabulary from `spec/specs.md` and review the relevant slice in `spec/tickets.md` to understand the affected module boundaries.
 
 ## Phase 1 — Build a feedback loop
 

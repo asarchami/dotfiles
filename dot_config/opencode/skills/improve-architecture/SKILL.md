@@ -1,6 +1,6 @@
 ---
 name: improve-architecture
-description: Find deepening opportunities in a codebase using the deep-module vocabulary from the project's PRD. Use when the user wants to improve architecture, find refactoring opportunities, consolidate shallow modules, or make the codebase more testable.
+description: Find deepening opportunities in a codebase using the deep-module vocabulary from the project's spec. Use when the user wants to improve architecture, find refactoring opportunities, consolidate shallow modules, or make the codebase more testable.
 ---
 
 # Improve Codebase Architecture
@@ -9,7 +9,7 @@ Surface architectural friction and propose **deepening opportunities** — refac
 
 ## Glossary
 
-Use these terms exactly in every suggestion. Consistent language is the point. Full definitions in [LANGUAGE.md](LANGUAGE.md).
+Use these terms exactly in every suggestion — full definitions in [LANGUAGE.md](LANGUAGE.md).
 
 - **Module** — anything with an interface and an implementation (function, struct, package).
 - **Interface** — everything a caller must know to use the module: types, invariants, error modes, ordering, config. Not just the type signature.
@@ -26,13 +26,13 @@ Key principles (see [LANGUAGE.md](LANGUAGE.md) for the full list):
 - **The interface is the test surface.**
 - **One adapter = hypothetical seam. Two adapters = real seam.**
 
-This skill is _informed_ by the project's PRD. The PRD's **Module sketch & deep module design** sections document the intended depth of each package — compare actual code against that intent.
+This skill is _informed_ by the project's spec. The spec's **Module sketch & deep module design** sections document the intended depth of each package — compare actual code against that intent.
 
 ## Process
 
 ### 1. Explore
 
-Read the relevant **Module sketch & deep module design** sections from `spec/prd.md` to understand the intended depth of each package.
+Read the relevant **Module sketch & deep module design** sections from `spec/specs.md` to understand the intended depth of each package.
 
 Then use explore agents to walk the codebase. Note where you experience friction:
 
@@ -46,14 +46,14 @@ Apply the **deletion test** to anything you suspect is shallow: would deleting i
 
 ### 2. Compare against original design
 
-Compare what you found against `spec/prd.md`'s deep module classifications:
+Compare what you found against `spec/specs.md`'s deep module classifications:
 
-| PRD classification | Reality | Action |
+| Spec classification | Reality | Action |
 |--------------------|---------|--------|
 | Deep module | Still deep | No action needed |
 | Deep module | Went shallow | Recommend deepening to match original intent |
 | Shallow module | Still shallow | No action (intentionally shallow) |
-| Shallow module | Evolved into something deeper | Consider updating PRD |
+| Shallow module | Evolved into something deeper | Consider updating the spec |
 
 ### 3. Present candidates
 
@@ -64,7 +64,7 @@ Present a numbered list of deepening opportunities. For each candidate:
 - **Solution** — plain English description of what would change
 - **Benefits** — explained in terms of locality and leverage, and also in how tests would improve
 
-Use [LANGUAGE.md](LANGUAGE.md) vocabulary. If the PRD documents an intended deep module that went shallow, reference it explicitly.
+Use [LANGUAGE.md](LANGUAGE.md) vocabulary. If the spec documents an intended deep module that went shallow, reference it explicitly.
 
 Do NOT propose interfaces yet. Ask the user: "Which of these would you like to explore?"
 
@@ -80,5 +80,5 @@ Use [DEEPENING.md](DEEPENING.md) to classify the candidate's dependencies and de
 
 After the design is settled:
 
-- If the deepened module's design contradicts the PRD's module sketch, **ask the user**: "This change diverges from `spec/prd.md` — should I update it?" Only update if they say yes.
-- If the deepened module affects future slices in `spec/issues.md`, flag it as a heads-up but do not change issues.md automatically.
+- If the deepened module's design contradicts the spec's module sketch, **ask the user**: "This change diverges from `spec/specs.md` — should I update it?" Only update if they say yes.
+- If the deepened module affects future slices in `spec/tickets.md`, flag it as a heads-up but do not change tickets.md automatically.

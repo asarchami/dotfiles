@@ -29,5 +29,14 @@
       "cat": "allow",
       "*": "allow"
     }
+  },
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "active-partner": "allow"
+        }
+      }
+    }
   }
 }

@@ -1,11 +1,11 @@
 ---
 name: grill-with-docs
-description: Grilling session that sharpens terminology, updates the domain glossary, and offers ADRs as decisions crystallise. Use during requirements gathering or anytime fuzzy language needs to be pinned down.
+description: A relentless interview to sharpen a plan or design, which creates docs (ADRs and glossary) as we go. Use during requirements gathering or anytime fuzzy language needs to be pinned down.
 ---
 
 # Grill with Docs
 
-Interview the user relentlessly about every aspect of a plan until reaching shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one by one. For each question, provide your recommended answer.
+**Relentless.** Interview the user about every aspect of a plan until reaching shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one by one. For each question, provide your recommended answer.
 
 Ask questions **one at a time**, waiting for feedback before continuing.
 

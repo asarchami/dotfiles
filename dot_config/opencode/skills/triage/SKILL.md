@@ -39,7 +39,7 @@ State transitions: an unlabeled issue normally goes to `needs-triage` first; fro
 
 ## Invocation
 
-The maintainer invokes `/triage` and describes what they want in natural language. Interpret the request and act.
+The maintainer invokes `/triage` and describes what they want in natural language.
 
 ## Triage a specific issue
 
@@ -74,4 +74,4 @@ The maintainer invokes `/triage` and describes what they want in natural languag
 
 ## Resuming a previous session
 
-If prior triage notes exist on the issue, read them, check whether the reporter has answered any outstanding questions, and present an updated picture before continuing. Don't re-ask resolved questions.
+If prior triage notes exist on the issue, read them, check whether the reporter has answered any outstanding questions, and present an updated picture before continuing.

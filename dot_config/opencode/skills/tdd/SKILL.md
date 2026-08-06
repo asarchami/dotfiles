@@ -47,15 +47,13 @@ RIGHT (vertical):
 Before writing any code:
 
 - [ ] Confirm with user what exported API is needed (types, interfaces, function signatures)
-- [ ] Confirm with user which behaviors to test (prioritize)
+- [ ] Confirm with user which behaviors to test — prioritize critical paths and complex logic over edge cases
 - [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
 - [ ] Design interfaces for [testability](interface-design.md)
 - [ ] List the behaviors to test (not implementation steps)
 - [ ] Get user approval on the plan
 
-Use the project's domain vocabulary from the spec so that test names and identifiers match the language used in `spec/prd.md` and `spec/issues.md`.
-
-**You can't test everything.** Confirm with the user exactly which behaviors matter most. Focus testing effort on critical paths and complex logic, not every possible edge case.
+Use the project's domain vocabulary from the spec so that test names and identifiers match the language used in `spec/specs.md` and `spec/tickets.md`.
 
 ### 2. Tracer Bullet
 
