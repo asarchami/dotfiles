@@ -1,0 +1,31 @@
+#!/bin/sh
+# Bound to prefix+g in ~/.config/herdr/config.toml.
+# Replicates tmux's `bind g` (dot_config/tmux/tmux.conf): if the current tab
+# has exactly one pane, split it into bottom (20% height), top-left
+# (remaining), top-right (30% width), all in the calling pane's cwd, with
+# focus ending back on top-left.
+#
+# Verified live against herdr 0.8.0: `--ratio` on `pane split` is the
+# fraction the SOURCE pane keeps (not the new pane), which is the opposite
+# of tmux's `-l <percent>` (which sizes the new pane). Hence ratio=0.8 for
+# the first split (source/top keeps 80%, new bottom pane gets 20%) and
+# ratio=0.7 for the second (source/top-left keeps 70%, new right pane gets
+# 30%).
+set -eu
+
+herdr="{{ lookPath "herdr" }}"
+jq="{{ lookPath "jq" }}"
+
+count=$("$herdr" pane layout --current | "$jq" '.result.layout.panes | length')
+
+if [ "$count" != "1" ]; then
+  # Best-effort equivalent of tmux's display-message; herdr notifications
+  # can be disabled at the OS level, in which case this is a silent no-op.
+  "$herdr" notification show "herdr" --body "Tab already has multiple panes" >/dev/null 2>&1 || true
+  exit 0
+fi
+
+cwd=$("$herdr" pane current --current | "$jq" -r '.result.pane.foreground_cwd')
+
+"$herdr" pane split --current --direction down --ratio 0.8 --cwd "$cwd" --no-focus >/dev/null
+"$herdr" pane split --current --direction right --ratio 0.7 --cwd "$cwd" --no-focus >/dev/null
