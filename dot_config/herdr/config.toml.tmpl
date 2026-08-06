@@ -1,0 +1,68 @@
+# herdr configuration
+# https://herdr.dev/docs/configuration/
+
+# Set live via herdr's onboarding flow.
+onboarding = false
+
+[terminal]
+# herdr's default (empty -> $SHELL, then /bin/sh) doesn't reliably land on
+# fish here: shell_mode "auto" resolves a macOS *login* shell independently
+# of $SHELL, which sent us to zsh instead of fish. Pin it explicitly.
+default_shell = "{{ lookPath "fish" }}"
+shell_mode = "non_login"
+
+[keys]
+prefix = "ctrl+a"
+
+# goto moves off its default prefix+g so the layout script below can use it.
+# That collides with herdr's default new_worktree binding (also
+# prefix+shift+g), so new_worktree moves to prefix+shift+t.
+goto = "prefix+shift+g"
+new_worktree = "prefix+shift+t"
+reload_config = "prefix+r"
+detach = "prefix+d"
+close_workspace = "prefix+shift+q"
+rename_workspace = "prefix+shift+n"
+new_workspace = ""
+workspace_picker = "prefix+w"
+
+previous_tab = "prefix+shift+h"
+next_tab = "prefix+shift+l"
+rename_tab = "prefix+n"
+close_tab = "prefix+shift+x"
+new_tab = "prefix+c"
+
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+close_pane = "prefix+x"
+zoom = "prefix+plus"
+split_vertical = "prefix+|"
+split_horizontal = "prefix+minus"
+resize_mode = "prefix+i"
+edit_scrollback = "prefix+v"
+
+# Verified live against a scratch herdr tab (herdr 0.8.0): the layout script
+# produces the same 3-pane arrangement as the tmux binding it replaces.
+[[keys.command]]
+key = "prefix+g"
+type = "shell"
+command = "{{ .chezmoi.homeDir }}/.config/herdr/scripts/layout-3pane.sh"
+
+# --- Known gaps vs. the tmux config (no herdr action exists yet) ---
+# - C-x  confirm-before kill-window -a   (kill all other windows)
+# - D    detach -a                        (detach other clients)
+# - P    paste-buffer                     (no paste-from-buffer action)
+# - . ,  rotate-window -U/-D
+# We'll revisit these later if herdr grows matching actions.
+
+# Set live via herdr's settings/theme picker.
+[theme]
+name = "tokyo-night"
+auto_switch = false
+
+# Set live via herdr's settings.
+[ui]
+show_agent_labels_on_pane_borders = true
+pane_gaps = false
