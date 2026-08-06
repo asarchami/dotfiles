@@ -21,15 +21,18 @@ goto = "prefix+shift+g"
 new_worktree = "prefix+shift+t"
 reload_config = "prefix+r"
 detach = "prefix+d"
-close_workspace = "prefix+shift+q"
+# Workspace create/close sit on shift+c / shift+x, mirroring the tab pair
+# below (prefix+c / prefix+x-ish) one modifier up. close_tab is displaced to
+# prefix+shift+q as a result.
+close_workspace = "prefix+shift+x"
 rename_workspace = "prefix+shift+n"
-new_workspace = ""
+new_workspace = "prefix+shift+c"
 workspace_picker = "prefix+w"
 
 previous_tab = "prefix+shift+h"
 next_tab = "prefix+shift+l"
 rename_tab = "prefix+n"
-close_tab = "prefix+shift+x"
+close_tab = "prefix+shift+q"
 new_tab = "prefix+c"
 
 focus_pane_left = "prefix+h"
