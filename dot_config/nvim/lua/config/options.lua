@@ -45,4 +45,14 @@ vim.filetype.add({
   extension = {
     bqsql = "sql",
   },
+  -- Chezmoi templates: resolve the filetype from the name minus `.tmpl`, so
+  -- `config.toml.tmpl` highlights as TOML and `layout-3pane.sh.tmpl` as shell.
+  -- Names with no inner extension (`kanshi/config.tmpl`) match nothing and
+  -- fall through to Nvim's normal detection.
+  pattern = {
+    [".*%.tmpl"] = function(path, bufnr)
+      local base = path:gsub("%.tmpl$", "")
+      return vim.filetype.match({ filename = base, buf = bufnr })
+    end,
+  },
 })
