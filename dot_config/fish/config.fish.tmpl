@@ -15,7 +15,11 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -x EDITOR nvim
 
 # Set default browser
-set -x BROWSER firefox
+{{- if eq .chezmoi.os "darwin" }}
+set -x BROWSER microsoft-edge
+{{- else }}
+set -x BROWSER brave-browser
+{{- end }}
 
 # Path to Oh My Fish install.
 set -q OMF_PATH; or set -x OMF_PATH "$HOME/.local/share/omf"
