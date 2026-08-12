@@ -211,8 +211,8 @@ if not contains "$HOME/.local/bin" $PATH
     set -gx PATH "$HOME/.local/bin" $PATH
 end
 
-# GUI-launched apps (herdr's server included) can inherit launchd's bare
-# PATH (/usr/bin:/bin:/usr/sbin:/sbin), which drops /usr/local/bin - add it
+# GUI-launched apps can inherit launchd's bare PATH
+# (/usr/bin:/bin:/usr/sbin:/sbin), which drops /usr/local/bin - add it
 # explicitly so tools like `mai` are always reachable regardless of parent env.
 if not contains /usr/local/bin $PATH
     set -gx PATH /usr/local/bin $PATH

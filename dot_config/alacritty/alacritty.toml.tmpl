@@ -138,20 +138,15 @@ thickness = 0.15
 # Controls the OSC 52 behavior for clipboard interactions
 osc52 = "CopyPaste"
 
-{{- $herdr := lookPath "herdr" }}
 {{- $tmux := lookPath "tmux" }}
-{{- if $herdr }}
-# Shell configuration (updated format)
-[terminal.shell]
-program = "{{ $herdr }}"
-args = ["--session", "home"]
-{{- else if $tmux }}
+{{- if $tmux }}
 # Shell configuration (updated format)
 [terminal.shell]
 program = "{{ $tmux }}"
+args = ["new-session", "-A", "-D", "-s", "🏡 Home"]
 {{- else }}
 # Shell configuration (updated format)
-# Neither herdr nor tmux found; using default shell.
+# tmux not found; using default shell.
 {{- end }}
 
 [mouse]
