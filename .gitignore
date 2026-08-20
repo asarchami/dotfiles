@@ -4,3 +4,7 @@ tags
 tmux.conf-old
 tmux/plugins
 nvim/lazy-lock.json
+
+# Per-machine Claude Code permission approvals: absolute paths, internal
+# hostnames and one-off commands. Recreated locally as needed.
+**/.claude/settings.local.json

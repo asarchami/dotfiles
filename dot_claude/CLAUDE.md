@@ -24,7 +24,7 @@ Project-level `CLAUDE.md` files override anything here.
   Every commit, every project, no exceptions — including single-file commits,
   amends, and commits made as an incidental step in a larger task. Do not compose
   a message from memory of the convention; the skill is the convention. It is
-  vendored from `an internal skills repository` and mirrors what commitlint
+  vendored from an internal skills repository and mirrors what commitlint
   (`@commitlint/config-conventional`) actually enforces, so a message written
   without it is a message that may fail CI.
 
