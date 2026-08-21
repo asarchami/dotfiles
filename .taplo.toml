@@ -1,0 +1,16 @@
+# Taplo formats TOML on save (LazyVim's lang.toml extra). By default it expands
+# any array nested inside an inline table onto its own lines, which turns a
+# readable one-line yazi keymap entry into five lines:
+#
+#   { on = ["g", "g"], run = "arrow top", desc = "Go to top" }
+#
+# becomes
+#
+#   { on = [
+#     "g",
+#     "g",
+#   ], run = "arrow top", desc = "Go to top" }
+#
+# Formatting stays on; only that one expansion is disabled.
+[formatting]
+inline_table_expand = false
