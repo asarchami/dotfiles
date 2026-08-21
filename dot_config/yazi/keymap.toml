@@ -63,7 +63,11 @@ keymap = [
   # Operation
   { on = "o", run = "open", desc = "Open selected files" },
   { on = "O", run = "open --interactive", desc = "Open selected files interactively" },
-  { on = "<Enter>", run = ["enter", "open"], desc = "Enter directory or open file" },
+  # smart-enter dispatches to `enter` for directories and `open` for files.
+  # Plain `open` cannot work here: under yazi.nvim yazi runs with
+  # --chooser-file, where `open` emits the hovered path and exits even for a
+  # directory, which the integration then :edits. See plugins/smart-enter.yazi.
+  { on = "<Enter>", run = "plugin smart-enter", desc = "Enter directory or open file" },
   { on = "<S-Enter>", run = "open --interactive", desc = "Open selected files interactively" },
   { on = "y", run = "yank", desc = "Yank selected files (copy)" },
   { on = "x", run = "yank --cut", desc = "Yank selected files (cut)" },
