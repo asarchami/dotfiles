@@ -247,6 +247,13 @@ keymap = [
     "f",
   ], run = "follow", desc = "Follow hovered symlink" },
 
+  # Archives
+  # Same extractor yazi's default opener uses, but bound to a key so it works
+  # inside yazi.nvim: the nvim integration intercepts "open" to edit the file in
+  # a buffer, so an archive would otherwise land in Neovim as binary garbage.
+  # `shell` emits no open event, so nothing is intercepted.
+  { on = "E", run = "shell -- ya pub extract --list %s", desc = "Extract here" },
+
   # Tabs
   { on = "t", run = "tab_create --current", desc = "Create a new tab with CWD" },
   { on = "T", run = "shell 'tmux new-window -c \"$0\"' --orphan", desc = "Open directory in new tmux window" },
