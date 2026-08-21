@@ -4,11 +4,13 @@
 max_width = 600
 max_height = 900
 
-[plugin]
-previewers = [
-	{ url = "*/", run = "folder" },
-	{ mime = "text/*", run = "code" },
-	{ mime = "image/*", run = "image" },
-	{ mime = "video/*", run = "video" },
-	{ mime = "application/pdf", run = "pdf" },
-]
+# No `[plugin] previewers` here on purpose: that key REPLACES yazi's default
+# list rather than extending it. The five rules that used to live here (folder,
+# text/*, image/*, video/*, application/pdf) were all exact duplicates of
+# defaults, so they added nothing while dropping every rule they omitted --
+# including `application/{json,ndjson}`, which is why json and jsonl previewed
+# as nothing.
+#
+# Falling back to the defaults restores json, archives, fonts, svg and the
+# `{ url = "*", run = "file" }` catch-all. To add a previewer without losing
+# them, use `prepend_previewers` / `append_previewers` instead.
