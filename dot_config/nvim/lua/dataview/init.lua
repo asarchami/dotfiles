@@ -54,6 +54,17 @@ local function render(buf, path, sql, label)
   -- Only remember queries that ran, so gq does not seed a broken statement.
   if ok then
     vim.b[buf].dataview_sql = sql
+
+    if label == "query" then
+      local history = vim.b[buf].dataview_history or {}
+      if history[#history] ~= sql then
+        table.insert(history, sql)
+        if #history > 50 then
+          table.remove(history, 1)
+        end
+      end
+      vim.b[buf].dataview_history = history
+    end
   end
 end
 
