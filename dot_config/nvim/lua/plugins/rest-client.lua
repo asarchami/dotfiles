@@ -15,13 +15,22 @@ return {
       },
     },
     keys = {
-      { "<leader>rr", "<cmd>lua require('kulala').run()<cr>", desc = "Run REST request" },
-      { "<leader>rn", "<cmd>lua require('kulala').next()<cr>", desc = "Next request" },
-      { "<leader>rp", "<cmd>lua require('kulala').prev()<cr>", desc = "Previous request" },
-      { "<leader>rs", "<cmd>lua require('kulala').search()<cr>", desc = "Search requests" },
-      { "<leader>ri", "<cmd>lua require('kulala').inspect()<cr>", desc = "Inspect request" },
-      { "<leader>rc", "<cmd>lua require('kulala').close()<cr>", desc = "Close kulala window" },
+      { "<leader>Rr", "<cmd>lua require('kulala').run()<cr>", desc = "Run REST request" },
+      { "<leader>Rn", "<cmd>lua require('kulala').next()<cr>", desc = "Next request" },
+      { "<leader>Rp", "<cmd>lua require('kulala').prev()<cr>", desc = "Previous request" },
+      { "<leader>Rs", "<cmd>lua require('kulala').search()<cr>", desc = "Search requests" },
+      { "<leader>Ri", "<cmd>lua require('kulala').inspect()<cr>", desc = "Inspect request" },
+      { "<leader>Rc", "<cmd>lua require('kulala').close()<cr>", desc = "Close kulala window" },
     },
     ft = "http",
+  },
+  {
+    "folke/which-key.nvim",
+    optional = true,
+    opts = {
+      spec = {
+        { "<leader>R", group = "Rest", icon = { icon = "󰖟", color = "cyan" } },
+      },
+    },
   },
 }
