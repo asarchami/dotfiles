@@ -33,27 +33,63 @@ function M.available()
   return vim.fn.executable("duckdb") == 1
 end
 
-function M.format_for(path)
-  return M.formats[vim.fn.fnamemodify(path, ":e"):lower()]
+local function gdb_dir(path)
+  local dir = vim.fn.fnamemodify(path, ":h")
+  if vim.fn.fnamemodify(dir, ":e"):lower() == "gdb" then
+    return dir
+  end
+end
+
+local gdb_cache = {}
+
+local function gdb_to_gpkg(dir)
+  if gdb_cache[dir] then
+    return gdb_cache[dir]
+  end
+  if vim.fn.executable("ogr2ogr") == 0 then
+    return nil, { "dataview: ogr2ogr not found on PATH -- required to read this geodatabase." }
+  end
+
+  local tmp = vim.fn.tempname() .. ".gpkg"
+  local res = vim.system({ "ogr2ogr", "-f", "GPKG", tmp, dir }, { text = true }):wait()
+  if res.code ~= 0 then
+    return nil, vim.split(res.stderr or "ogr2ogr: conversion failed", "\n", { trimempty = true })
+  end
+
+  gdb_cache[dir] = tmp
+  return tmp
 end
 
 function M.patterns()
-  return vim.tbl_map(function(ext)
+  local patterns = vim.tbl_map(function(ext)
     return "*." .. ext
   end, vim.tbl_keys(M.formats))
+  table.insert(patterns, "*.gdb/*")
+  return patterns
 end
 
 --- Run `sql` against `path`, with the file bound to the view `t`.
 --- @return boolean ok, string[] lines
 function M.run(path, sql)
-  local fmt = M.format_for(path)
-  if not fmt then
-    return false, { "dataview: no duckdb reader registered for this extension" }
+  local fmt, bind_path = spatial, path
+  local dir = gdb_dir(path)
+
+  if dir then
+    local gpkg, err = gdb_to_gpkg(dir)
+    if not gpkg then
+      return false, err
+    end
+    bind_path = gpkg
+  else
+    fmt = M.formats[vim.fn.fnamemodify(path, ":e"):lower()]
+    if not fmt then
+      return false, { "dataview: no duckdb reader registered for this extension" }
+    end
   end
 
   local prelude = table.concat({
     fmt.prelude or "",
-    ("CREATE VIEW t AS SELECT * FROM %s(%s);"):format(fmt.reader, sql_literal(path)),
+    ("CREATE VIEW t AS SELECT * FROM %s(%s);"):format(fmt.reader, sql_literal(bind_path)),
   }, " ")
 
   local res = vim.system({ "duckdb", "-box", "-c", prelude .. " " .. sql }, { text = true }):wait()
