@@ -88,6 +88,14 @@ function M.query(buf, on_submit)
   vim.keymap.set("n", "q", close, opts)
   vim.keymap.set("n", "<Esc>", close, opts)
 
+  -- Losing focus (<C-w>w, a click elsewhere) should dismiss the float rather
+  -- than leave a stale dialogue sitting on top of the preview buffer.
+  vim.api.nvim_create_autocmd("WinLeave", {
+    buffer = qbuf,
+    once = true,
+    callback = close,
+  })
+
   vim.cmd("normal! G$")
   vim.cmd("startinsert!")
 end
