@@ -22,6 +22,7 @@ M.config = {
     schema = "<leader>cs",
     stats = "<leader>cm",
     query = "<leader>cq",
+    layer = "<leader>cl",
   },
 }
 
@@ -44,8 +45,17 @@ local function write(buf, lines)
   vim.bo[buf].modifiable = false
 end
 
+local function choose_layer(layers, on_choice)
+  vim.ui.select(layers, {
+    prompt = "Select layer/sheet to view",
+    format_item = function(layer)
+      return ("%s (%d features)"):format(layer.name, layer.feature_count)
+    end,
+  }, on_choice)
+end
+
 local function render(buf, path, sql, label)
-  local ok, lines = duckdb.run(path, sql)
+  local ok, lines = duckdb.run(path, sql, vim.b[buf].dataview_layer)
   -- which-key surfaces the mappings now, so the header only has to say which
   -- view you are looking at.
   local header = ("-- %s%s"):format(label, ok and "" or " [error]")
@@ -87,10 +97,8 @@ function M.open(buf, path)
     render(buf, path, sql, label)
   end
 
-  run(views().data, "data")
-
   for name, key in pairs(M.config.keys) do
-    if name ~= "query" then
+    if name ~= "query" and name ~= "layer" then
       vim.keymap.set("n", key, function()
         run(views()[name], name)
       end, { buffer = buf, desc = "Dataview: " .. name })
@@ -107,6 +115,41 @@ function M.open(buf, path)
   vim.api.nvim_buf_create_user_command(buf, "DataviewQuery", function(cmd)
     run(cmd.args, "query")
   end, { nargs = "+", desc = "Query this file (table: t)" })
+
+  local function switch_layer()
+    local layers = duckdb.layers(path)
+    if #layers == 0 then
+      vim.notify("Dataview: this format has no layers/sheets", vim.log.levels.INFO)
+      return
+    end
+    if #layers == 1 then
+      vim.notify("Dataview: only one layer (" .. layers[1].name .. ")", vim.log.levels.INFO)
+      return
+    end
+    choose_layer(layers, function(choice)
+      if not choice then
+        return
+      end
+      vim.b[buf].dataview_layer = choice.name
+      run(views().data, "data")
+    end)
+  end
+
+  vim.keymap.set("n", M.config.keys.layer, switch_layer, { buffer = buf, desc = "Dataview: layer" })
+
+  local layers = duckdb.layers(path)
+  if #layers <= 1 then
+    if layers[1] then
+      vim.b[buf].dataview_layer = layers[1].name
+    end
+    run(views().data, "data")
+    return
+  end
+
+  choose_layer(layers, function(choice)
+    vim.b[buf].dataview_layer = (choice or layers[1]).name
+    run(views().data, "data")
+  end)
 end
 
 function M.setup(opts)

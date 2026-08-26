@@ -12,6 +12,11 @@ local M = {}
 -- spatial extension can open. It needs `INSTALL spatial` once; until then
 -- duckdb's own error tells the user exactly that.
 local spatial = { reader = "ST_Read", prelude = "LOAD spatial;" }
+local xlsx = {
+  reader = "ST_Read",
+  prelude = "LOAD spatial;",
+  open_options = "open_options => ['HEADERS=FORCE']",
+}
 
 M.formats = {
   parquet = { reader = "read_parquet" },
@@ -21,6 +26,7 @@ M.formats = {
   geojson = spatial,
   fgb = spatial,
   kml = spatial,
+  xlsx = xlsx,
 }
 
 -- Quote as a SQL string literal. shellescape() is the wrong tool: vim.system()
@@ -60,6 +66,36 @@ local function gdb_to_gpkg(dir)
   return tmp
 end
 
+--- Resolve `path` to a format and the actual path duckdb should read.
+--- @return table|nil fmt, string|nil bind_path, string[]|nil err
+local function resolve(path)
+  local dir = gdb_dir(path)
+  if dir then
+    local gpkg, err = gdb_to_gpkg(dir)
+    if not gpkg then
+      return nil, nil, err
+    end
+    return spatial, gpkg
+  end
+
+  local fmt = M.formats[vim.fn.fnamemodify(path, ":e"):lower()]
+  if not fmt then
+    return nil, nil, { "dataview: no duckdb reader registered for this extension" }
+  end
+  return fmt, path
+end
+
+local function reader_call(fmt, bind_path, layer)
+  local args = { sql_literal(bind_path) }
+  if layer then
+    table.insert(args, ("layer := %s"):format(sql_literal(layer)))
+  end
+  if fmt.open_options then
+    table.insert(args, fmt.open_options)
+  end
+  return ("%s(%s)"):format(fmt.reader, table.concat(args, ", "))
+end
+
 function M.patterns()
   local patterns = vim.tbl_map(function(ext)
     return "*." .. ext
@@ -68,28 +104,42 @@ function M.patterns()
   return patterns
 end
 
+--- List the layers/sheets/tables a source exposes, empty for formats with no
+--- such concept (parquet, csv) or on any failure reading the metadata.
+--- @return { name: string, feature_count: integer }[]
+function M.layers(path)
+  local fmt, bind_path = resolve(path)
+  if not fmt or fmt.reader ~= "ST_Read" then
+    return {}
+  end
+
+  local sql = fmt.prelude .. " SELECT UNNEST(layers) AS l FROM st_read_meta(" .. sql_literal(bind_path) .. ");"
+  local res = vim.system({ "duckdb", "-json", "-c", sql }, { text = true }):wait()
+  if res.code ~= 0 then
+    return {}
+  end
+
+  local ok, rows = pcall(vim.json.decode, res.stdout or "")
+  if not ok or type(rows) ~= "table" then
+    return {}
+  end
+
+  return vim.tbl_map(function(row)
+    return { name = row.l.name, feature_count = row.l.feature_count }
+  end, rows)
+end
+
 --- Run `sql` against `path`, with the file bound to the view `t`.
 --- @return boolean ok, string[] lines
-function M.run(path, sql)
-  local fmt, bind_path = spatial, path
-  local dir = gdb_dir(path)
-
-  if dir then
-    local gpkg, err = gdb_to_gpkg(dir)
-    if not gpkg then
-      return false, err
-    end
-    bind_path = gpkg
-  else
-    fmt = M.formats[vim.fn.fnamemodify(path, ":e"):lower()]
-    if not fmt then
-      return false, { "dataview: no duckdb reader registered for this extension" }
-    end
+function M.run(path, sql, layer)
+  local fmt, bind_path, err = resolve(path)
+  if not fmt then
+    return false, err
   end
 
   local prelude = table.concat({
     fmt.prelude or "",
-    ("CREATE VIEW t AS SELECT * FROM %s(%s);"):format(fmt.reader, sql_literal(bind_path)),
+    ("CREATE VIEW t AS SELECT * FROM %s;"):format(reader_call(fmt, bind_path, layer)),
   }, " ")
 
   local res = vim.system({ "duckdb", "-box", "-c", prelude .. " " .. sql }, { text = true }):wait()
