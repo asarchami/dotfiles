@@ -15,6 +15,7 @@ local spatial = { reader = "ST_Read", prelude = "LOAD spatial;" }
 
 M.formats = {
   parquet = { reader = "read_parquet" },
+  csv = { reader = "read_csv_auto" },
   gpkg = spatial,
   shp = spatial,
   geojson = spatial,
