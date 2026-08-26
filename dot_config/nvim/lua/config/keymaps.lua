@@ -9,3 +9,6 @@ local map = vim.keymap.set
 map("n", "<leader>by", function()
   vim.fn.setreg("+", vim.fn.expand("%"))
 end, { desc = "Copy relative path to clipboard" })
+
+vim.keymap.del("n", "<leader>K")
+map("n", "<leader>ck", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
