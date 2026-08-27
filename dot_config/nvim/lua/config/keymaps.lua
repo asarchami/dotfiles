@@ -12,3 +12,7 @@ end, { desc = "Copy relative path to clipboard" })
 
 vim.keymap.del("n", "<leader>K")
 map("n", "<leader>ck", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+
+map("n", "<leader>bl", function()
+  Snacks.picker.buffers()
+end, { desc = "List buffers" })
