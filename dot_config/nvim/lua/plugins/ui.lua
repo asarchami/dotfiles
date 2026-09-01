@@ -24,5 +24,25 @@ return {
         },
       },
     },
+    keys = {
+      { "<leader>dps", false },
+      {
+        "<leader>Dps",
+        function()
+          Snacks.profiler.scratch()
+        end,
+        desc = "Profiler Scratch Buffer",
+      },
+    },
+  },
+  {
+    "folke/which-key.nvim",
+    optional = true,
+    opts = {
+      spec = {
+        { "<leader>D", group = "debug" },
+        { "<leader>Dp", group = "profiler" },
+      },
+    },
   },
 }

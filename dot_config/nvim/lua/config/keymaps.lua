@@ -16,3 +16,8 @@ map("n", "<leader>ck", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 map("n", "<leader>bl", function()
   Snacks.picker.buffers()
 end, { desc = "List buffers" })
+
+vim.keymap.del("n", "<leader>dpp")
+vim.keymap.del("n", "<leader>dph")
+Snacks.toggle.profiler():map("<leader>Dpp")
+Snacks.toggle.profiler_highlights():map("<leader>Dph")
