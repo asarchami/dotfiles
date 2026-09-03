@@ -76,6 +76,16 @@ return {
     end,
   },
 
+  -- LazyVim markdown extra binds <leader>cp to markdown-preview.nvim; annotate-markdown.nvim
+  -- owns that key for markdown buffers instead
+  {
+    "iamcco/markdown-preview.nvim",
+    optional = true,
+    keys = {
+      { "<leader>cp", false, ft = "markdown" },
+    },
+  },
+
   -- Turn off marksman so its diagnostics do not show (links/refs features go too)
   {
     "neovim/nvim-lspconfig",
