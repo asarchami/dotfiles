@@ -6,7 +6,7 @@ local function add_comment_above()
   local prefix = indent .. "> [!NOTE] Comment: "
   vim.api.nvim_buf_set_lines(0, line - 1, line - 1, false, { prefix, "" })
   vim.api.nvim_win_set_cursor(0, { line, #prefix })
-  vim.cmd("startinsert")
+  vim.cmd("startinsert!")
 end
 
 return {
