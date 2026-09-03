@@ -1,9 +1,21 @@
 -- Markdown: use render-markdown.nvim for display, suppress lint/format noise.
 
+local function add_comment_above()
+  local line = vim.api.nvim_win_get_cursor(0)[1]
+  local indent = vim.fn.matchstr(vim.fn.getline(line), [[^\s*]])
+  local prefix = indent .. "<!-- COMMENT: "
+  vim.api.nvim_buf_set_lines(0, line - 1, line - 1, false, { prefix .. " -->" })
+  vim.api.nvim_win_set_cursor(0, { line, #prefix })
+  vim.cmd("startinsert")
+end
+
 return {
   -- Override render-markdown.nvim defaults from the LazyVim extra
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    keys = {
+      { "<leader>cC", add_comment_above, ft = { "markdown", "markdown.mdx" }, desc = "Add Comment Above" },
+    },
     opts = {
       heading = {
         sign = false,
