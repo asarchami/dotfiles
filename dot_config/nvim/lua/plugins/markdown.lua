@@ -3,8 +3,8 @@
 local function add_comment_above()
   local line = vim.api.nvim_win_get_cursor(0)[1]
   local indent = vim.fn.matchstr(vim.fn.getline(line), [[^\s*]])
-  local prefix = indent .. "<!-- COMMENT: "
-  vim.api.nvim_buf_set_lines(0, line - 1, line - 1, false, { prefix .. " -->" })
+  local prefix = indent .. "> [!NOTE] Comment: "
+  vim.api.nvim_buf_set_lines(0, line - 1, line - 1, false, { prefix, "" })
   vim.api.nvim_win_set_cursor(0, { line, #prefix })
   vim.cmd("startinsert")
 end
@@ -28,18 +28,6 @@ return {
       },
       checkbox = {
         enabled = true,
-      },
-      html = {
-        comment = {
-          conceal = true,
-          text = function(ctx)
-            local body = ctx.text:match("^<!%-%-%s*COMMENT:%s*(.-)%s*%-%->$")
-            if body then
-              return "💬 " .. body:gsub("%s+", " ")
-            end
-          end,
-          highlight = "RenderMarkdownHtmlComment",
-        },
       },
     },
   },
