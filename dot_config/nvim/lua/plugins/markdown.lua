@@ -17,6 +17,18 @@ return {
       checkbox = {
         enabled = true,
       },
+      html = {
+        comment = {
+          conceal = true,
+          text = function(ctx)
+            local body = ctx.text:match("^<!%-%-%s*COMMENT:%s*(.-)%s*%-%->$")
+            if body then
+              return "💬 " .. body:gsub("%s+", " ")
+            end
+          end,
+          highlight = "RenderMarkdownHtmlComment",
+        },
+      },
     },
   },
 
