@@ -1,0 +1,15 @@
+-- Autostart.
+-- See https://wiki.hypr.land/configuring/core/autostart/
+
+hl.on("hyprland.start", function()
+    hl.exec_cmd("~/.config/waybar/scripts/auto-hide.sh &")
+    hl.exec_cmd("mako &")
+    hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    hl.exec_cmd("~/.config/hypr/scripts/swayidle.sh")
+{{- if eq .chezmoi.hostname "cachyos-laptop" }}
+    hl.exec_cmd("kanshi &")
+    hl.exec_cmd("systemctl --user enable --now lid-monitor.service")
+{{- end }}
+end)

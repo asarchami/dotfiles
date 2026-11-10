@@ -22,13 +22,13 @@ check_monitors() {
 # Apply docked configuration (3 external monitors)
 apply_docked_config() {
     echo "Applying docked configuration..."
-    hyprctl keyword monitor "DP-2,2560x1440@59.95,0x0,1.0,transform,1"
-    hyprctl keyword monitor "DP-5,3840x2160@60,1440x0,1.0,transform,0"
-    hyprctl keyword monitor "DP-3,2560x1440@59.95,5280x0,1.0,transform,3"
+    hyprctl eval 'hl.monitor({ output = "DP-2", mode = "2560x1440@59.95", position = "0x0", scale = 1.0, transform = 1 })'
+    hyprctl eval 'hl.monitor({ output = "DP-5", mode = "3840x2160@60", position = "1440x0", scale = 1.0, transform = 0 })'
+    hyprctl eval 'hl.monitor({ output = "DP-3", mode = "2560x1440@59.95", position = "5280x0", scale = 1.0, transform = 3 })'
     
     # Disable laptop screen if lid is closed
     if [[ "$(get_lid_state)" == "closed" ]]; then
-        hyprctl keyword monitor "eDP-1,disable"
+        hyprctl eval 'hl.monitor({ output = "eDP-1", disabled = true })'
     fi
     
     notify-send -u low "Display" "Docked configuration applied"
@@ -37,7 +37,7 @@ apply_docked_config() {
 # Apply laptop-only configuration
 apply_laptop_config() {
     echo "Applying laptop-only configuration..."
-    hyprctl keyword monitor "eDP-1,1920x1200@120.02,0x0,1.0"
+    hyprctl eval 'hl.monitor({ output = "eDP-1", mode = "1920x1200@120.02", position = "0x0", scale = 1.0 })'
     notify-send -u low "Display" "Laptop mode"
 }
 

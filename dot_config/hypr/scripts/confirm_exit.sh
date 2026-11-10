@@ -4,6 +4,6 @@
 choice=$(printf "Yes\nNo" | wofi --dmenu --prompt="Exit Hyprland?")
 
 if [ "$choice" = "Yes" ]; then
-    hyprctl dispatch exit
+    hyprctl dispatch "hl.dsp.exit()"
 fi
 

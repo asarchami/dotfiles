@@ -37,5 +37,5 @@ fi
 # Get next workspace
 if [[ $next_idx -ge 0 ]] && [[ $next_idx -lt ${#ws_array[@]} ]]; then
   next_ws=${ws_array[$next_idx]}
-  hyprctl dispatch movetoworkspace "$next_ws"
+  hyprctl dispatch "hl.dsp.window.move({ workspace = \"$next_ws\" })"
 fi

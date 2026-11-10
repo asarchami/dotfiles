@@ -108,7 +108,7 @@ while true; do
       | "\(.[0].name // "") \(.[0].y // -1)"')
 
   TARGET=""
-  if [ -n "$MON" ] && [ "$TOP" -ge 0 ]; then
+  if [ -n "$MON" ] && [ -n "$TOP" ] && [ "$TOP" -ge 0 ]; then
     DY=$((Y - TOP))
     if [ "$DY" -le "$REVEAL_HEIGHT" ] || { [ "$ACTIVE" = "$MON" ] && [ "$DY" -le "$DISMISS_HEIGHT" ]; }; then
       TARGET="$MON"

@@ -46,7 +46,7 @@ WINDOW_ADDR=$(hyprctl clients -j | jq -r ".[] | select(.class == \"$CLASS\" or .
 
 if [ -n "$WINDOW_ADDR" ]; then
     # Window exists - kill it directly without switching workspace
-    hyprctl dispatch closewindow "address:$WINDOW_ADDR"
+    hyprctl dispatch "hl.dsp.window.close({ window = \"address:$WINDOW_ADDR\" })"
 else
     # Window doesn't exist - launch it
     $LAUNCH_CMD &

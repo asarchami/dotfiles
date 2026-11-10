@@ -25,7 +25,7 @@ has_external_monitors() {
 # Enable laptop display
 enable_edp1() {
     echo "Lid opened - enabling eDP-1"
-    hyprctl keyword monitor "eDP-1,1920x1200@120.02,0x0,1.0"
+    hyprctl eval 'hl.monitor({ output = "eDP-1", mode = "1920x1200@120.02", position = "0x0", scale = 1.0 })'
     notify-send -u low "Display" "Laptop screen enabled"
 }
 
@@ -33,7 +33,7 @@ enable_edp1() {
 disable_edp1() {
     if has_external_monitors; then
         echo "Lid closed with external monitors - disabling eDP-1"
-        hyprctl keyword monitor "eDP-1,disable"
+        hyprctl eval 'hl.monitor({ output = "eDP-1", disabled = true })'
         notify-send -u low "Display" "Laptop screen disabled"
     else
         echo "Lid closed but no external monitors - keeping eDP-1 enabled"

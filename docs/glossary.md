@@ -30,19 +30,21 @@ This document provides a glossary of the files in this dotfiles repository.
 
 ### `hypr`
 
--   `animations.conf`: Configuration for Hyprland animations.
--   `autostart.conf`: Configuration for applications to autostart with Hyprland.
--   `environment.conf`: Configuration for environment variables in Hyprland.
+-   `animations.lua`: Configuration for Hyprland animations.
+-   `autostart.lua`: Configuration for applications to autostart with Hyprland.
+-   `environment.lua`: Configuration for environment variables in Hyprland.
 -   `foot.ini`: Configuration for the foot terminal emulator.
 -   `foot.ini.chezmoi.yaml`: chezmoi configuration for the foot terminal emulator.
 -   `swayidle.sh`: Script to start the swayidle idle daemon.
--   `hyprland.conf`: Main configuration file for the Hyprland window manager.
+-   `hyprland.lua`: Main configuration file for the Hyprland window manager.
+-   `hyprfloat.lua`: Hyprfloat keybindings and window rules.
+-   `hyprfloat.conf.lua`: Configuration for the hyprfloat tool.
 -   `hyprlock.conf`: Configuration for the Hyprland screen locker.
--   `keybinds.conf`: Configuration for key bindings in Hyprland.
--   `monitors.conf`: Configuration for monitor setup in Hyprland.
--   `settings.conf`: General settings for Hyprland.
--   `variables.conf`: Variables for Hyprland configuration.
--   `window-rules.conf`: Rules for window management in Hyprland.
+-   `keybinds.lua`: Configuration for key bindings in Hyprland.
+-   `monitors.lua`: Configuration for monitor setup in Hyprland.
+-   `settings.lua`: General settings for Hyprland.
+-   `variables.lua`: Variables for Hyprland configuration.
+-   `window_rules.lua`: Rules for window management in Hyprland.
 -   `scripts/confirm_exit.sh`: Script to confirm exiting Hyprland.
 -   `scripts/toggle_monitor.sh`: Script to toggle between monitors.
 -   `scripts/workspace_action.sh`: Script for workspace actions in Hyprland.

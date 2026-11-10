@@ -14,8 +14,8 @@ sleep 0.33
 notify-send " Locked!" &
 aplay ~/.config/sounds/theme_switch.wav &
 
-WS=$(hyprctl activeworkspace | grep "workspace ID" | awk '{print $3}')
-hyprctl dispatch workspace name:lock
+WS=$(hyprctl activeworkspace -j | jq -r '.id')
+hyprctl dispatch 'hl.dsp.focus({ workspace = "name:lock" })'
 
 # swaylock \
 #     -c 00000000 --clock --timestr %H:%M --datestr "" \
@@ -27,10 +27,10 @@ hyprctl dispatch workspace name:lock
 
 hyprlock
 
-hyprctl dispatch workspace $WS
+hyprctl dispatch "hl.dsp.focus({ workspace = \"$WS\" })"
 
 aplay ~/.config/sounds/theme_switch.wav
 notify-send " Welcome back!"
 
 sleep 0.125
-hyprctl dispatch killwindow title:lock_bg
+hyprctl dispatch 'hl.dsp.window.kill({ window = "title:lock_bg" })'
