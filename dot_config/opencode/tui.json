@@ -1,7 +1,0 @@
-{
-  "$schema": "https://opencode.ai/tui.json",
-  "theme": "opencode",
-  "keybinds": {
-    "terminal_suspend": "none"
-  }
-}
