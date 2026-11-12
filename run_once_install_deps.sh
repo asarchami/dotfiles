@@ -84,6 +84,66 @@ install_package() {
     esac
 }
 
+# --- Pi coding agent (optional) ---
+
+# Move the applied Pi configuration aside when the user declines the install.
+# chezmoi copies dot_pi before this script runs, so a move is the only way to
+# honor the choice. The move is reversible.
+skip_pi_config() {
+    if [ -d "$HOME/.pi/agent" ]; then
+        local backup
+        backup="$HOME/.pi/agent.skipped.$(date +%s)"
+        mv "$HOME/.pi/agent" "$backup"
+        echo "📝 Pi config moved to $backup"
+        echo "   Restore it later with: mv \"$backup\" \"$HOME/.pi/agent\""
+    fi
+}
+
+install_pi() {
+    echo ""
+    echo "🤖 Pi coding agent"
+    echo ""
+
+    if command_exists pi; then
+        echo "✅ Pi is already installed."
+        return 0
+    fi
+
+    if ! { : < /dev/tty; } 2>/dev/null; then
+        echo "⚠️  Pi is not installed and no terminal is available."
+        echo "   The Pi config is not applied on this machine."
+        skip_pi_config
+        return 0
+    fi
+
+    local answer=""
+    printf "Pi is not installed. Install the latest Pi now? [y/N] "
+    read -r answer < /dev/tty || answer=""
+
+    case "$answer" in
+        [yY]|[yY][eE][sS])
+            if ! command_exists npm; then
+                echo "⚠️  npm is not available. Pi cannot be installed."
+                skip_pi_config
+                return 0
+            fi
+            echo "📦 Installing Pi..."
+            if ! npm install -g @earendil-works/pi-coding-agent; then
+                echo "⚠️  Pi install failed. The Pi config stays in place."
+                return 0
+            fi
+            if ! command_exists pi; then
+                echo "⚠️  pi is installed, but not on PATH."
+                echo "   Add this to PATH: $(npm config get prefix)/bin"
+            fi
+            ;;
+        *)
+            echo "⏭️  Pi install skipped."
+            skip_pi_config
+            ;;
+    esac
+}
+
 # --- Main Script ---
 
 echo "🚀 Starting core development tools installation..."
@@ -146,6 +206,8 @@ echo ""
 echo "✅ Core development dependencies installed!"
 echo "📝 Note: Individual app configs have their own installers that run automatically"
 echo ""
+
+install_pi
 
 # Post-installation notes
 if command_exists fzf && [[ "$PKG_MANAGER" == "macos" || "$PKG_MANAGER" == "linuxbrew" ]]; then
