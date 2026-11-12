@@ -1,0 +1,58 @@
+{
+  "lastChangelogVersion": "1.5.2",
+  "theme": "dark",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4.1-flash",
+  "packages": [
+    "npm:pi-rtk-optimizer",
+    "npm:pi-subagents",
+    "npm:pi-lens",
+    "npm:@narumitw/pi-plan-mode",
+    "npm:@narumitw/pi-usage",
+    "npm:@narumitw/pi-btw",
+    "npm:@narumitw/pi-goal",
+    "npm:@narumitw/pi-worktree",
+    "npm:@narumitw/pi-starship",
+    "npm:@mrclrchtr/supi-code-intelligence",
+    "npm:@mrclrchtr/supi-ask-user",
+    "npm:@mrclrchtr/supi-context",
+    "npm:@mrclrchtr/supi-settings",
+    "npm:@mrclrchtr/supi-skills",
+    "npm:@mrclrchtr/supi-extras",
+    "npm:@mrclrchtr/supi-web",
+    "npm:@mrclrchtr/supi-prompt-suggestions",
+    "git:github.com/obra/superpowers",
+    "npm:pi-context-tools",
+    "npm:agent-simple-english",
+    "../../Projects/codescan/plugins/pi"
+  ],
+  "defaultThinkingLevel": "low",
+  "observational-memory": {
+    "model": {
+      "provider": "opencode-go",
+      "id": "glm-5.3-flash",
+      "thinking": "low"
+    }
+  },
+  "extensions": [],
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-rtk-optimizer\",\"scope\":\"user\"}": "0.9.0",
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.88.0",
+    "{\"source\":\"npm:pi-lens\",\"scope\":\"user\"}": "4.4.12",
+    "{\"source\":\"npm:@narumitw/pi-plan-mode\",\"scope\":\"user\"}": "0.60.0",
+    "{\"source\":\"npm:@narumitw/pi-usage\",\"scope\":\"user\"}": "0.69.2",
+    "{\"source\":\"npm:@narumitw/pi-btw\",\"scope\":\"user\"}": "0.63.6",
+    "{\"source\":\"npm:@narumitw/pi-goal\",\"scope\":\"user\"}": "0.55.0",
+    "{\"source\":\"npm:@narumitw/pi-worktree\",\"scope\":\"user\"}": "0.51.9",
+    "{\"source\":\"npm:@narumitw/pi-starship\",\"scope\":\"user\"}": "0.67.1",
+    "{\"source\":\"npm:@mrclrchtr/supi-code-intelligence\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-ask-user\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-context\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-settings\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-skills\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-extras\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-web\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:@mrclrchtr/supi-prompt-suggestions\",\"scope\":\"user\"}": "11.3.0",
+    "{\"source\":\"npm:pi-context-tools\",\"scope\":\"user\"}": "0.1.1"
+  }
+}
