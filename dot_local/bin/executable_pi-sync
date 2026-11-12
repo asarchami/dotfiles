@@ -1,0 +1,67 @@
+#!/bin/bash
+# Import the live Pi configuration into the chezmoi source directory.
+# Use it after a settings change, a new extension, or a skill edit.
+#
+# The script never imports auth.json, sessions, missions, npm, or git.
+
+set -euo pipefail
+
+AGENT_DIR="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}"
+
+if ! command -v chezmoi >/dev/null 2>&1
+then
+    echo "chezmoi is not installed." >&2
+    exit 1
+fi
+
+if [ -d "$AGENT_DIR/extensions" ]
+then
+    if find "$AGENT_DIR/extensions" -name node_modules -type d | grep -q .
+    then
+        echo "extensions/ contains node_modules." >&2
+        echo "Remove it before the import." >&2
+        exit 1
+    fi
+fi
+
+paths=(
+    "$AGENT_DIR/settings.json"
+    "$AGENT_DIR/keybindings.json"
+
+    "$AGENT_DIR/mcp.json"
+    "$AGENT_DIR/models.json"
+
+    "$AGENT_DIR/pi-starship.toml"
+    "$AGENT_DIR/agents"
+
+    "$AGENT_DIR/extensions"
+    "$AGENT_DIR/skills"
+
+    "$AGENT_DIR/prompts"
+    "$AGENT_DIR/themes"
+)
+
+imported=0
+for path in "${paths[@]}"
+do
+    if [ ! -e "$path" ]
+    then
+        continue
+    fi
+    chezmoi add "$path"
+    imported=$((imported + 1))
+done
+
+echo
+echo "Imported $imported paths into the source state."
+echo
+
+source_dir=$(chezmoi source-path)
+
+echo "Source changes under dot_pi:"
+git -C "$source_dir" status --short -- dot_pi
+
+echo
+echo "Commit the changes in: $source_dir"
+echo "  git add -A"
+echo "  git commit -m 'chore(pi): sync config'"
