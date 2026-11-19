@@ -1,0 +1,12 @@
+#!/bin/sh
+# chezmoi modify_ script for ~/.claude/settings.json.
+#
+# Claude Code rewrites settings.json itself (plugins, permissions, ...), so
+# chezmoi does not own the file. This script only merges tmux-hangar's hook
+# handlers into whatever is there (idempotent; see
+# ~/Projects/tmux-hangar/internal/integrate/claude.go). Without hangar
+# installed, the file passes through unchanged.
+if command -v hangar >/dev/null 2>&1; then
+    exec hangar integrate claude-settings
+fi
+exec cat
