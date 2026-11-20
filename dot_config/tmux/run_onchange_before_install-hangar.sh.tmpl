@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+# Installs (or upgrades) tmux-hangar: https://github.com/asarchami/tmux-hangar
+#
+# Builds the hangar binary from source with `go install` into ~/.local/bin,
+# which is on the PATH tmux, Claude and pi use. chezmoi re-runs this script
+# whenever its content changes, so bumping HANGAR_VERSION upgrades every
+# machine on the next `chezmoi apply ~/.config/tmux`.
+#
+# Runs before tmux.conf is written (run_onchange_before_), so the config's
+# `hangar tmux-init` finds the binary. On failure it exits non-zero so chezmoi
+# retries it on the next apply (a run_onchange script that exits 0 is never
+# re-run until it changes). tmux.conf is guarded, so tmux still starts
+# without hangar; apply it alone with: chezmoi apply ~/.config/tmux/tmux.conf
+
+HANGAR_VERSION="v0.1.0"
+
+if ! command -v go >/dev/null 2>&1; then
+    echo "⚠️  go is not installed: cannot build tmux-hangar ${HANGAR_VERSION}."
+    echo "   Install Go and re-run: chezmoi apply ~/.config/tmux"
+    echo "   (tmux.conf alone: chezmoi apply ~/.config/tmux/tmux.conf)"
+    exit 1
+fi
+
+echo "🔨 Building tmux-hangar ${HANGAR_VERSION} into ~/.local/bin ..."
+mkdir -p "$HOME/.local/bin"
+if GOBIN="$HOME/.local/bin" go install "github.com/asarchami/tmux-hangar/cmd/hangar@${HANGAR_VERSION}"; then
+    echo "✅ $("$HOME/.local/bin/hangar" --version) installed"
+else
+    echo "⚠️  tmux-hangar build failed; re-run: chezmoi apply ~/.config/tmux"
+    exit 1
+fi
