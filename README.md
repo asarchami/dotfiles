@@ -71,6 +71,26 @@ yay -S neovim tmux fzf ripgrep fd eza lazygit nodejs npm lua luarocks
 
 For Hyprland dependencies on Arch, see [Hyprland docs](./docs/hyprland.md).
 
+### Optional Extras
+
+#### yazi: split-tabs dual-pane plugin
+
+The [split-tabs.yazi](https://github.com/terrakok/split-tabs.yazi) plugin adds a dual-pane view. It needs yazi 26.5.6 or newer. Install it by hand on each machine:
+
+```sh
+ya pkg add terrakok/split-tabs
+```
+
+Chezmoi does not install this plugin. The install runs outside `chezmoi apply`.
+
+Chezmoi manages two keys: `\` toggles the dual-pane view, and `<C-w>` switches focus. Copy, move, and preview actions stay unbound. The plugin README example keys clash with the current config: `<Tab>` goes to `spot`, and `P` goes to `paste --force`.
+
+To enable dual pane at startup, create `~/.config/yazi/init.lua` with:
+
+```lua
+ya.emit("plugin", { "split-tabs", "spl_activate" })
+```
+
 ## Multi-Device Setup
 
 Configurations automatically adapt based on:
